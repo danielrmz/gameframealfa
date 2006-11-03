@@ -3,7 +3,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 
 public class Player {
 	
@@ -15,7 +14,7 @@ public class Player {
 	public static final int RIGTH = 4;
 	public static final int stripLength = 6;
 	
-	public static String baseImage = "Camina.png";
+	public static String baseImage = "1 Camina.png";
 	
 	private int Xpos;
 	private int Ypos;
