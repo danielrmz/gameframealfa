@@ -17,8 +17,4 @@ public class FrameJuego extends JFrame {
 		add(pj);
 	}
 	
-	public void moveLeft(Graphics2D g2Dc){
-		
-	}
-	
 }

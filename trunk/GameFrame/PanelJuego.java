@@ -45,37 +45,10 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 			panelSecundario = createImage(ALTO, ANCHO);
 		}
 		gImagen = (Graphics2D)panelSecundario.getGraphics();
-		
 		gImagen.setColor(Color.WHITE);
 		gImagen.fillRect(0, 0, ALTO, ANCHO);
 		
-		gImagen.drawImage(p.getPlayerImage(),p.getXpos(),p.getYpos(),null);
-		
-		if (imagenSiguiente == 0){
-			Image i = Toolkit.getDefaultToolkit().getImage("1 Camina.png");
-			gImagen.drawImage(i,0,0,null);
-			imagenSiguiente++;
-		}else if(imagenSiguiente == 1){
-			Image i = Toolkit.getDefaultToolkit().getImage("2 Camina.png");
-			gImagen.drawImage(i,0,0,null);
-			imagenSiguiente++;
-		}else if(imagenSiguiente == 2){
-			Image i = Toolkit.getDefaultToolkit().getImage("3 Camina.png");
-			gImagen.drawImage(i,0,0,null);
-			imagenSiguiente++;
-		}else if(imagenSiguiente == 3){
-			Image i = Toolkit.getDefaultToolkit().getImage("4 Camina.png");
-			gImagen.drawImage(i,0,0,null);
-			imagenSiguiente++;
-		}else if(imagenSiguiente == 4){
-			Image i = Toolkit.getDefaultToolkit().getImage("5 Camina.png");
-			gImagen.drawImage(i,0,0,null);
-			imagenSiguiente++;
-		}else if(imagenSiguiente == 5){
-			Image i = Toolkit.getDefaultToolkit().getImage("6 Camina.png");
-			gImagen.drawImage(i,0,0,null);
-			imagenSiguiente=0;
-		}
+		p.draw(gImagen);
 	}
 	
 	public void paintComponent(Graphics g){
@@ -86,12 +59,18 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	}
 
 	public void keyPressed(KeyEvent ke) {
-		switch(ke.getKeyCode()){
-		case KeyEvent.VK_UP:  break;
-		case KeyEvent.VK_DOWN:  break;
-		case KeyEvent.VK_LEFT:  break;
-		case KeyEvent.VK_RIGHT:  break;
-		case KeyEvent.VK_ESCAPE:  running = false; break;
+		if(!p.isMoving()){
+			switch(ke.getKeyCode()){
+			case KeyEvent.VK_UP: 
+				System.out.println("Entro al keyPressed");
+				p.setMoving(true);
+				p.setDirection(Player.LEFT);
+			break;
+			case KeyEvent.VK_DOWN:  break;
+			case KeyEvent.VK_LEFT:  break;
+			case KeyEvent.VK_RIGHT:  break;
+			case KeyEvent.VK_ESCAPE:  running = false; break;
+		}
 		}
 	}
 
