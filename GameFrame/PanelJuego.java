@@ -1,8 +1,6 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import javax.swing.*;
 
@@ -28,7 +26,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	
 	public PanelJuego() {
 		setBackground(Color.WHITE);
-		setPreferredSize(new Dimension(ALTO,ANCHO));
+		setSize(new Dimension(ANCHO,ALTO));
 		setFocusable(true);
 		requestFocus();
         p = new Player(60,60);
@@ -42,13 +40,15 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	public void gameRender(){
 		
 		if(panelSecundario==null){
-			panelSecundario = createImage(ALTO, ANCHO);
+			panelSecundario = createImage(ANCHO, ALTO);
 		}
 		gImagen = (Graphics2D)panelSecundario.getGraphics();
 		gImagen.setColor(Color.WHITE);
-		gImagen.fillRect(0, 0, ALTO, ANCHO);
+		gImagen.fillRect(0, 0, ANCHO, ALTO);
 		
 		p.draw(gImagen);
+		
+		
 	}
 	
 	public void paintComponent(Graphics g){
