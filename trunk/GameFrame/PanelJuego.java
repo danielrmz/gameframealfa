@@ -62,13 +62,21 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		if(!p.isMoving()){
 			switch(ke.getKeyCode()){
 			case KeyEvent.VK_UP: 
-				System.out.println("Entro al keyPressed");
+				p.setMoving(true);
+				p.setDirection(Player.UP);
+			break;
+			case KeyEvent.VK_DOWN: 
+				p.setMoving(true);
+				p.setDirection(Player.DOWN);
+			break;
+			case KeyEvent.VK_LEFT:
 				p.setMoving(true);
 				p.setDirection(Player.LEFT);
 			break;
-			case KeyEvent.VK_DOWN:  break;
-			case KeyEvent.VK_LEFT:  break;
-			case KeyEvent.VK_RIGHT:  break;
+			case KeyEvent.VK_RIGHT: 
+				p.setMoving(true);
+				p.setDirection(Player.RIGTH);
+			break;
 			case KeyEvent.VK_ESCAPE:  running = false; break;
 		}
 		}
@@ -91,7 +99,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 			gameRender();
 			repaint();
 			try{
-				Thread.sleep(100);
+				Thread.sleep(20);
 			}catch(Exception e){}
 		}
 	}
