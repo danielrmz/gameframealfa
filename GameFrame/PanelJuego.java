@@ -11,8 +11,12 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private static final int ALTO = 600;
-	private static final int ANCHO = 800;
+	public static final int ALTO = 550;
+	public static final int ANCHO = 700;
+	public static final int BLOQUE = 1;
+	public static final int PERSONAJE = 0;
+	public static final int BOMBA = 2;
+	public static final int POWERUP = 3;
 	
 	public volatile boolean running;
 	
@@ -22,25 +26,28 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	
 	private Player p;
 	
-
+	public static int[][] grid = new int[14][11];
 	
 	public PanelJuego() {
 		setBackground(Color.WHITE);
 		setSize(new Dimension(ANCHO,ALTO));
 		setFocusable(true);
 		requestFocus();
-        p = new Player(60,60);
+        p = new Player(0,0);
 		addKeyListener(this);
 		imagenSiguiente = 0;
+		grid[1][0] = PanelJuego.BLOQUE;
 	}
 	
 	public void gameUpdate(){
 	}
 	
+	
+	
 	public void gameRender(){
 		
 		if(panelSecundario==null){
-			panelSecundario = createImage(ANCHO, ALTO);
+			panelSecundario = createImage(ANCHO+1, ALTO+1);
 		}
 		gImagen = (Graphics2D)panelSecundario.getGraphics();
 		gImagen.setColor(Color.WHITE);
@@ -48,6 +55,14 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		
 		p.draw(gImagen);
 		
+		gImagen.setColor(Color.BLACK);
+		for(int i=50; i<=ANCHO;i+=50){
+			gImagen.drawLine(i,0,i,ALTO);
+		}
+		
+		for(int i=50; i<=ALTO;i+=50){
+			gImagen.drawLine(0,i,ANCHO,i);
+		}
 		
 	}
 	
@@ -60,25 +75,25 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 
 	public void keyPressed(KeyEvent ke) {
 		if(!p.isMoving()){
-			switch(ke.getKeyCode()){
-			case KeyEvent.VK_UP: 
-				p.setMoving(true);
-				p.setDirection(Player.UP);
-			break;
-			case KeyEvent.VK_DOWN: 
-				p.setMoving(true);
-				p.setDirection(Player.DOWN);
-			break;
-			case KeyEvent.VK_LEFT:
-				p.setMoving(true);
-				p.setDirection(Player.LEFT);
-			break;
-			case KeyEvent.VK_RIGHT: 
-				p.setMoving(true);
-				p.setDirection(Player.RIGTH);
-			break;
-			case KeyEvent.VK_ESCAPE:  running = false; break;
-		}
+				switch(ke.getKeyCode()){
+					case KeyEvent.VK_UP: 
+						p.setMoving(true);
+						p.setDirection(Player.UP);
+					break;
+					case KeyEvent.VK_DOWN: 
+						p.setMoving(true);
+						p.setDirection(Player.DOWN);
+					break;
+					case KeyEvent.VK_LEFT:
+						p.setMoving(true);
+						p.setDirection(Player.LEFT);
+					break;
+					case KeyEvent.VK_RIGHT: 
+						p.setMoving(true);
+						p.setDirection(Player.RIGTH);
+					break;
+					case KeyEvent.VK_ESCAPE:  running = false; break;
+				}
 		}
 	}
 

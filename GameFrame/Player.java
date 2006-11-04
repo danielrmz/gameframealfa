@@ -54,20 +54,28 @@ public class Player {
 	}
 	
 	public void moveLeft(){
-		Xpos-=5;
-		counter++;
+		if(this.checkMovement("X",-1)){
+			Xpos-=5;
+			counter++;
+		}
 	}
 	public void moveDown(){
-		Ypos+=5;
-		counter++;
+		if(this.checkMovement("Y",1)){	
+			Ypos+=5;
+			counter++;
+		}
 	}
 	public void moveUp(){
-		Ypos-=5;
-		counter++;
+		if(this.checkMovement("Y",-1)){
+			Ypos-=5;
+			counter++;
+		}
 	}
 	public void moveRigth(){
-		Xpos+=5;
-		counter++;
+		if(this.checkMovement("X",1)){
+			Xpos+=5;
+			counter++;
+		}
 	}
 
 
@@ -103,7 +111,7 @@ public class Player {
 				break;
 			case LEFT: 	
 				moveLeft(); 
-					break;
+				break;
 			case RIGTH: 
 				moveRigth();	
 			break;
@@ -168,4 +176,35 @@ public class Player {
 		this.direction = direction;
 	}
 
+	public boolean checkMovement(String direction, int change){
+		int i = (int)(((this.Xpos+50.0)/(double)PanelJuego.ANCHO)*10);
+		int j = (int)(((this.Ypos+50.0)/(double)PanelJuego.ALTO)*10);
+		int col = j;
+		int row = i;
+		System.out.println(i+":"+j);
+		try {
+			if(direction.equals("Y")){
+				col = j + change;
+			} else if(direction.equals("X")){
+				row = i + change;
+			}
+					switch(PanelJuego.grid[row][col]){
+					case PanelJuego.BLOQUE: 
+						this.setMoving(false);
+						return false;
+					case PanelJuego.BOMBA: 
+						break;
+					case PanelJuego.POWERUP: 
+						break;
+					case PanelJuego.PERSONAJE: 
+						break;
+					}
+			
+					
+		} catch(ArrayIndexOutOfBoundsException e){
+			this.setMoving(false);
+			return false;
+		}
+		return true;
+	}
 }

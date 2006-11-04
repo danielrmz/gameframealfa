@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 
 public class FrameJuego extends JFrame {
@@ -15,6 +16,9 @@ public class FrameJuego extends JFrame {
 		this.setPreferredSize(new Dimension(800,600));
 		pj = new PanelJuego();
 		add(pj);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		
 	}
 	
 }
