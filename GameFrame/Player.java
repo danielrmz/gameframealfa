@@ -8,13 +8,14 @@ public class Player {
 	
 	public static final int bombsNumLimit = 5;
 	public static final int bombsPowLimit = 3;
-	public static final int UP = 1;
-	public static final int DOWN = 2;
-	public static final int LEFT = 3;
-	public static final int RIGTH = 4;
+	public static final char UP = 'U';
+	public static final char DOWN = 'D';
+	public static final char LEFT = 'L';
+	public static final char RIGTH = 'R';
 	public static final int stripLength = 6;
-	
-	public static String baseImage = "1 Camina.png";
+
+	public static String baseImage = "Base.png";
+
 	
 	private int Xpos;
 	private int Ypos;
@@ -23,7 +24,7 @@ public class Player {
 	private int bombsPow;
 	
 	private boolean isMoving;
-	private int direction;
+	private char direction;
 	
 	private BufferedImage playerImage; 
 	
@@ -35,7 +36,7 @@ public class Player {
 		Ypos = y;
 		isMoving = false;
 		counter = 0;
-		playerImage = loadImage(baseImage);
+		direction = 'D';
 	}
 	
 	public BufferedImage loadImage(String url){
@@ -49,11 +50,11 @@ public class Player {
 	}
 	
 	public void draw(Graphics2D g){
-		g.drawImage(getPlayerImage(),0,0,null);
+		g.drawImage(getPlayerImage(),Xpos,Ypos,null);
 	}
 	
 	public void moveLeft(){
-		Xpos+=5;
+		Xpos-=5;
 		counter++;
 	}
 	public void moveDown(){
@@ -65,7 +66,7 @@ public class Player {
 		counter++;
 	}
 	public void moveRigth(){
-		Xpos-=5;
+		Xpos+=5;
 		counter++;
 	}
 
@@ -91,30 +92,29 @@ public class Player {
 
 
 	public BufferedImage getPlayerImage() {
+		String auxDir = ""+direction;
 		if (isMoving && counter<6){
 			switch(direction){
 			case UP: 	
 				moveUp(); 	
-				playerImage = loadImage(counter+" "+baseImage); 
 			break;
 			case DOWN: 	
 				moveDown();	
-				playerImage = loadImage(counter+" "+baseImage);		
-			break;
+				break;
 			case LEFT: 	
 				moveLeft(); 
-				playerImage = loadImage(counter+" "+baseImage);		
-			break;
+					break;
 			case RIGTH: 
-				moveRigth();
-				playerImage = loadImage(counter+" "+baseImage);		
+				moveRigth();	
 			break;
 			}
+			playerImage = loadImage((""+counter)+auxDir+baseImage);
 			return playerImage;
 		}
 		else{
 			counter = 0;
 			isMoving = false;
+			playerImage = loadImage((""+counter)+auxDir+baseImage);
 			return playerImage;
 		}
 	}
@@ -164,7 +164,7 @@ public class Player {
 		return direction;
 	}
 
-	public void setDirection(int direction) {
+	public void setDirection(char direction) {
 		this.direction = direction;
 	}
 
