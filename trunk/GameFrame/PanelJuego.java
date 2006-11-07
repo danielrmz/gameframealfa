@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
 import javax.swing.*;
 
@@ -24,6 +25,8 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	private Image panelSecundario;
 	private Graphics2D gImagen;
 	
+	private boolean presionado = true;
+	
 	private Player p;
 	
 	public static int[][] grid = new int[14][11];
@@ -43,6 +46,12 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	}
 	
 	
+	public static Image getImage(String filename){
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Image image = toolkit.getImage(RUTA+"img/"+filename);
+		return image;
+	}
+	public static final String RUTA = (new File ("")).getAbsolutePath()+"\\";
 	
 	public void gameRender(){
 		
@@ -52,6 +61,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		gImagen = (Graphics2D)panelSecundario.getGraphics();
 		gImagen.setColor(Color.WHITE);
 		gImagen.fillRect(0, 0, ANCHO, ALTO);
+		gImagen.drawImage(getImage("sand.gif"),0,0,Color.BLACK,null);
 		
 		p.draw(gImagen);
 		
@@ -74,6 +84,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	}
 
 	public void keyPressed(KeyEvent ke) {
+		while(presionado){
 		if(!p.isMoving()){
 				switch(ke.getKeyCode()){
 					case KeyEvent.VK_UP: 
@@ -95,10 +106,19 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 					case KeyEvent.VK_ESCAPE:  running = false; break;
 				}
 		}
+		try {
+			ke.wait(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
 	}
 
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+	public void keyReleased(KeyEvent ke) {
+		if (ke.getKeyCode() == KeyEvent.VK_DOWN){
+			presionado = true;
+		}
 		
 	}
 
@@ -114,7 +134,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 			gameRender();
 			repaint();
 			try{
-				Thread.sleep(20);
+				Thread.sleep(30);
 			}catch(Exception e){}
 		}
 	}

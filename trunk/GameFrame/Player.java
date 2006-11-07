@@ -40,6 +40,7 @@ public class Player {
 	}
 	
 	public BufferedImage loadImage(String url){
+		url = "img/"+url;
 		BufferedImage auxImage = null;
 		try{
 			auxImage = ImageIO.read(getClass( ).getResource(url));
