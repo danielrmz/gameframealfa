@@ -14,10 +14,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	
 	public static final int ALTO = 550;
 	public static final int ANCHO = 700;
-	public static final int BLOQUE = 1;
-	public static final int PERSONAJE = 0;
-	public static final int BOMBA = 2;
-	public static final int POWERUP = 3;
+	
 	public static final int FUEGO = 4;
 	
 	public volatile boolean running;
@@ -31,7 +28,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	
 	public static int[][] grid = new int[14][11];
 	
-	public PanelJuego() {
+	public PanelJuego(int[][] mapa) {
 		setBackground(Color.WHITE);
 		setSize(new Dimension(ANCHO,ALTO));
 		setFocusable(true);
@@ -39,7 +36,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
         p = new Player(0,0);
 		addKeyListener(this);
 		imagenSiguiente = 0;
-		grid[1][0] = PanelJuego.BLOQUE;
+		PanelJuego.grid = mapa;
 	}
 	
 	public void gameUpdate(){
@@ -54,14 +51,26 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	
 	public static final String RUTA = (new File ("")).getAbsolutePath()+"\\";
 	
+	public void drawBlocks(){
+		int[][] grid = PanelJuego.grid;
+		Image block = getImage("mis/Caja Metal.png");
+		for(int i = 0; i < grid.length; i++){
+			for(int j = 0; j < grid[i].length; j++){
+				if(grid[i][j] == GameMaps.BLOQUE){
+					gImagen.drawImage(block,i*50,j*50,null,null);
+				}
+			}
+		}
+	}
+	
 	public void gameRender(){
-		
 		if(panelSecundario==null){
 			panelSecundario = createImage(ANCHO+1, ALTO+1);
 		}
 		gImagen = (Graphics2D)panelSecundario.getGraphics();
 		gImagen.drawImage(getImage("bgs/sand.gif"),0,0,Color.BLACK,null);
 		
+		this.drawBlocks();
 		gImagen.setColor(Color.BLACK);
 		for(int i=50; i<=ANCHO;i+=50){
 			gImagen.drawLine(i,0,i,ALTO);

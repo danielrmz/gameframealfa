@@ -20,7 +20,7 @@ public class Bomb {
 		
 		//check up
 		for(int i=Ypos; i<(Ypos+power); i++)
-			if(!(idMatrix[Xpos][i] == PanelJuego.BLOQUE))
+			if(!(idMatrix[Xpos][i] == GameMaps.BLOQUE))
 				idMatrix[Xpos][i] = PanelJuego.FUEGO;
 	}
 

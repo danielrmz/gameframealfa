@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Player {
-	
+	public static int numPlayers = 100;
 	public static final int bombsNumLimit = 5;
 	public static final int bombsPowLimit = 3;
 	public static final char UP = 'U';
@@ -29,9 +29,10 @@ public class Player {
 	private BufferedImage playerImage; 
 	
 	private int counter;
-	
+	private final int playerid;
 	
 	public Player(int x, int y) {
+		playerid = ++Player.numPlayers;
 		Xpos = x;
 		Ypos = y;
 		//isMoving = false;
@@ -167,13 +168,13 @@ public class Player {
 		this.counter = counter;
 	}
 
-	/*public boolean isMoving() {
+	public boolean isMoving() {
 		return isMoving;
-	}*/
+	}
 
-	/*public void setMoving(boolean isMoving) {
+	public void setMoving(boolean isMoving) {
 		this.isMoving = isMoving;
-	}*/
+	}
 
 	public int getDirection() {
 		return direction;
@@ -182,13 +183,34 @@ public class Player {
 	public void setDirection(char direction) {
 		this.direction = direction;
 	}
+	
+	public int[] getActualPosition(){
+		int[][] grid = PanelJuego.grid;
+		int[] position = new int[2];
+		for(int i=0; i<grid.length; i++){
+			for(int j=0; j<grid[i].length;j++){
+				if(grid[i][j] == this.playerid){
+					position[0] = i;
+					position[1] = j;
+					return position;
+				}
+			}
+		}
+		return null;
+	}
 
 	public boolean checkMovement(String direction, int change){
 		int i = (int)(((this.Xpos+50.0)/(double)PanelJuego.ANCHO)*10);
 		int j = (int)(((this.Ypos+50.0)/(double)PanelJuego.ALTO)*10);
 		int col = j;
 		int row = i;
-		//System.out.println(i+":"+j);
+		//-- Busca la posicion anterior y la borra
+		int[] olds = this.getActualPosition();
+		if(olds != null){
+			PanelJuego.grid[olds[0]][olds[1]] = -1;
+		}
+		// Establece en la posicion anterior al jugador
+		PanelJuego.grid[i][j] = this.playerid;
 		try {
 			if(direction.equals("Y")){
 				col = j + change;
@@ -196,14 +218,22 @@ public class Player {
 				row = i + change;
 			}
 					switch(PanelJuego.grid[row][col]){
-					case PanelJuego.BLOQUE: 
+					case GameMaps.BLOQUE:  
 						//this.setMoving(false);
 						return false;
-					case PanelJuego.BOMBA: 
+					case GameMaps.CRATE:
+						this.setMoving(false);
+						return false;
+					case GameMaps.BOMBA: //-- Si es bomba se detiene, falta ver caso en que tenga powerup de kickear
+						this.setMoving(false);
+						return false;
+					case GameMaps.POWERUP: 
 						break;
-					case PanelJuego.POWERUP: 
-						break;
-					case PanelJuego.PERSONAJE: 
+					default:
+						if(PanelJuego.grid[row][col] > 100){ //-- Colision con oto jugador
+							this.setMoving(false);
+							return false;
+						}
 						break;
 					}
 			
