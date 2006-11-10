@@ -13,7 +13,7 @@ public class FrameJuego extends JFrame {
 	
 	public FrameJuego(){
 		this.setSize(707,583);
-		pj = new PanelJuego();
+		pj = new PanelJuego(GameMaps.desierto);
 		add(pj);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
