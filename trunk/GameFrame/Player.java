@@ -23,7 +23,7 @@ public class Player {
 	private int bombsNum;
 	private int bombsPow;
 	
-	private boolean isMoving;
+	public boolean isMoving;
 	private char direction;
 	
 	private BufferedImage playerImage; 
@@ -34,7 +34,7 @@ public class Player {
 	public Player(int x, int y) {
 		Xpos = x;
 		Ypos = y;
-		isMoving = false;
+		//isMoving = false;
 		counter = 0;
 		direction = 'D';
 	}
@@ -127,7 +127,7 @@ public class Player {
 		}
 		else{
 			counter = 0;
-			isMoving = false;
+			//isMoving = false;
 			String file = auxDir+(!lastDir.equals("")?lastDir+"1":"")+baseImage;
 			playerImage = loadImage(file);
 		}
@@ -167,13 +167,13 @@ public class Player {
 		this.counter = counter;
 	}
 
-	public boolean isMoving() {
+	/*public boolean isMoving() {
 		return isMoving;
-	}
+	}*/
 
-	public void setMoving(boolean isMoving) {
+	/*public void setMoving(boolean isMoving) {
 		this.isMoving = isMoving;
-	}
+	}*/
 
 	public int getDirection() {
 		return direction;
@@ -197,7 +197,7 @@ public class Player {
 			}
 					switch(PanelJuego.grid[row][col]){
 					case PanelJuego.BLOQUE: 
-						this.setMoving(false);
+						//this.setMoving(false);
 						return false;
 					case PanelJuego.BOMBA: 
 						break;
@@ -209,7 +209,7 @@ public class Player {
 			
 					
 		} catch(ArrayIndexOutOfBoundsException e){
-			this.setMoving(false);
+			//this.setMoving(false);
 			return false;
 		}
 		return true;
