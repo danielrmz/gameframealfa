@@ -19,14 +19,12 @@ public class GameMaps {
     	  {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
     	  {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
     	  {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
     	  {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
     	  {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
-    	  
+    	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},  
     };
     
 	public static int cantina[][];
