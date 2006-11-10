@@ -12,8 +12,7 @@ public class FrameJuego extends JFrame {
 	PanelJuego pj;
 	
 	public FrameJuego(){
-		this.setSize(800,600);
-		this.setPreferredSize(new Dimension(800,600));
+		this.setSize(707,583);
 		pj = new PanelJuego();
 		add(pj);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

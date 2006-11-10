@@ -51,6 +51,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		Image image = toolkit.getImage(RUTA+"img/"+filename);
 		return image;
 	}
+	
 	public static final String RUTA = (new File ("")).getAbsolutePath()+"\\";
 	
 	public void gameRender(){
@@ -59,11 +60,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 			panelSecundario = createImage(ANCHO+1, ALTO+1);
 		}
 		gImagen = (Graphics2D)panelSecundario.getGraphics();
-		gImagen.setColor(Color.WHITE);
-		gImagen.fillRect(0, 0, ANCHO, ALTO);
-		gImagen.drawImage(getImage("sand.gif"),0,0,Color.BLACK,null);
-		
-		p.draw(gImagen);
+		gImagen.drawImage(getImage("bgs/sand.gif"),0,0,Color.BLACK,null);
 		
 		gImagen.setColor(Color.BLACK);
 		for(int i=50; i<=ANCHO;i+=50){
@@ -73,6 +70,8 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		for(int i=50; i<=ALTO;i+=50){
 			gImagen.drawLine(0,i,ANCHO,i);
 		}
+		
+		p.draw(gImagen);
 		
 	}
 	
@@ -111,7 +110,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 		}
 	}
 
