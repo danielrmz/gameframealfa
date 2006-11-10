@@ -15,7 +15,7 @@ public class Player {
 	public static final int stripLength = 6;
 
 	public static String baseImage = "Base.png";
-
+	public String lastDir = "";
 	
 	private int Xpos;
 	private int Ypos;
@@ -46,7 +46,7 @@ public class Player {
 			auxImage = ImageIO.read(getClass( ).getResource(url));
 		}catch(IOException ioe){
 			System.out.println("Error loading image");
-		}
+		}catch(IllegalArgumentException e){}
 		return auxImage;
 	}
 	
@@ -101,31 +101,37 @@ public class Player {
 
 
 	public BufferedImage getPlayerImage() {
-		String auxDir = ""+direction;
+		String auxDir = "";//+direction;
 		if (isMoving && counter<6){
 			switch(direction){
-			case UP: 	
+			case UP: 
+				lastDir="arriba/";
 				moveUp(); 	
 			break;
 			case DOWN: 	
+				lastDir="abajo/";	
 				moveDown();	
 				break;
 			case LEFT: 	
+				lastDir="izquierda/";
 				moveLeft(); 
 				break;
 			case RIGTH: 
+				lastDir="derecha/";	
 				moveRigth();	
 			break;
 			}
-			playerImage = loadImage((""+counter)+auxDir+baseImage);
-			return playerImage;
+			counter = (counter == 0)?1:counter; //-- La imagen inicial es 1 por lo que si el counter es 0 pone 1.
+			String file = auxDir+lastDir+(""+counter)+baseImage;
+			playerImage = loadImage(file);
 		}
 		else{
 			counter = 0;
 			isMoving = false;
-			playerImage = loadImage((""+counter)+auxDir+baseImage);
-			return playerImage;
+			String file = auxDir+(!lastDir.equals("")?lastDir+"1":"")+baseImage;
+			playerImage = loadImage(file);
 		}
+		return playerImage;
 	}
 
 
@@ -182,7 +188,7 @@ public class Player {
 		int j = (int)(((this.Ypos+50.0)/(double)PanelJuego.ALTO)*10);
 		int col = j;
 		int row = i;
-		System.out.println(i+":"+j);
+		//System.out.println(i+":"+j);
 		try {
 			if(direction.equals("Y")){
 				col = j + change;
