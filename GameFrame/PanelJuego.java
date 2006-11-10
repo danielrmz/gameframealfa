@@ -18,6 +18,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	public static final int PERSONAJE = 0;
 	public static final int BOMBA = 2;
 	public static final int POWERUP = 3;
+	public static final int FUEGO = 4;
 	
 	public volatile boolean running;
 	
@@ -25,7 +26,6 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	private Image panelSecundario;
 	private Graphics2D gImagen;
 	
-	private boolean presionado = true;
 	
 	private Player p;
 	
@@ -83,47 +83,33 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	}
 
 	public void keyPressed(KeyEvent ke) {
-		while(presionado){
-		if(!p.isMoving()){
+				p.isMoving = true;
 				switch(ke.getKeyCode()){
 					case KeyEvent.VK_UP: 
-						p.setMoving(true);
+						//p.setMoving(true);
 						p.setDirection(Player.UP);
 					break;
 					case KeyEvent.VK_DOWN: 
-						p.setMoving(true);
+						//p.setMoving(true);
 						p.setDirection(Player.DOWN);
 					break;
 					case KeyEvent.VK_LEFT:
-						p.setMoving(true);
+						//p.setMoving(true);
 						p.setDirection(Player.LEFT);
 					break;
 					case KeyEvent.VK_RIGHT: 
-						p.setMoving(true);
+						//p.setMoving(true);
 						p.setDirection(Player.RIGTH);
 					break;
 					case KeyEvent.VK_ESCAPE:  running = false; break;
 				}
-		}
-		try {
-			ke.wait(10);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		}
 	}
 
-	public void keyReleased(KeyEvent ke) {
-		if (ke.getKeyCode() == KeyEvent.VK_DOWN){
-			presionado = true;
-		}
-		
+	public void keyReleased(KeyEvent ke) {	
+		p.isMoving = false;
 	}
 
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void run() {
@@ -137,8 +123,5 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 			}catch(Exception e){}
 		}
 	}
-
-	
-	
 
 }
