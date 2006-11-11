@@ -21,6 +21,8 @@ public class Player {
 	private int Xpos;
 	private int Ypos;
 	
+	private boolean alive;
+	
 	private int activeBombs;
 	private int bombsNum;
 	private int bombsPow;
@@ -52,8 +54,8 @@ public class Player {
 		PanelJuego.grid[pos[0]][pos[1]] = this.playerid;
 		bombsNum = 2;
 		activeBombs = 0;
+		alive = true;
 		this.despliegaTablero();
-		
 	}
 	
 	public BufferedImage loadImage(String url){
@@ -67,8 +69,13 @@ public class Player {
 		return auxImage;
 	}
 	
+	
 	public void draw(Graphics2D g){
-		g.drawImage(getPlayerImage(),Xpos,Ypos,null);
+		if(alive){
+			g.drawImage(getPlayerImage(),Xpos,Ypos,null);
+		}else{
+			g.drawImage(PanelJuego.getImage("Quemado.png"),Xpos,Ypos,null);
+		}
 		g.setColor(Color.YELLOW);
 		try {
 			g.drawLine(Xpos,Ypos,Xpos+this.playerImage.getWidth(),Ypos);
@@ -372,5 +379,15 @@ public class Player {
 
 	public void setActiveBombs(int activeBombs) {
 		this.activeBombs = activeBombs;
+	}
+
+
+	public boolean isAlive() {
+		return alive;
+	}
+
+
+	public void setAlive(boolean alive) {
+		this.alive = alive;
 	}
 }
