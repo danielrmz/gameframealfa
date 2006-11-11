@@ -7,6 +7,8 @@ public class GameMaps {
 	public static final int BLOQUE = 1;
 	public static final int BOMBA = 2;
 	public static final int POWERUP = 3;
+	public static final int FUEGO = 5;
+	public static final int BLANK = 0;
 	
 	/**
 	 * Mapas defaults definidos
