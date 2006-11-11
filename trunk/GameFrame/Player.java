@@ -50,9 +50,6 @@ public class Player {
 		Ypos = y;
 		counter = 0;
 		direction = 'D';
-
-		int[] pos = this.getCurrentPosition();
-		PanelJuego.grid[pos[0]][pos[1]] = this.playerid;
 		bombsNum = 2;
 		activeBombs = 0;
 		alive = true;
@@ -254,14 +251,14 @@ public class Player {
 	
 	public void changePosition(int i, int j){
 		if(PanelJuego.grid[i][j] != GameMaps.BLOQUE){
-			int olds[] = this.getGridPosition();
-			int auxi,auxj;
-			try {
-				auxi = olds[0]; 
-				auxj = olds[1];
-				PanelJuego.grid[auxi][auxj] = GameMaps.BLANK;
-				PanelJuego.grid[i][j] = this.playerid;
-			} catch (NullPointerException e){}
+			//int olds[] = this.getGridPosition();
+			//int auxi,auxj;
+			//try {
+			//	auxi = olds[0]; 
+			//	auxj = olds[1];
+			//	PanelJuego.grid[auxi][auxj] = GameMaps.BLANK;
+			///	PanelJuego.grid[i][j] = this.playerid;
+			//} catch (NullPointerException e){}
 		}
 	}
 	
@@ -350,8 +347,8 @@ public class Player {
 				} else if(grid[p1.x][p.y-1] == GameMaps.BLOQUE || grid[p1.x][p.y-1] == GameMaps.BOMBA){ 
 					return Math.abs((p1.y-1)*50-this.getYpos());
 				} else {
-					//-- No es bomba ni bloque
-					if((grid[p1.x][p.y-1] == GameMaps.FUEGO || grid[p.x][p.y-1] == GameMaps.FUEGO ) && (Math.abs((p.y)*50-posy)<5)){
+					//-- No es bomba ni bloque//&& (Math.abs((p.y)*50-posy)<5)
+					if((grid[p1.x][p.y-1] == GameMaps.FUEGO || grid[p.x][p.y-1] == GameMaps.FUEGO ) ){
 						this.setActive(false);
 					}
 					this.changePosition(p.x,p.y-1);
@@ -361,10 +358,12 @@ public class Player {
 				if(p.y == grid[0].length-1) return 5;
 				//-- Checa la parte de la izquierda
 				if(grid[p.x][p.y+1] == GameMaps.BLOQUE || grid[p.x][p.y+1] == GameMaps.BOMBA){
+					System.out.println("Bomba");
 					int movement = Math.abs((p.y+1)*50-posy);
 					return (movement>5)?movement:0;
 				//-- Checa la parte de la derecha
 				} else if(grid[p1.x][p1.y+1] == GameMaps.BLOQUE || grid[p1.x][p.y+1] == GameMaps.BOMBA){
+					System.out.println("Bomba");
 					int movement = Math.abs((p1.y+1)*50-posy);
 					return (movement>5)?movement:0;	
 				} else {
