@@ -40,6 +40,7 @@ public class Bomb {
 				aux.detonate(gImagen, p, false);
 				aux.owner.setActiveBombs(aux.owner.getActiveBombs()-1);
 				PanelJuego.bombs.remove(i);
+				PanelJuego.despliegaTablero();
 			}
 			
 		}
@@ -67,19 +68,46 @@ public class Bomb {
 				if((grid[Xpos][i] == GameMaps.BLOQUE))
 					break;
 				else{
-					gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),Xpos*50,i*50,null);
-					grid[Xpos][i] = (active)?GameMaps.FUEGO:GameMaps.BLANK;
+					
+					if(active){
+						gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),Xpos*50,i*50,null);
+						grid[Xpos][i] = ((grid[Xpos][i] == GameMaps.CRATE)  || (grid[Xpos][i] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
+					} 
+					
+					
+					
+					else {
+						if(grid[Xpos][i] == GameMaps.FUEGOB){
+							
+							grid[Xpos][i] = GameMaps.MOREBOMBS;
+							
+						} else {
+							grid[Xpos][i] = GameMaps.BLANK;
+						}
+					}
+					
 				}
 			}catch(ArrayIndexOutOfBoundsException aiobe){}
 		}
 		//check down
 		for(int i=Ypos; i>(Ypos-3); i--){
 			try{
-				if((grid[Xpos][i] == GameMaps.BLOQUE))
+				if((grid[Xpos][i] == GameMaps.BLOQUE) )
 					break;
 				else{
-					gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),Xpos*50,i*50,null);
-					grid[Xpos][i] = (active)?GameMaps.FUEGO:GameMaps.BLANK;
+					if(active){
+						gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),Xpos*50,i*50,null);
+						grid[Xpos][i] = ((grid[Xpos][i] == GameMaps.CRATE)  || (grid[Xpos][i] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
+					} else {
+						if(grid[Xpos][i] == GameMaps.FUEGOB){
+							
+							grid[Xpos][i] = GameMaps.MOREBOMBS;
+							
+						} else {
+							grid[Xpos][i] = GameMaps.BLANK;
+						}
+					}
+					
 				}
 			}catch(ArrayIndexOutOfBoundsException aiobe){}
 		}
@@ -89,8 +117,20 @@ public class Bomb {
 				if((grid[i][Ypos] == GameMaps.BLOQUE))
 					break;
 				else{
-					gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),i*50,Ypos*50,null);
-					grid[i][Ypos] = (active)?GameMaps.FUEGO:GameMaps.BLANK;
+					if(active){
+						gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),i*50,Ypos*50,null);
+						grid[i][Ypos] = ((grid[i][Ypos] == GameMaps.CRATE)  || (grid[i][Ypos] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
+					} else {
+						if(grid[i][Ypos] == GameMaps.FUEGOB){
+							
+							grid[i][Ypos] = GameMaps.MOREBOMBS;
+							
+						} else {
+							grid[i][Ypos] = GameMaps.BLANK;
+						}
+					}
+					
+					
 				}
 			}catch(ArrayIndexOutOfBoundsException aiobe){}
 		}
@@ -100,8 +140,19 @@ public class Bomb {
 				if((grid[i][Ypos] == GameMaps.BLOQUE))
 					break;
 				else{
-					gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),i*50,Ypos*50,null);
-					grid[i][Ypos] = (active)?GameMaps.FUEGO:GameMaps.BLANK;
+					if(active){
+						gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),i*50,Ypos*50,null);
+						grid[i][Ypos] = ((grid[i][Ypos] == GameMaps.CRATE) || (grid[i][Ypos] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
+					} else {
+						if(grid[i][Ypos] == GameMaps.FUEGOB){
+							
+							grid[i][Ypos] = GameMaps.MOREBOMBS;
+							
+						} else {
+							grid[i][Ypos] = GameMaps.BLANK;
+						}
+					}
+					
 				}
 			}catch(ArrayIndexOutOfBoundsException aiobe){}
 		}
