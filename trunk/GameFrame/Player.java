@@ -34,7 +34,7 @@ public class Player {
 	
 	public static Point center(double x, double y){
 		Point aux = new Point();
-		aux.setLocation(((x+47)/2),((y+61)/2));
+		aux.setLocation((x+23.5),(y+30.5));
 		System.out.println(aux.getX()+" "+aux.getY());
 		return aux;
 	}
