@@ -33,7 +33,6 @@ public class Player extends JComponent implements KeyListener{
 	private int bombsPow;
 	
 	public boolean isMoving;
-	private boolean active = true;
 	private char direction;
 	
 	private BufferedImage playerImage; 
@@ -57,14 +56,24 @@ public class Player extends JComponent implements KeyListener{
 		bombsNum = 2;
 		activeBombs = 0;
 		alive = true;
+
+		this.cleanArea();
+
 		addKeyListener(this);
+
 	}
 	
-	public void setActive(boolean active){
-		this.active = active;
-	}
-	public boolean getActive(){
-		return this.active;
+	public void cleanArea(){
+		int[][] grid = PanelJuego.grid;
+		int pos[] = this.getCurrentPosition();
+		int i = pos[0];
+		int j = pos[1];
+		grid[pos[0]][pos[1]] = GameMaps.BLANK;
+		try { grid[i+1][j] = GameMaps.BLANK; } catch (ArrayIndexOutOfBoundsException e){}
+		try { grid[i][j+1] = GameMaps.BLANK; } catch (ArrayIndexOutOfBoundsException e){}
+		try { grid[i-1][j] = GameMaps.BLANK; } catch (ArrayIndexOutOfBoundsException e){}
+		try { grid[i][j-1] = GameMaps.BLANK; } catch (ArrayIndexOutOfBoundsException e){}
+		
 	}
 	
 	public BufferedImage loadImage(String url){
@@ -135,10 +144,7 @@ public class Player extends JComponent implements KeyListener{
 
 	public BufferedImage getPlayerImage() {
 		String auxDir = "";//+direction;
-		if(!this.active){
-			String file = auxDir+"Quemado.png";
-			return loadImage(file);
-		}
+		
 		if (isMoving && counter<6){
 			switch(direction){
 			case UP: 
@@ -291,12 +297,12 @@ public class Player extends JComponent implements KeyListener{
 			if(direction<0){ //-- Se mueve a la izquierda
 				Point p1 = this.getMatrixPoint(this.getXpos()+x,posy);
 				if(p1.x == 1) return 5; //-- Bugfix de imprecision de la primera columna
-				
-				if(grid[p.x-1][p.y] == GameMaps.BLOQUE || grid[p.x-1][p.y] == GameMaps.BOMBA){
+				int cell = grid[p.x-1][p.y];
+				if(cell == GameMaps.BLOQUE || cell == GameMaps.BOMBA || cell == GameMaps.CRATE){
 					return Math.abs((p.x)*50-posx1);
 				} else {
-					if(grid[p.x-1][p.y] == GameMaps.FUEGO&& Math.abs((p.x-1)*50-posx1)<5){
-						this.setActive(false);
+					if(cell == GameMaps.FUEGO && Math.abs((p.x-1)*50-posx1)<5){
+						this.setAlive(false);
 					}
 					this.changePosition(p.x-1,p.y);
 					return 5;
@@ -305,12 +311,12 @@ public class Player extends JComponent implements KeyListener{
 			} else if(direction>0) { //-- Se mueve a la derecha
 				Point p1 = this.getMatrixPoint(this.getXpos(),posy);
 				if(p1.x == grid.length-2) return 5; //-- Bugfix de imprecision de la primera columna
-				
-				if(grid[p.x+1][p.y] == GameMaps.BLOQUE || grid[p.x+1][p.y] == GameMaps.BOMBA){
+				int cell = grid[p.x+1][p.y];
+				if(cell == GameMaps.BLOQUE || cell == GameMaps.BOMBA || cell == GameMaps.CRATE){
 					return Math.abs((p.x+1)*50-posx2);
 				} else {
-					if(grid[p.x+1][p.y] == GameMaps.FUEGO /*&& Math.abs((p.x+1)*50-posx1)<5*/){
-						this.setActive(false);
+					if(cell == GameMaps.FUEGO /*&& Math.abs((p.x+1)*50-posx1)<5*/){
+						this.setAlive(false);
 					}
 					this.changePosition(p.x+1,p.y);
 					return 5;
@@ -343,16 +349,20 @@ public class Player extends JComponent implements KeyListener{
 		try {
 			
 			if(direction<0){
-				//-- Se mueve para arriba
+
+				int cell = grid[p.x][p.y-1];
+				int cell2 = grid[p1.x][p.y-1];
+
 				//-- Checa la parte izquierda
-				if(grid[p.x][p.y-1] == GameMaps.BLOQUE || grid[p.x][p.y-1] == GameMaps.BOMBA){
+				if(cell == GameMaps.BLOQUE || cell == GameMaps.BOMBA){
 					return Math.abs((p.y-1)*50-this.getYpos());
 				//-- Checa la parte derecha
-				} else if(grid[p1.x][p.y-1] == GameMaps.BLOQUE || grid[p1.x][p.y-1] == GameMaps.BOMBA){ 
+				} else if(cell2 == GameMaps.BLOQUE || cell2 == GameMaps.BOMBA){ 
 					return Math.abs((p1.y-1)*50-this.getYpos());
 				} else {
 					//-- No es bomba ni bloque//&& (Math.abs((p.y)*50-posy)<5)
-					if((grid[p1.x][p.y-1] == GameMaps.FUEGO || grid[p.x][p.y-1] == GameMaps.FUEGO ) ){
+
+					if((cell == GameMaps.FUEGO || cell2 == GameMaps.FUEGO ) ){
 						this.setAlive(false);
 					}
 					this.changePosition(p.x,p.y-1);
@@ -360,20 +370,23 @@ public class Player extends JComponent implements KeyListener{
 				}
 			} else if(direction>0) { //-- Se mueve para abajo
 				if(p.y == grid[0].length-1) return 5;
+				int cell = grid[p.x][p.y+1];
+				int cell2 = grid[p1.x][p.y+1];
+				
 				//-- Checa la parte de la izquierda
-				if(grid[p.x][p.y+1] == GameMaps.BLOQUE || grid[p.x][p.y+1] == GameMaps.BOMBA){
-					System.out.println("Bomba");
+				if(cell == GameMaps.BLOQUE || cell == GameMaps.BOMBA || cell == GameMaps.CRATE){
 					int movement = Math.abs((p.y+1)*50-posy);
 					return (movement>5)?movement:0;
 				//-- Checa la parte de la derecha
-				} else if(grid[p1.x][p1.y+1] == GameMaps.BLOQUE || grid[p1.x][p.y+1] == GameMaps.BOMBA){
-					System.out.println("Bomba");
+				} else if(cell2 == GameMaps.BLOQUE || cell2 == GameMaps.BOMBA || cell == GameMaps.CRATE){
 					int movement = Math.abs((p1.y+1)*50-posy);
 					return (movement>5)?movement:0;	
 				} else {
 					//-- No es bomba ni bloque
-					if((grid[p1.x][p.y+1] == GameMaps.FUEGO || grid[p.x][p.y+1] == GameMaps.FUEGO ) /*&& (Math.abs((p.y)*50-posy)<5)*/){		
+
+					if((cell == GameMaps.FUEGO || cell2 == GameMaps.FUEGO) /*&& (Math.abs((p.y)*50-posy)<5)*/){	
 						this.setAlive(false);
+
 					}
 					this.changePosition(p.x,p.y+1);
 					return 5;
