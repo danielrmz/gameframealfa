@@ -1,7 +1,5 @@
 import javax.swing.*;
 
-import java.awt.*;
-
 public class FrameJuego extends JFrame {
 	
 	/**

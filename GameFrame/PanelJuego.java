@@ -2,27 +2,24 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.util.LinkedList;
 
 import javax.swing.*;
 
 public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	public static final int ALTO = 550;
 	public static final int ANCHO = 700;
 	
-	public static final int FUEGO = 4;
+	public static LinkedList<Bomb> bombs;
 	
 	public volatile boolean running;
 	
 	public int imagenSiguiente;
 	private Image panelSecundario;
 	private Graphics2D gImagen;
-	
 	
 	private Player p;
 	
@@ -37,6 +34,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		addKeyListener(this);
 		imagenSiguiente = 0;
 		PanelJuego.grid = mapa;
+		bombs = new LinkedList<Bomb>();
 	}
 	
 	public void gameUpdate(){
@@ -63,6 +61,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		}
 	}
 	
+	
 	public void gameRender(){
 		if(panelSecundario==null){
 			panelSecundario = createImage(ANCHO+1, ALTO+1);
@@ -79,7 +78,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		for(int i=50; i<=ALTO;i+=50){
 			gImagen.drawLine(0,i,ANCHO,i);
 		}
-		
+		Bomb.drawBombs(gImagen);
 		p.draw(gImagen);
 		
 	}
@@ -92,30 +91,45 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	}
 
 	public void keyPressed(KeyEvent ke) {
-				p.isMoving = true;
 				switch(ke.getKeyCode()){
-					case KeyEvent.VK_UP: 
+					case KeyEvent.VK_UP:
+						p.isMoving = true;
 						//p.setMoving(true);
 						p.setDirection(Player.UP);
 					break;
 					case KeyEvent.VK_DOWN: 
+						p.isMoving = true;
 						//p.setMoving(true);
 						p.setDirection(Player.DOWN);
 					break;
 					case KeyEvent.VK_LEFT:
+						p.isMoving = true;
 						//p.setMoving(true);
 						p.setDirection(Player.LEFT);
 					break;
-					case KeyEvent.VK_RIGHT: 
+					case KeyEvent.VK_RIGHT:
+						p.isMoving = true;
 						//p.setMoving(true);
 						p.setDirection(Player.RIGTH);
 					break;
-					case KeyEvent.VK_ESCAPE:  running = false; break;
+					case KeyEvent.VK_ESCAPE:  
+						running = false; 
+					break;
+					case KeyEvent.VK_A:
+						if(p.getActiveBombs() < p.getBombsNum()){
+							Point aux = Player.center(p.getXpos(),p.getYpos());
+							Point aux2 = Bomb.transform(aux);
+							bombs.add(new Bomb(aux2.x,aux2.y,p));
+							p.setActiveBombs(p.getActiveBombs()+1);
+						}
+					break;
 				}
 	}
 
-	public void keyReleased(KeyEvent ke) {	
-		p.isMoving = false;
+	public void keyReleased(KeyEvent ke) {
+		if ((!(ke.getKeyCode() == KeyEvent.VK_A))){
+			p.isMoving = false;
+		}
 	}
 
 	public void keyTyped(KeyEvent arg0) {

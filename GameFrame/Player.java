@@ -1,10 +1,10 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 public class Player {
+
 	public static int numPlayers = 100;
 	public static final int bombsNumLimit = 5;
 	public static final int bombsPowLimit = 3;
@@ -20,6 +20,7 @@ public class Player {
 	private int Xpos;
 	private int Ypos;
 	
+	private int activeBombs;
 	private int bombsNum;
 	private int bombsPow;
 	
@@ -31,13 +32,22 @@ public class Player {
 	private int counter;
 	private final int playerid;
 	
+	public static Point center(double x, double y){
+		Point aux = new Point();
+		aux.setLocation(((x+47)/2),((y+61)/2));
+		System.out.println(aux.getX()+" "+aux.getY());
+		return aux;
+	}
+	
+	
 	public Player(int x, int y) {
 		playerid = ++Player.numPlayers;
 		Xpos = x;
 		Ypos = y;
-		//isMoving = false;
 		counter = 0;
 		direction = 'D';
+		bombsNum = 2;
+		activeBombs = 0;
 	}
 	
 	public BufferedImage loadImage(String url){
@@ -243,5 +253,13 @@ public class Player {
 			return false;
 		}
 		return true;
+	}
+
+	public int getActiveBombs() {
+		return activeBombs;
+	}
+
+	public void setActiveBombs(int activeBombs) {
+		this.activeBombs = activeBombs;
 	}
 }
