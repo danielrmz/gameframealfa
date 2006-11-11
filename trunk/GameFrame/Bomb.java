@@ -21,7 +21,6 @@ public class Bomb {
 			Bomb aux = PanelJuego.bombs.get(i);
 			if(aux.status<80){
 				grid[aux.getXpos()][aux.getYpos()] = GameMaps.BOMBA;
-			
 				gImagen.drawImage(PanelJuego.getImage("bomba/molotov"+((aux.status)%4)+".png"),aux.getXpos()*50, aux.getYpos()*50, null);
 				aux.status++;
 			}else if (aux.status >=80 && aux.status<100){
@@ -29,7 +28,6 @@ public class Bomb {
 				if (aux.status==80){
 					for(int j = 0; j<4; j++){
 						if(PanelJuego.players[j]!=null){
-							System.out.println("Checo estado");
 							PanelJuego.players[j].checkMovement("X", -1);
 							PanelJuego.players[j].checkMovement("X", 1);
 							PanelJuego.players[j].checkMovement("Y", -1);
@@ -42,14 +40,12 @@ public class Bomb {
 				aux.detonate(gImagen, p, false);
 				aux.owner.setActiveBombs(aux.owner.getActiveBombs()-1);
 				PanelJuego.bombs.remove(i);
-				PanelJuego.despliegaTablero();
 			}
 			
 		}
 	}
 	
 	public Bomb(int x, int y, Player p){
-		System.out.println("Se Construyo la bomba");
 		status = 0;
 		isActive = true;
 		Xpos = x;
