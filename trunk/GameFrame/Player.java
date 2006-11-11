@@ -303,6 +303,8 @@ public class Player extends JComponent implements KeyListener{
 				} else {
 					if(cell == GameMaps.FUEGO && Math.abs((p.x-1)*50-posx1)<5){
 						this.setAlive(false);
+					} else if(cell == GameMaps.MOREBOMBS){
+						this.bombsNum++;
 					}
 					this.changePosition(p.x-1,p.y);
 					return 5;
@@ -317,6 +319,8 @@ public class Player extends JComponent implements KeyListener{
 				} else {
 					if(cell == GameMaps.FUEGO /*&& Math.abs((p.x+1)*50-posx1)<5*/){
 						this.setAlive(false);
+					} else if(cell == GameMaps.MOREBOMBS){
+						this.bombsNum++;
 					}
 					this.changePosition(p.x+1,p.y);
 					return 5;
@@ -364,6 +368,8 @@ public class Player extends JComponent implements KeyListener{
 
 					if((cell == GameMaps.FUEGO || cell2 == GameMaps.FUEGO ) ){
 						this.setAlive(false);
+					} else if(cell == GameMaps.MOREBOMBS || cell2 == GameMaps.MOREBOMBS){
+						this.bombsNum++;
 					}
 					this.changePosition(p.x,p.y-1);
 					return 5;
@@ -386,7 +392,8 @@ public class Player extends JComponent implements KeyListener{
 
 					if((cell == GameMaps.FUEGO || cell2 == GameMaps.FUEGO) /*&& (Math.abs((p.y)*50-posy)<5)*/){	
 						this.setAlive(false);
-
+					} else if(cell == GameMaps.MOREBOMBS || cell2 == GameMaps.MOREBOMBS){
+						this.bombsNum++;
 					}
 					this.changePosition(p.x,p.y+1);
 					return 5;
