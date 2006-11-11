@@ -28,6 +28,7 @@ public class Player {
 	private int bombsPow;
 	
 	public boolean isMoving;
+	private boolean active = true;
 	private char direction;
 	
 	private BufferedImage playerImage; 
@@ -57,6 +58,13 @@ public class Player {
 		alive = true;
 	}
 	
+	public void setActive(boolean active){
+		this.active = active;
+	}
+	public boolean getActive(){
+		return this.active;
+	}
+	
 	public BufferedImage loadImage(String url){
 		url = "img/"+url;
 		BufferedImage auxImage = null;
@@ -70,19 +78,14 @@ public class Player {
 	
 	
 	public void draw(Graphics2D g){
+
 		if(alive){
 			g.drawImage(getPlayerImage(),Xpos,Ypos,null);
 		}else{
 			g.drawImage(PanelJuego.getImage("Quemado.png"),Xpos,Ypos,null);
 		}
-		g.setColor(Color.YELLOW);
-		try {
-			g.drawLine(Xpos,Ypos,Xpos+this.playerImage.getWidth(),Ypos);
-			g.drawLine(Xpos,Ypos,Xpos,Ypos+this.playerImage.getHeight());
-			g.drawLine(Xpos+this.playerImage.getWidth(),Ypos,Xpos+this.playerImage.getWidth(),Ypos+this.playerImage.getHeight());
-			g.setColor(Color.RED);
-			g.drawLine(Xpos,Ypos+this.playerImage.getHeight(),Xpos+this.playerImage.getWidth(),Ypos+this.playerImage.getHeight());
-		} catch(NullPointerException e){}
+
+		
 	}
 	
 	public void moveLeft(){
@@ -130,6 +133,10 @@ public class Player {
 
 	public BufferedImage getPlayerImage() {
 		String auxDir = "";//+direction;
+		if(!this.active){
+			String file = auxDir+"Quemado.png";
+			return loadImage(file);
+		}
 		if (isMoving && counter<6){
 			switch(direction){
 			case UP: 
@@ -248,8 +255,13 @@ public class Player {
 	public void changePosition(int i, int j){
 		if(PanelJuego.grid[i][j] != GameMaps.BLOQUE){
 			int olds[] = this.getGridPosition();
-			PanelJuego.grid[olds[0]][olds[1]] = GameMaps.BLANK;
-			PanelJuego.grid[i][j] = this.playerid;
+			int auxi,auxj;
+			try {
+				auxi = olds[0]; 
+				auxj = olds[1];
+				PanelJuego.grid[auxi][auxj] = GameMaps.BLANK;
+				PanelJuego.grid[i][j] = this.playerid;
+			} catch (NullPointerException e){}
 		}
 	}
 	
@@ -277,10 +289,13 @@ public class Player {
 			if(direction<0){ //-- Se mueve a la izquierda
 				Point p1 = this.getMatrixPoint(this.getXpos()+x,posy);
 				if(p1.x == 1) return 5; //-- Bugfix de imprecision de la primera columna
-					
-				if(grid[p.x-1][p.y] == GameMaps.BLOQUE){
+				
+				if(grid[p.x-1][p.y] == GameMaps.BLOQUE || grid[p.x-1][p.y] == GameMaps.BOMBA){
 					return Math.abs((p.x)*50-posx1);
 				} else {
+					if(grid[p.x-1][p.y] == GameMaps.FUEGO&& Math.abs((p.x-1)*50-posx1)<5){
+						this.setActive(false);
+					}
 					this.changePosition(p.x-1,p.y);
 					return 5;
 				}
@@ -289,9 +304,12 @@ public class Player {
 				Point p1 = this.getMatrixPoint(this.getXpos(),posy);
 				if(p1.x == grid.length-2) return 5; //-- Bugfix de imprecision de la primera columna
 				
-				if(grid[p.x+1][p.y] == GameMaps.BLOQUE){
+				if(grid[p.x+1][p.y] == GameMaps.BLOQUE || grid[p.x+1][p.y] == GameMaps.BOMBA){
 					return Math.abs((p.x+1)*50-posx2);
 				} else {
+					if(grid[p.x+1][p.y] == GameMaps.FUEGO && Math.abs((p.x+1)*50-posx1)<5){
+						this.setActive(false);
+					}
 					this.changePosition(p.x+1,p.y);
 					return 5;
 				}
@@ -313,8 +331,8 @@ public class Player {
 		int posx2 = this.getXpos()+x-12;
 		
 		//-- Crear puntos de la base
-		Point p = this.getMatrixPoint(posx1,posy);
-		Point p1 = this.getMatrixPoint(posx2,posy);
+		Point p = this.getMatrixPoint(posx1,posy);  //-- Izquierda
+		Point p1 = this.getMatrixPoint(posx2,posy); //-- Derecha
 		
 		//-- Rectangulos inferiores
 		PanelJuego.gImagen.setColor(Color.GREEN);
@@ -323,23 +341,35 @@ public class Player {
 		try {
 			
 			if(direction<0){ //-- Se mueve para arriba
-				if(grid[p.x][p.y-1] == GameMaps.BLOQUE){
+				//-- Checa la parte izquierda
+				if(grid[p.x][p.y-1] == GameMaps.BLOQUE || grid[p.x][p.y-1] == GameMaps.BOMBA){
 					return Math.abs((p.y-1)*50-this.getYpos());
-				} else if(grid[p1.x][p.y-1] == GameMaps.BLOQUE){ 
+				//-- Checa la parte derecha
+				} else if(grid[p1.x][p.y-1] == GameMaps.BLOQUE || grid[p1.x][p.y-1] == GameMaps.BOMBA){ 
 					return Math.abs((p1.y-1)*50-this.getYpos());
-				}else {
+				} else {
+					//-- No es bomba ni bloque
+					if((grid[p1.x][p.y-1] == GameMaps.FUEGO || grid[p.x][p.y-1] == GameMaps.FUEGO ) && (Math.abs((p.y)*50-posy)<5)){
+						this.setActive(false);
+					}
 					this.changePosition(p.x,p.y-1);
 					return 5;
 				}
 			} else if(direction>0) { //-- Se mueve para abajo
 				if(p.y == grid[0].length-1) return 5;
-				if(grid[p.x][p.y+1] == GameMaps.BLOQUE){
+				//-- Checa la parte de la izquierda
+				if(grid[p.x][p.y+1] == GameMaps.BLOQUE || grid[p.x][p.y+1] == GameMaps.BOMBA){
 					int movement = Math.abs((p.y+1)*50-posy);
 					return (movement>5)?movement:0;
-				} else if(grid[p1.x][p1.y+1] == GameMaps.BLOQUE){
+				//-- Checa la parte de la derecha
+				} else if(grid[p1.x][p1.y+1] == GameMaps.BLOQUE || grid[p1.x][p.y+1] == GameMaps.BOMBA){
 					int movement = Math.abs((p1.y+1)*50-posy);
 					return (movement>5)?movement:0;	
 				} else {
+					//-- No es bomba ni bloque
+					if((grid[p1.x][p.y+1] == GameMaps.FUEGO || grid[p.x][p.y+1] == GameMaps.FUEGO ) && (Math.abs((p.y)*50-posy)<5)){
+						this.setActive(false);
+					}
 					this.changePosition(p.x,p.y+1);
 					return 5;
 				}
