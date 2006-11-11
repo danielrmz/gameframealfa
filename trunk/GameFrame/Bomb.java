@@ -21,16 +21,18 @@ public class Bomb {
 			Bomb aux = PanelJuego.bombs.get(i);
 			if(aux.status<80){
 				grid[aux.getXpos()][aux.getXpos()] = GameMaps.BOMBA;
+				PanelJuego.despliegaTablero();
 				gImagen.drawImage(PanelJuego.getImage("bomba/molotov"+((aux.status)%4)+".png"),aux.getXpos()*50, aux.getYpos()*50, null);
 				aux.status++;
 			}else if (aux.status >=80 && aux.status<100){
-				grid[aux.getXpos()][aux.getXpos()] = GameMaps.BLANK;
 				aux.detonate(gImagen, p,true);
+				PanelJuego.despliegaTablero();
 				aux.status++;
 			}else{
 				aux.detonate(gImagen, p, false);
 				aux.owner.setActiveBombs(aux.owner.getActiveBombs()-1);
 				PanelJuego.bombs.remove(i);
+				PanelJuego.despliegaTablero();
 			}
 			
 		}
@@ -51,6 +53,7 @@ public class Bomb {
 
 		//add center fire indication
 		gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),Xpos*50,Ypos*50,null);
+		grid[Xpos][Ypos] = (active)?GameMaps.FUEGO:GameMaps.BLANK;
 		
 		//check up
 		for(int i=Ypos; i<(Ypos+3); i++){

@@ -55,7 +55,6 @@ public class Player {
 		bombsNum = 2;
 		activeBombs = 0;
 		alive = true;
-		this.despliegaTablero();
 	}
 	
 	public BufferedImage loadImage(String url){
@@ -238,17 +237,7 @@ public class Player {
 		return null;
 	}
 	
-	public void despliegaTablero(){
-		int[][] grid = PanelJuego.grid;
-		System.out.println("==============================");
-		for(int i=0; i<grid.length; i++){
-			System.out.print("|");
-			for(int j=0; j<grid[i].length; j++){
-				System.out.print(grid[i][j]+"|");
-			}
-			System.out.println();
-		}
-	}
+	
 	
 	public Point getMatrixPoint(int x,int y){
 		int ny = y/50;
@@ -259,7 +248,6 @@ public class Player {
 	public void changePosition(int i, int j){
 		if(PanelJuego.grid[i][j] != GameMaps.BLOQUE){
 			int olds[] = this.getGridPosition();
-			
 			PanelJuego.grid[olds[0]][olds[1]] = GameMaps.BLANK;
 			PanelJuego.grid[i][j] = this.playerid;
 		}

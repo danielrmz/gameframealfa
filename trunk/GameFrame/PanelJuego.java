@@ -24,6 +24,18 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	
 	public static int[][] grid = new int[14][11];
 	
+	public static void despliegaTablero(){
+		int[][] grid = PanelJuego.grid;
+		System.out.println("==============================");
+		for(int i=0; i<grid.length; i++){
+			System.out.print("|");
+			for(int j=0; j<grid[i].length; j++){
+				System.out.print(grid[i][j]+"|");
+			}
+			System.out.println();
+		}
+	}
+	
 	public PanelJuego(int[][] mapa) {
 		ANCHO = mapa[0].length * 50;
 		ALTO  = mapa.length * 50;
