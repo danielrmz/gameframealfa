@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 
 public class Player {
@@ -46,8 +47,13 @@ public class Player {
 		Ypos = y;
 		counter = 0;
 		direction = 'D';
+
+		int[] pos = this.getCurrentPosition();
+		PanelJuego.grid[pos[0]][pos[1]] = this.playerid;
 		bombsNum = 2;
 		activeBombs = 0;
+		this.despliegaTablero();
+		
 	}
 	
 	public BufferedImage loadImage(String url){
@@ -63,31 +69,36 @@ public class Player {
 	
 	public void draw(Graphics2D g){
 		g.drawImage(getPlayerImage(),Xpos,Ypos,null);
+		g.setColor(Color.YELLOW);
+		try {
+			g.drawLine(Xpos,Ypos,Xpos+this.playerImage.getWidth(),Ypos);
+			g.drawLine(Xpos,Ypos,Xpos,Ypos+this.playerImage.getHeight());
+			g.drawLine(Xpos+this.playerImage.getWidth(),Ypos,Xpos+this.playerImage.getWidth(),Ypos+this.playerImage.getHeight());
+			g.setColor(Color.RED);
+			g.drawLine(Xpos,Ypos+this.playerImage.getHeight(),Xpos+this.playerImage.getWidth(),Ypos+this.playerImage.getHeight());
+		} catch(NullPointerException e){}
 	}
 	
 	public void moveLeft(){
-		if(this.checkMovement("X",-1)){
-			Xpos-=5;
-			counter++;
-		}
+		int r = this.checkMovement("X",-1);
+		Xpos-= (r>5)?5:r;
+		counter++;
+		
 	}
 	public void moveDown(){
-		if(this.checkMovement("Y",1)){	
-			Ypos+=5;
-			counter++;
-		}
+		int r = this.checkMovement("Y",1);	
+		Ypos+=(r>5)?5:r;
+		counter++;
 	}
 	public void moveUp(){
-		if(this.checkMovement("Y",-1)){
-			Ypos-=5;
-			counter++;
-		}
+		int r = this.checkMovement("Y",-1);
+		Ypos-=(r>5)?5:r;
+		counter++;		
 	}
 	public void moveRigth(){
-		if(this.checkMovement("X",1)){
-			Xpos+=5;
-			counter++;
-		}
+		int r = this.checkMovement("X",1);
+		Xpos+=(r>5)?5:r;
+		counter++;
 	}
 
 
@@ -194,7 +205,18 @@ public class Player {
 		this.direction = direction;
 	}
 	
-	public int[] getActualPosition(){
+	public int[] getCurrentPosition(){
+		int position[] = new int[2];
+		int width = PanelJuego.grid.length * 50;
+		int height = PanelJuego.grid[0].length * 50;
+		
+		position[0] = (int)(((this.Xpos+50.0)/(double)width)*10);
+		position[1] = (int)(((this.Ypos+50.0)/(double)height)*10);
+		
+		return position;
+	}
+	
+	public int[] getGridPosition(){
 		int[][] grid = PanelJuego.grid;
 		int[] position = new int[2];
 		for(int i=0; i<grid.length; i++){
@@ -208,51 +230,140 @@ public class Player {
 		}
 		return null;
 	}
-
-	public boolean checkMovement(String direction, int change){
-		int i = (int)(((this.Xpos+50.0)/(double)PanelJuego.ANCHO)*10);
-		int j = (int)(((this.Ypos+50.0)/(double)PanelJuego.ALTO)*10);
-		int col = j;
-		int row = i;
-		//-- Busca la posicion anterior y la borra
-		int[] olds = this.getActualPosition();
-		if(olds != null){
-			PanelJuego.grid[olds[0]][olds[1]] = -1;
-		}
-		// Establece en la posicion anterior al jugador
-		PanelJuego.grid[i][j] = this.playerid;
-		try {
-			if(direction.equals("Y")){
-				col = j + change;
-			} else if(direction.equals("X")){
-				row = i + change;
+	
+	public void despliegaTablero(){
+		int[][] grid = PanelJuego.grid;
+		System.out.println("==============================");
+		for(int i=0; i<grid.length; i++){
+			System.out.print("|");
+			for(int j=0; j<grid[i].length; j++){
+				System.out.print(grid[i][j]+"|");
 			}
-					switch(PanelJuego.grid[row][col]){
-					case GameMaps.BLOQUE:  
-						//this.setMoving(false);
-						return false;
-					case GameMaps.CRATE:
-						this.setMoving(false);
-						return false;
-					case GameMaps.BOMBA: //-- Si es bomba se detiene, falta ver caso en que tenga powerup de kickear
-						this.setMoving(false);
-						return false;
-					case GameMaps.POWERUP: 
-						break;
-					default:
-						if(PanelJuego.grid[row][col] > 100){ //-- Colision con oto jugador
-							this.setMoving(false);
-							return false;
-						}
-						break;
-					}
-			
-					
-		} catch(ArrayIndexOutOfBoundsException e){
-			//this.setMoving(false);
-			return false;
+			System.out.println();
 		}
-		return true;
+	}
+	
+	public Point getMatrixPoint(int x,int y){
+		int ny = y/50;
+		int nx = x/50;
+		return new Point(nx,ny);
+	}
+	
+	public void changePosition(int i, int j){
+		if(PanelJuego.grid[i][j] != GameMaps.BLOQUE){
+			int olds[] = this.getGridPosition();
+			
+			PanelJuego.grid[olds[0]][olds[1]] = GameMaps.BLANK;
+			PanelJuego.grid[i][j] = this.playerid;
+		}
+	}
+	
+	public int returnX(int direction){
+		int[][] grid = PanelJuego.grid;
+		
+		//-- Base
+		int y = (this.playerImage!=null)?this.playerImage.getHeight()-4:58;
+		int x = (this.playerImage!=null)?this.playerImage.getWidth():47;
+		int posy  = this.getYpos()+y;
+		
+		//-- Punto izquierdo y derecho
+		int posx1 = this.getXpos()+8;
+		int posx2 = this.getXpos()+x-12;
+		
+		//-- Crear puntos de la base
+		Point p = this.getMatrixPoint(posx1,posy);
+		
+		//-- Rectangulos inferiores
+		PanelJuego.gImagen.setColor(Color.GREEN);
+		PanelJuego.gImagen.fill(new Rectangle(new Point(posx1,posy),new Dimension(5,5)));
+		PanelJuego.gImagen.fill(new Rectangle(new Point(posx2,posy),new Dimension(5,5)));
+		
+		try {
+			if(direction<0){ //-- Se mueve a la izquierda
+				Point p1 = this.getMatrixPoint(this.getXpos()+x,posy);
+				if(p1.x == 1) return 5; //-- Bugfix de imprecision de la primera columna
+					
+				if(grid[p.x-1][p.y] == GameMaps.BLOQUE){
+					return Math.abs((p.x)*50-posx1);
+				} else {
+					this.changePosition(p.x-1,p.y);
+					return 5;
+				}
+			
+			} else if(direction>0) { //-- Se mueve a la derecha
+				Point p1 = this.getMatrixPoint(this.getXpos(),posy);
+				if(p1.x == grid.length-2) return 5; //-- Bugfix de imprecision de la primera columna
+				
+				if(grid[p.x+1][p.y] == GameMaps.BLOQUE){
+					return Math.abs((p.x+1)*50-posx2);
+				} else {
+					this.changePosition(p.x+1,p.y);
+					return 5;
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException e){ return 0;}
+		return 0;
+	}
+	
+	public int returnY(int direction){
+		int[][] grid = PanelJuego.grid;
+		
+		//-- cambios base
+		int y = (this.playerImage!=null)?this.playerImage.getHeight()-4:58;
+		int x = (this.playerImage!=null)?this.playerImage.getWidth():47;
+		int posy  = this.getYpos()+y;
+		
+		//-- Checar en los 2 puntos Izquierda y derecha
+		int posx1 = this.getXpos()+8;
+		int posx2 = this.getXpos()+x-12;
+		
+		//-- Crear puntos de la base
+		Point p = this.getMatrixPoint(posx1,posy);
+		Point p1 = this.getMatrixPoint(posx2,posy);
+		
+		//-- Rectangulos inferiores
+		PanelJuego.gImagen.setColor(Color.GREEN);
+		PanelJuego.gImagen.fill(new Rectangle(new Point(posx1,posy),new Dimension(5,5)));
+		PanelJuego.gImagen.fill(new Rectangle(new Point(posx2,posy),new Dimension(5,5)));
+		try {
+			
+			if(direction<0){ //-- Se mueve para arriba
+				if(grid[p.x][p.y-1] == GameMaps.BLOQUE){
+					return Math.abs((p.y-1)*50-this.getYpos());
+				} else if(grid[p1.x][p.y-1] == GameMaps.BLOQUE){ 
+					return Math.abs((p1.y-1)*50-this.getYpos());
+				}else {
+					this.changePosition(p.x,p.y-1);
+					return 5;
+				}
+			} else if(direction>0) { //-- Se mueve para abajo
+				if(p.y == grid[0].length-1) return 5;
+				if(grid[p.x][p.y+1] == GameMaps.BLOQUE){
+					int movement = Math.abs((p.y+1)*50-posy);
+					return (movement>5)?movement:0;
+				} else if(grid[p1.x][p1.y+1] == GameMaps.BLOQUE){
+					int movement = Math.abs((p1.y+1)*50-posy);
+					return (movement>5)?movement:0;	
+				} else {
+					this.changePosition(p.x,p.y+1);
+					return 5;
+				}
+				
+			}
+		} catch (ArrayIndexOutOfBoundsException e){ return 0;}
+	
+		return 0;
+	}
+	
+	public int checkMovement(String axis, int direction){ //-- direction: - para arriba o izq + para derecha o abajo
+	//	this.despliegaTablero();
+		if(axis.equals("X")){
+			return this.returnX(direction);
+		} else if(axis.equals("Y")){
+			return this.returnY(direction);
+		}
+		
+		return 0;
 	}
 
 	public int getActiveBombs() {

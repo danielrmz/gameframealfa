@@ -1,4 +1,4 @@
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class FrameJuego extends JFrame {
 	
@@ -10,7 +10,11 @@ public class FrameJuego extends JFrame {
 	PanelJuego pj;
 	
 	public FrameJuego(){
-		this.setSize(707,583);
+		//-- Cambiar por mapa
+		int width = GameMaps.desierto[0].length * 50+10;
+		int height = GameMaps.desierto.length * 50+35;
+		
+		this.setSize(width,height);
 		pj = new PanelJuego(GameMaps.desierto);
 		add(pj);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
