@@ -1,17 +1,16 @@
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.io.File;
 import java.util.LinkedList;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	
 	private static final long serialVersionUID = 1L;
 	
-	public static final int ALTO = 550;
-	public static final int ANCHO = 700;
+	public static int ALTO;
+	public static int ANCHO;
 	
 	public static LinkedList<Bomb> bombs;
 	
@@ -19,22 +18,32 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	
 	public int imagenSiguiente;
 	private Image panelSecundario;
-	private Graphics2D gImagen;
-	
+	public static Graphics2D gImagen;
+	private String mundo = "";
 	private Player p;
 	
 	public static int[][] grid = new int[14][11];
 	
 	public PanelJuego(int[][] mapa) {
-		setBackground(Color.WHITE);
+		ANCHO = mapa[0].length * 50;
+		ALTO  = mapa.length * 50;
 		setSize(new Dimension(ANCHO,ALTO));
 		setFocusable(true);
 		requestFocus();
-        p = new Player(0,0);
-		addKeyListener(this);
-		imagenSiguiente = 0;
+        addKeyListener(this);
 		PanelJuego.grid = mapa;
+		imagenSiguiente = 0;
+		
+		if(mapa.equals(GameMaps.desierto)){
+			this.mundo = "desierto";
+		} else if(mapa.equals(GameMaps.cantina)){
+			this.mundo = "cantina";
+		} else if(mapa.equals(GameMaps.normal)){
+			this.mundo = "normal";
+		}
+	
 		bombs = new LinkedList<Bomb>();
+		p = new Player(0,0);
 	}
 	
 	public void gameUpdate(){
@@ -51,7 +60,9 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	
 	public void drawBlocks(){
 		int[][] grid = PanelJuego.grid;
-		Image block = getImage("mis/Caja Metal.png");
+		Image block = getImage("mundos/"+this.mundo+"/block.png");
+		Image block2 = getImage("mundos/"+this.mundo+"/block2.png");
+		System.out.println(block2);
 		for(int i = 0; i < grid.length; i++){
 			for(int j = 0; j < grid[i].length; j++){
 				if(grid[i][j] == GameMaps.BLOQUE){
@@ -61,15 +72,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		}
 	}
 	
-	
-	public void gameRender(){
-		if(panelSecundario==null){
-			panelSecundario = createImage(ANCHO+1, ALTO+1);
-		}
-		gImagen = (Graphics2D)panelSecundario.getGraphics();
-		gImagen.drawImage(getImage("bgs/sand.gif"),0,0,Color.BLACK,null);
-		
-		this.drawBlocks();
+	public void drawGrid(){
 		gImagen.setColor(Color.BLACK);
 		for(int i=50; i<=ANCHO;i+=50){
 			gImagen.drawLine(i,0,i,ALTO);
@@ -78,6 +81,18 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		for(int i=50; i<=ALTO;i+=50){
 			gImagen.drawLine(0,i,ANCHO,i);
 		}
+	}
+	
+	public void gameRender(){
+		if(panelSecundario==null){
+			panelSecundario = createImage(ANCHO+1, ALTO+1);
+		}
+		gImagen = (Graphics2D)panelSecundario.getGraphics();
+		gImagen.drawImage(getImage("mundos/"+this.mundo+"/bg.png"),0,0,Color.BLACK,null);
+		
+		this.drawBlocks();
+		//this.drawGrid();
+		
 		Bomb.drawBombs(gImagen);
 		p.draw(gImagen);
 		
