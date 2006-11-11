@@ -15,7 +15,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	public static LinkedList<Bomb> bombs;
 	public static Player[] players; 
 	
-	public volatile boolean running;
+	public volatile static boolean running;
 	
 	public int imagenSiguiente;
 	private Image panelSecundario;
@@ -43,7 +43,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		setSize(new Dimension(ANCHO,ALTO));
 		setFocusable(true);
 		requestFocus();
-        addKeyListener(this);
+      
 		PanelJuego.grid = mapa;
 		imagenSiguiente = 0;
 		players = new Player[4];
@@ -57,6 +57,8 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		bombs = new LinkedList<Bomb>();
 		p = new Player(0,-10);
 		players[0] = p; 
+	    this.addKeyListener(p);
+	    this.addKeyListener(this);
 	}
 	
 	public void gameUpdate(){
@@ -120,46 +122,9 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	}
 
 	public void keyPressed(KeyEvent ke) {
-				switch(ke.getKeyCode()){
-					case KeyEvent.VK_UP:
-						p.isMoving = true;
-						//p.setMoving(true);
-						p.setDirection(Player.UP);
-					break;
-					case KeyEvent.VK_DOWN: 
-						p.isMoving = true;
-						//p.setMoving(true);
-						p.setDirection(Player.DOWN);
-					break;
-					case KeyEvent.VK_LEFT:
-						p.isMoving = true;
-						//p.setMoving(true);
-						p.setDirection(Player.LEFT);
-					break;
-					case KeyEvent.VK_RIGHT:
-						p.isMoving = true;
-						//p.setMoving(true);
-						p.setDirection(Player.RIGTH);
-					break;
-					case KeyEvent.VK_ESCAPE:  
-						running = false; 
-					break;
-					case KeyEvent.VK_A:
-						if(p.getActiveBombs() < p.getBombsNum()){
-							System.out.println(p.getXpos()+" "+p.getYpos());
-							Point aux = Player.center(p.getXpos(),p.getYpos());
-							Point aux2 = Bomb.transform(aux);
-							bombs.add(new Bomb(aux2.x,aux2.y,p));
-							p.setActiveBombs(p.getActiveBombs()+1);
-						}
-					break;
-				}
 	}
 
 	public void keyReleased(KeyEvent ke) {
-		if ((!(ke.getKeyCode() == KeyEvent.VK_A))){
-			p.isMoving = false;
-		}
 	}
 
 	public void keyTyped(KeyEvent arg0) {
