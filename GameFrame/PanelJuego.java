@@ -46,6 +46,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
       
 		PanelJuego.grid = mapa;
 		imagenSiguiente = 0;
+		
 		players = new Player[4];
 		if(mapa.equals(GameMaps.desierto)){
 			this.mundo = "desierto";
@@ -54,6 +55,9 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		} else if(mapa.equals(GameMaps.normal)){
 			this.mundo = "normal";
 		}
+		
+		this.defineCrates();
+		
 		bombs = new LinkedList<Bomb>();
 		p = new Player(0,-10);
 		players[0] = p; 
@@ -72,6 +76,35 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	}
 	
 	public static final String RUTA = (new File ("")).getAbsolutePath()+"\\";
+	
+	public void defineCrates(){
+		int[][] grid = PanelJuego.grid;
+		int max = grid.length/2 * grid[0].length/2;
+		while(max>0){
+			int i =(int)(Math.random()*grid.length);
+			int j =(int)(Math.random()*grid[0].length);
+			
+			if(grid[i][j] != GameMaps.BLOQUE && grid[i][j] != GameMaps.CRATE){
+					grid[i][j] = GameMaps.CRATE;
+					max--;
+			}
+		}
+	}
+	
+	public void drawCrates(){
+		int[][] grid = PanelJuego.grid;
+		Image crate = getImage("mundos/"+this.mundo+"/crate.png");
+		
+		for(int i = 0; i < grid.length; i++){
+			for(int j = 0; j < grid[i].length; j++){
+				if(grid[i][j] == GameMaps.CRATE ){
+					gImagen.drawImage(crate,i*50,j*50,null,null);
+				}
+			}
+		}
+	}
+		
+	
 	
 	public void drawBlocks(){
 		int[][] grid = PanelJuego.grid;
@@ -105,9 +138,9 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		}
 		gImagen = (Graphics2D)panelSecundario.getGraphics();
 		gImagen.drawImage(getImage("mundos/"+this.mundo+"/bg.png"),0,0,Color.BLACK,null);
-		
+		this.drawCrates();
 		this.drawBlocks();
-		//this.drawGrid();
+		this.drawGrid();
 		
 		Bomb.drawBombs(gImagen,p);
 		p.draw(gImagen);
