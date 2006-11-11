@@ -15,18 +15,20 @@ public class Bomb {
 		aux.setLocation((int) ((p.x)/50),(int) ((p.y)/50));		
 		return aux;
 	}
-	public static void drawBombs(Graphics gImagen){
-		//int[][] grid = PanelJuego.grid;
+	public static void drawBombs(Graphics gImagen, Player p){
+		int[][] grid = PanelJuego.grid;
 		for(int i = 0; i<PanelJuego.bombs.size(); i++){
 			Bomb aux = PanelJuego.bombs.get(i);
 			if(aux.status<80){
+				grid[aux.getXpos()][aux.getXpos()] = GameMaps.BOMBA;
 				gImagen.drawImage(PanelJuego.getImage("bomba/molotov"+((aux.status)%4)+".png"),aux.getXpos()*50, aux.getYpos()*50, null);
 				aux.status++;
 			}else if (aux.status >=80 && aux.status<100){
-				//grid[aux.getXpos()][aux.getXpos()] = GameMaps.BLANK;
-				aux.detonate(gImagen);
+				grid[aux.getXpos()][aux.getXpos()] = GameMaps.BLANK;
+				aux.detonate(gImagen, p,true);
 				aux.status++;
 			}else{
+				aux.detonate(gImagen, p, false);
 				aux.owner.setActiveBombs(aux.owner.getActiveBombs()-1);
 				PanelJuego.bombs.remove(i);
 			}
@@ -44,7 +46,7 @@ public class Bomb {
 	}
 	
 	
-	private void detonate(Graphics gImage){
+	private void detonate(Graphics gImage, Player p, boolean active){
 		int[][] grid = PanelJuego.grid;
 
 		//add center fire indication
@@ -55,8 +57,10 @@ public class Bomb {
 			try{
 				if((grid[Xpos][i] == GameMaps.BLOQUE))
 					break;
-				else
+				else{
 					gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),Xpos*50,i*50,null);
+					grid[Xpos][i] = (active)?GameMaps.FUEGO:GameMaps.BLANK;
+				}
 			}catch(ArrayIndexOutOfBoundsException aiobe){}
 		}
 		//check down
@@ -64,8 +68,10 @@ public class Bomb {
 			try{
 				if((grid[Xpos][i] == GameMaps.BLOQUE))
 					break;
-				else
+				else{
 					gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),Xpos*50,i*50,null);
+					grid[Xpos][i] = (active)?GameMaps.FUEGO:GameMaps.BLANK;
+				}
 			}catch(ArrayIndexOutOfBoundsException aiobe){}
 		}
 		//check left
@@ -73,8 +79,10 @@ public class Bomb {
 			try{
 				if((grid[i][Ypos] == GameMaps.BLOQUE))
 					break;
-				else
+				else{
 					gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),i*50,Ypos*50,null);
+					grid[i][Ypos] = (active)?GameMaps.FUEGO:GameMaps.BLANK;
+				}
 			}catch(ArrayIndexOutOfBoundsException aiobe){}
 		}
 		//check right
@@ -82,8 +90,10 @@ public class Bomb {
 			try{
 				if((grid[i][Ypos] == GameMaps.BLOQUE))
 					break;
-				else
+				else{
 					gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),i*50,Ypos*50,null);
+					grid[i][Ypos] = (active)?GameMaps.FUEGO:GameMaps.BLANK;
+				}
 			}catch(ArrayIndexOutOfBoundsException aiobe){}
 		}
 		

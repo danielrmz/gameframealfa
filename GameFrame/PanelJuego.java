@@ -1,4 +1,4 @@
-import java.awt.*;
+	import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.LinkedList;
@@ -94,7 +94,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		this.drawBlocks();
 		//this.drawGrid();
 		
-		Bomb.drawBombs(gImagen);
+		Bomb.drawBombs(gImagen,p);
 		p.draw(gImagen);
 		
 	}
