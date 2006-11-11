@@ -117,6 +117,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 					break;
 					case KeyEvent.VK_A:
 						if(p.getActiveBombs() < p.getBombsNum()){
+							System.out.println(p.getXpos()+" "+p.getYpos());
 							Point aux = Player.center(p.getXpos(),p.getYpos());
 							Point aux2 = Bomb.transform(aux);
 							bombs.add(new Bomb(aux2.x,aux2.y,p));
