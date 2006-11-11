@@ -43,7 +43,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		}
 	
 		bombs = new LinkedList<Bomb>();
-		p = new Player(0,0);
+		p = new Player(0,-10);
 	}
 	
 	public void gameUpdate(){
@@ -62,11 +62,12 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		int[][] grid = PanelJuego.grid;
 		Image block = getImage("mundos/"+this.mundo+"/block.png");
 		Image block2 = getImage("mundos/"+this.mundo+"/block2.png");
-		System.out.println(block2);
+		
 		for(int i = 0; i < grid.length; i++){
 			for(int j = 0; j < grid[i].length; j++){
-				if(grid[i][j] == GameMaps.BLOQUE){
-					gImagen.drawImage(block,i*50,j*50,null,null);
+				if(grid[i][j] == GameMaps.BLOQUE || grid[i][j] == GameMaps.BLOQUE2){
+					Image b = (GameMaps.BLOQUE == grid[i][j] || block2.getWidth(this) < 0 )?block:block2;
+					gImagen.drawImage(b,i*50,j*50,null,null);
 				}
 			}
 		}
