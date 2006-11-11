@@ -13,6 +13,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	public static int ANCHO;
 	
 	public static LinkedList<Bomb> bombs;
+	public static Player[] players; 
 	
 	public volatile boolean running;
 	
@@ -45,7 +46,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
         addKeyListener(this);
 		PanelJuego.grid = mapa;
 		imagenSiguiente = 0;
-		
+		players = new Player[4];
 		if(mapa.equals(GameMaps.desierto)){
 			this.mundo = "desierto";
 		} else if(mapa.equals(GameMaps.cantina)){
@@ -53,9 +54,9 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		} else if(mapa.equals(GameMaps.normal)){
 			this.mundo = "normal";
 		}
-	
 		bombs = new LinkedList<Bomb>();
 		p = new Player(0,-10);
+		players[0] = p; 
 	}
 	
 	public void gameUpdate(){

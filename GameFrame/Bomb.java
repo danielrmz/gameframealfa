@@ -20,13 +20,23 @@ public class Bomb {
 		for(int i = 0; i<PanelJuego.bombs.size(); i++){
 			Bomb aux = PanelJuego.bombs.get(i);
 			if(aux.status<80){
-				grid[aux.getXpos()][aux.getXpos()] = GameMaps.BOMBA;
-				PanelJuego.despliegaTablero();
+				grid[aux.getXpos()][aux.getYpos()] = GameMaps.BOMBA;
+			
 				gImagen.drawImage(PanelJuego.getImage("bomba/molotov"+((aux.status)%4)+".png"),aux.getXpos()*50, aux.getYpos()*50, null);
 				aux.status++;
 			}else if (aux.status >=80 && aux.status<100){
 				aux.detonate(gImagen, p,true);
-				PanelJuego.despliegaTablero();
+				if (aux.status==80){
+					for(int j = 0; j<4; j++){
+						if(PanelJuego.players[j]!=null){
+							System.out.println("Checo estado");
+							PanelJuego.players[j].checkMovement("X", -1);
+							PanelJuego.players[j].checkMovement("X", 1);
+							PanelJuego.players[j].checkMovement("Y", -1);
+							PanelJuego.players[j].checkMovement("Y", 1);
+						}
+					}
+				}
 				aux.status++;
 			}else{
 				aux.detonate(gImagen, p, false);

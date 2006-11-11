@@ -307,7 +307,7 @@ public class Player {
 				if(grid[p.x+1][p.y] == GameMaps.BLOQUE || grid[p.x+1][p.y] == GameMaps.BOMBA){
 					return Math.abs((p.x+1)*50-posx2);
 				} else {
-					if(grid[p.x+1][p.y] == GameMaps.FUEGO && Math.abs((p.x+1)*50-posx1)<5){
+					if(grid[p.x+1][p.y] == GameMaps.FUEGO /*&& Math.abs((p.x+1)*50-posx1)<5*/){
 						this.setActive(false);
 					}
 					this.changePosition(p.x+1,p.y);
@@ -340,7 +340,9 @@ public class Player {
 		PanelJuego.gImagen.fill(new Rectangle(new Point(posx2,posy),new Dimension(5,5)));
 		try {
 			
-			if(direction<0){ //-- Se mueve para arriba
+			if(direction<0){
+				System.out.println(p.y-1+" "+p.x);
+				System.out.println(grid[p1.x][p.y-1]);//-- Se mueve para arriba
 				//-- Checa la parte izquierda
 				if(grid[p.x][p.y-1] == GameMaps.BLOQUE || grid[p.x][p.y-1] == GameMaps.BOMBA){
 					return Math.abs((p.y-1)*50-this.getYpos());
@@ -366,8 +368,13 @@ public class Player {
 					int movement = Math.abs((p1.y+1)*50-posy);
 					return (movement>5)?movement:0;	
 				} else {
+					System.out.println("Entro al else");
+					System.out.println(grid[p1.x][p.y+1] == GameMaps.FUEGO);
+					System.out.println(grid[p.x][p.y+1] == GameMaps.FUEGO);
 					//-- No es bomba ni bloque
-					if((grid[p1.x][p.y+1] == GameMaps.FUEGO || grid[p.x][p.y+1] == GameMaps.FUEGO ) && (Math.abs((p.y)*50-posy)<5)){
+					if((grid[p1.x][p.y+1] == GameMaps.FUEGO || grid[p.x][p.y+1] == GameMaps.FUEGO ) /*&& (Math.abs((p.y)*50-posy)<5)*/){
+						System.out.println("Entro al if");
+						
 						this.setActive(false);
 					}
 					this.changePosition(p.x,p.y+1);
@@ -381,7 +388,7 @@ public class Player {
 	}
 	
 	public int checkMovement(String axis, int direction){ //-- direction: - para arriba o izq + para derecha o abajo
-	//	this.despliegaTablero();
+		PanelJuego.despliegaTablero();
 		if(axis.equals("X")){
 			return this.returnX(direction);
 		} else if(axis.equals("Y")){
