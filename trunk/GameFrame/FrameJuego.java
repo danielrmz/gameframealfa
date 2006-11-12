@@ -15,7 +15,7 @@ public class FrameJuego extends JFrame {
 		int height = GameMaps.desierto.length * 50+35;
 		
 		this.setSize(width,height);
-		pj = new PanelJuego(GameMaps.cantina);
+		pj = new PanelJuego(GameMaps.normal);
 		add(pj);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);

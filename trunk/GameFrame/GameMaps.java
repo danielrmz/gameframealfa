@@ -32,17 +32,29 @@ public class GameMaps {
     };
     
 	public static final int cantina[][] = {
-		 {0,0,0,0,0,0,0,0,0,0,0},
-   	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
-   	  {0,0,0,0,0,0,0,0,0,0,0},
-   	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
-   	  {0,0,0,0,0,0,0,0,0,0,0},
-   	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
-   	  {0,0,0,0,0,0,0,0,0,0,0},
-   	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
-   	  {0,0,0,0,0,0,0,0,0,0,0},
-   	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
-   	  {0,0,0,0,0,0,0,0,0,0,0}
+		  {0,0,0,0,0,0,0,0,0,0,0},
+	   	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
+	   	  {0,0,0,0,0,0,0,0,0,0,0},
+	   	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
+	   	  {0,0,0,0,0,0,0,0,0,0,0},
+	   	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
+	   	  {0,0,0,0,0,0,0,0,0,0,0},
+	   	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
+	   	  {0,0,0,0,0,0,0,0,0,0,0},
+	   	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
+	   	  {0,0,0,0,0,0,0,0,0,0,0}
    	 };
-    public static final int normal[][] = {{1,1}};
+	
+    public static final int normal[][] = { 
+    	  {0,0,0,0,0,0,0,0,0,0,0},
+     	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
+       	  {0,0,0,0,0,0,0,0,0,0,0},
+       	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
+       	  {0,0,0,0,0,0,0,0,0,0,0},
+       	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
+       	  {0,0,0,0,0,0,0,0,0,0,0},
+       	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
+       	  {0,0,0,0,0,0,0,0,0,0,0},
+       	  {0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0,BLOQUE,0},
+       	  {0,0,0,0,0,0,0,0,0,0,0}};
 }
