@@ -42,7 +42,6 @@ public class Bomb {
 				aux.detonate(gImagen, false);
 				aux.owner.setActiveBombs(aux.owner.getActiveBombs()-1);
 				PanelJuego.bombs.remove(i);
-				PanelJuego.despliegaTablero();
 			}
 			
 		}
