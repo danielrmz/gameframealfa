@@ -1,22 +1,77 @@
-import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.*;
 
+/**
+ * Clase Bomba. 
+ * Esta clase mantiene un contador de la explosion a traves de los frames
+ * al explotar checa las celdas donde esta el fuego y mata a los que se ubican ahi
+ * 
+ * @author Revolution Software Developers
+ */
 public class Bomb {
 	
+	/**
+	 * Dice si la bomba esta activa o no
+	 */
 	private boolean isActive;
+	
+	/**
+	 * Posicion horizontal de la bomba
+	 */
 	private int Xpos;
+	
+	/**
+	 * Posicion vertical de la bomba
+	 */
 	private int Ypos;
+	
+	/**
+	 * Alcance de la bomba.
+	 */
 	private int bombpow;
 	
+	/**
+	 * Estatus de la bomba
+	 */
 	public int status;
+	
+	/**
+	 * Owner de la bomba
+	 */
 	public Player owner;
 
+	/**
+	 * Constructor, manda las coordenadas iniciales de la bomba 
+	 * y el jugador que la creo
+	 * @param x Coordenada X
+	 * @param y Coordenada Y
+	 * @param p Jugador
+	 */
+	public Bomb(int x, int y, Player p){
+		status = 0;
+		isActive = true;
+		Xpos = x;
+		Ypos = y;
+		owner = p;
+		//-- Trae el maximo alcance de la bomba del jugador, para que si 
+		//-- el jugador obtiene un powerup no se cambie tambien aqui, sino que sean independientes
+		bombpow = p.getBombsPow(); 
+	}
 	
+	/**
+	 * Transforma el punto a coordenadas de i,j de la matriz
+	 * @param p
+	 * @return Point
+	 */
 	public static Point transform(Point p){
 		Point aux = new Point();
 		aux.setLocation((int) ((p.x)/50),(int) ((p.y)/50));		
 		return aux;
 	}
+	
+	/**
+	 * Dibuja la animacion de las bombas en el canvas
+	 * @param gImagen
+	 */
 	public static void drawBombs(Graphics gImagen){
 		int[][] grid = PanelJuego.grid;
 		for(int i = 0; i<PanelJuego.bombs.size(); i++){
@@ -47,15 +102,10 @@ public class Bomb {
 		}
 	}
 	
-	public Bomb(int x, int y, Player p){
-		status = 0;
-		isActive = true;
-		Xpos = x;
-		Ypos = y;
-		owner = p;
-		bombpow = p.getBombsPow();
-	}
-	
+	/**
+	 * Trae aleatoriamente que tipo de contenido tendra el crate al ser explotado
+	 * @return
+	 */
 	private int getPowerUp(){
 		boolean powerup = Math.random()>0.5;
 		if(powerup){
@@ -64,6 +114,11 @@ public class Bomb {
 		return GameMaps.BLANK;
 	}
 	
+	/**
+	 * Detona la bomba
+	 * @param gImage canvas de imagen
+	 * @param active 
+	 */
 	private void detonate(Graphics gImage, boolean active){
 		int[][] grid = PanelJuego.grid;
 
@@ -183,35 +238,67 @@ public class Bomb {
 		}
 		
 	}
-
+	
+	/**
+	 * Trae si la bomba esta activa o no
+	 * @return
+	 */
 	public boolean isActive() {
 		return isActive;
 	}
-
+	
+	/**
+	 * Establece si la bomba esta activa o no
+	 * @param isActive
+	 */
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-
+	
+	/**
+	 * Traer estatus
+	 * @return
+	 */
 	public int getStatus() {
 		return status;
 	}
 
+	/**
+	 * Establece el estatus
+	 * @param status
+	 */
 	public void setStatus(int status) {
 		this.status = status;
 	}
 
+	/**
+	 * Trae la posicion x actual de la bomba
+	 * @return
+	 */
 	public int getXpos() {
 		return Xpos;
 	}
 
+	/**
+	 * Establece la posicion x de la bomba
+	 * @param xpos
+	 */
 	public void setXpos(int xpos) {
 		Xpos = xpos;
 	}
 
+	/**
+	 * Trae la posicion y de la bomba
+	 * @return
+	 */
 	public int getYpos() {
 		return Ypos;
 	}
 
+	/**
+	 * Establece la posicion y de la bomba
+	 * @param ypos
+	 */
 	public void setYpos(int ypos) {
 		Ypos = ypos;
 	}
