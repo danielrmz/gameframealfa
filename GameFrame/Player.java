@@ -54,6 +54,7 @@ public class Player extends JComponent implements KeyListener{
 		counter = 0;
 		direction = 'D';
 		bombsNum = 2;
+		bombsPow = 2;
 		activeBombs = 0;
 		alive = true;
 
@@ -260,16 +261,24 @@ public class Player extends JComponent implements KeyListener{
 		return new Point(nx,ny);
 	}
 	
-	public void changePosition(int i, int j){
-		if(PanelJuego.grid[i][j] != GameMaps.BLOQUE){
-			//int olds[] = this.getGridPosition();
-			//int auxi,auxj;
-			//try {
-			//	auxi = olds[0]; 
-			//	auxj = olds[1];
-			//	PanelJuego.grid[auxi][auxj] = GameMaps.BLANK;
-			///	PanelJuego.grid[i][j] = this.playerid;
-			//} catch (NullPointerException e){}
+	/**
+	 * Procesa los items encontrados
+	 * @param x
+	 * @param y
+	 */
+	public void processItems(int x, int y){
+		int[][] grid = PanelJuego.grid;
+		int cell = grid[x][y];
+		if(cell == GameMaps.MOREBOMBS){	
+			if(this.bombsNum < 4){
+				this.bombsNum++;
+			}
+			grid[x][y] = GameMaps.BLANK;
+		} else if(cell == GameMaps.MOREPOWER){
+			if(this.bombsPow < 5){
+				this.bombsPow++;
+			}
+			grid[x][y] = GameMaps.BLANK;
 		}
 	}
 	
@@ -301,12 +310,10 @@ public class Player extends JComponent implements KeyListener{
 				if(cell == GameMaps.BLOQUE || cell == GameMaps.BOMBA || cell == GameMaps.CRATE){
 					return Math.abs((p.x)*50-posx1);
 				} else {
-					if(cell == GameMaps.FUEGO && Math.abs((p.x-1)*50-posx1)<5){
+					if(cell == GameMaps.FUEGO && Math.abs((x)*50-posx1)<5){
 						this.setAlive(false);
-					} else if(cell == GameMaps.MOREBOMBS){
-						this.bombsNum++;
 					}
-					this.changePosition(p.x-1,p.y);
+					this.processItems(p.x-1,p.y);
 					return 5;
 				}
 			
@@ -319,10 +326,8 @@ public class Player extends JComponent implements KeyListener{
 				} else {
 					if(cell == GameMaps.FUEGO /*&& Math.abs((p.x+1)*50-posx1)<5*/){
 						this.setAlive(false);
-					} else if(cell == GameMaps.MOREBOMBS){
-						this.bombsNum++;
 					}
-					this.changePosition(p.x+1,p.y);
+					this.processItems(p.x+1,p.y);
 					return 5;
 				}
 			}
@@ -352,7 +357,7 @@ public class Player extends JComponent implements KeyListener{
 		PanelJuego.gImagen.fill(new Rectangle(new Point(posx2,posy),new Dimension(5,5)));
 		try {
 			
-			if(direction<0){
+			if(direction<0){ //-- Si se va a mover para arriba
 
 				int cell = grid[p.x][p.y-1];
 				int cell2 = grid[p1.x][p.y-1];
@@ -364,14 +369,14 @@ public class Player extends JComponent implements KeyListener{
 				} else if(cell2 == GameMaps.BLOQUE || cell2 == GameMaps.BOMBA){ 
 					return Math.abs((p1.y-1)*50-this.getYpos());
 				} else {
-					//-- No es bomba ni bloque//&& (Math.abs((p.y)*50-posy)<5)
-
-					if((cell == GameMaps.FUEGO || cell2 == GameMaps.FUEGO ) ){
+					//-- No es bomba ni bloque//
+					if((cell == GameMaps.FUEGO || cell2 == GameMaps.FUEGO )&& (Math.abs((p.y)*50-posy)<5) ){
 						this.setAlive(false);
-					} else if(cell == GameMaps.MOREBOMBS || cell2 == GameMaps.MOREBOMBS){
-						this.bombsNum++;
-					}
-					this.changePosition(p.x,p.y-1);
+					} 
+					//-- Procesa los items de cada lado
+					this.processItems(p.x,p.y-1);
+					this.processItems(p1.x,p.y-1);
+			
 					return 5;
 				}
 			} else if(direction>0) { //-- Se mueve para abajo
@@ -392,10 +397,10 @@ public class Player extends JComponent implements KeyListener{
 
 					if((cell == GameMaps.FUEGO || cell2 == GameMaps.FUEGO) /*&& (Math.abs((p.y)*50-posy)<5)*/){	
 						this.setAlive(false);
-					} else if(cell == GameMaps.MOREBOMBS || cell2 == GameMaps.MOREBOMBS){
-						this.bombsNum++;
-					}
-					this.changePosition(p.x,p.y+1);
+					} 
+					this.processItems(p.x,p.y+1);
+					this.processItems(p1.x,p.y+1);
+					
 					return 5;
 				}
 				
