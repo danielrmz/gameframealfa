@@ -64,7 +64,8 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		bombs = new LinkedList<Bomb>();
 		p = new Player(0,-10,1);
 		p2 = new Player(100,100,2);
-		players[0] = p; 
+		players[0] = p;
+		players[1] = p2; 
 	    this.addKeyListener(p);
 	    this.addKeyListener(this);
 	    this.addKeyListener(p2);
@@ -185,7 +186,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 			gameRender();
 			repaint();
 			try{
-				t.sleep(20);
+				Thread.sleep(20);
 			}catch(Exception e){}
 		}
 	}

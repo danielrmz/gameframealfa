@@ -721,11 +721,24 @@ public class Player extends JComponent implements KeyListener,Runnable{
 	 * Control del jugador
 	 */
 	public void keyReleased(KeyEvent ke) {
-		if ((!(ke.getKeyCode() == KeyEvent.VK_A))){
-			isMoving = false;
-			//keyPressed(ke);
+		if(player == 1){
+			if ((ke.getKeyCode() == KeyEvent.VK_UP) ||
+				(ke.getKeyCode() == KeyEvent.VK_DOWN) ||
+				(ke.getKeyCode() == KeyEvent.VK_LEFT) ||
+				(ke.getKeyCode() == KeyEvent.VK_RIGHT)
+				){
+				isMoving = false;
+			}
+		}else{
+			if ((ke.getKeyCode() == KeyEvent.VK_W) ||
+					(ke.getKeyCode() == KeyEvent.VK_S) ||
+					(ke.getKeyCode() == KeyEvent.VK_A) ||
+					(ke.getKeyCode() == KeyEvent.VK_D)
+					){
+					isMoving = false;
+				}
+			
 		}
-
 	}
 	/**
 	 * Metodo no utilizado
@@ -741,7 +754,6 @@ public class Player extends JComponent implements KeyListener,Runnable{
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {}
-			System.out.println(player);
 		}
 	}
 }
