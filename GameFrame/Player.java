@@ -125,7 +125,7 @@ public class Player extends JComponent implements KeyListener,Runnable{
 	public Player(int x, int y, int p) {
 		//-- Numero de jugador
 		player = p;
-		
+		numPlayers++;
 		//-- Coordenadas iniciales
 		Xpos = x;
 		Ypos = y;

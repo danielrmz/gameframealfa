@@ -1,33 +1,141 @@
-	import java.awt.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.LinkedList;
-
 import javax.swing.JPanel;
 
-public class PanelJuego extends JPanel implements Runnable, KeyListener{
-	
+/**
+ * Panel que maneja el juego
+ * @author Revolution Software Developers
+ */
+public class PanelJuego extends JPanel implements Runnable, KeyListener {
+	/**
+	 * Constante de eclipse
+	 */
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Alto de la pantalla
+	 */
 	public static int ALTO;
+	
+	/**
+	 * Ancho de la pantalla
+	 */
 	public static int ANCHO;
 	
-	public static LinkedList<Bomb> bombs;
+	/**
+	 * Bombas actuales
+	 */
+	public static LinkedList<Bomb> bombs = new LinkedList<Bomb>();
+	
+	/**
+	 * Jugadores actuales
+	 */
 	public static Player[] players; 
 	
+	/**
+	 * Indica si el juego esta corriendo
+	 */
 	public volatile static boolean running;
 	
+	/**
+	 * Thread del tiempo de refresh
+	 */
 	public Thread t;
 	
+	/**
+	 * # de Imagen siguiente a pintar
+	 */
 	public int imagenSiguiente;
+	
+	/**
+	 * Imagen a pintar
+	 */
 	private Image panelSecundario;
+	
+	/**
+	 * Grafico actual
+	 */
 	public static Graphics2D gImagen;
+	
+	/**
+	 * Mundo actual, indica tambien el directorio
+	 */
 	private String mundo = "";
+	
+	/**
+	 * Primer jugador
+	 */
 	public Player p;
+	
+	/**
+	 * Segundo jugador
+	 */
 	public Player p2;
 	
-	public static int[][] grid = new int[14][11];
+	/**
+	 * Grid del mundo
+	 */
+	public static int[][] grid;
 	
+	/**
+	 * Ruta de la aplicacion
+	 */
+	public static final String RUTA = (new File ("")).getAbsolutePath()+"\\";
+	
+	/**
+	 * Constructor
+	 * @param mapa, mapa escogido
+	 */
+	public PanelJuego(int[][] mapa) {
+		//-- Establece el alto y ancho, posteriormente se le asignara este tamaño a las imagenes creadas
+		ANCHO = mapa[0].length * 50;
+		ALTO  = mapa.length * 50;
+		imagenSiguiente = 0;
+		players = new Player[4];
+		
+		//-- Establece un tamaño al panel
+		setSize(new Dimension(ANCHO,ALTO));
+		setFocusable(true);
+		requestFocus();
+      
+		//-- Le asigna el mapa escogido al panel. 
+		PanelJuego.grid = mapa;
+		if(mapa.equals(GameMaps.desierto)){
+			this.mundo = "desierto";
+		} else if(mapa.equals(GameMaps.cantina)){
+			this.mundo = "cantina";
+		} else if(mapa.equals(GameMaps.normal)){
+			this.mundo = "normal";
+		}
+		
+		//-- Establece las crates rompibles
+		this.defineCrates();
+		this.addKeyListener(this);
+		  
+		//-- Establece a los dos jugadores
+		this.setPlayer(new Player(0,-10,1));
+		this.setPlayer(new Player(100,100,2));
+		
+		t = new Thread(this);
+	    
+	}
+	
+	/**
+	 * Establece un jugador en el canvas
+	 * @param p
+	 */
+	public void setPlayer(Player p){
+		if(Player.numPlayers<players.length){
+			players[Player.numPlayers-1] = p;
+			this.addKeyListener(p);
+		}
+	}
+	
+	/**
+	 * Despliega el tablero en consola
+	 */
 	public static void despliegaTablero(){
 		int[][] grid = PanelJuego.grid;
 		System.out.println("==============================");
@@ -40,52 +148,21 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		}
 	}
 	
-	public PanelJuego(int[][] mapa) {
-		ANCHO = mapa[0].length * 50;
-		ALTO  = mapa.length * 50;
-		setSize(new Dimension(ANCHO,ALTO));
-		setFocusable(true);
-		requestFocus();
-      
-		PanelJuego.grid = mapa;
-		imagenSiguiente = 0;
-		
-		players = new Player[4];
-		if(mapa.equals(GameMaps.desierto)){
-			this.mundo = "desierto";
-		} else if(mapa.equals(GameMaps.cantina)){
-			this.mundo = "cantina";
-		} else if(mapa.equals(GameMaps.normal)){
-			this.mundo = "normal";
-		}
-		
-		this.defineCrates();
-		
-		bombs = new LinkedList<Bomb>();
-		p = new Player(0,-10,1);
-		p2 = new Player(100,100,2);
-		players[0] = p;
-		players[1] = p2; 
-	    this.addKeyListener(p);
-	    this.addKeyListener(this);
-	    this.addKeyListener(p2);
-	    t = new Thread(this);
-	    //p.run();
-	    //p2.run();
-	}
-	
-	public void gameUpdate(){
-	}
-	
-	
+	/**
+	 * Trae la imagen 
+	 * @param filename
+	 * @return image
+	 */
 	public static Image getImage(String filename){
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Image image = toolkit.getImage(RUTA+"img/"+filename);
 		return image;
 	}
 	
-	public static final String RUTA = (new File ("")).getAbsolutePath()+"\\";
 	
+	/**
+	 * Define los crates en la pantalla aleatoriamente
+	 */
 	public void defineCrates(){
 		int[][] grid = PanelJuego.grid;
 		int max = grid.length/2 * grid[0].length/2;
@@ -100,21 +177,9 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		}
 	}
 	
-	public void drawCrates(){
-		int[][] grid = PanelJuego.grid;
-		Image crate = getImage("mundos/"+this.mundo+"/crate.png");
-		
-		for(int i = 0; i < grid.length; i++){
-			for(int j = 0; j < grid[i].length; j++){
-				if(grid[i][j] == GameMaps.CRATE ){
-					gImagen.drawImage(crate,i*50,j*50,null,null);
-				}
-			}
-		}
-	}
-		
-	
-	
+	/**
+	 * Dibuja todos los bloques, crates, e items en pantalla
+	 */
 	public void drawBlocks(){
 		int[][] grid = PanelJuego.grid;
 		Image block = getImage("mundos/"+this.mundo+"/block.png");
@@ -131,11 +196,17 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 				} else if(grid[i][j] == GameMaps.MOREPOWER) {
 					Image img = getImage("mis/ppoder.png");
 					gImagen.drawImage(img,i*50,j*50,null,null);
+				} else if(grid[i][j] == GameMaps.CRATE ){
+					Image crate = getImage("mundos/"+this.mundo+"/crate.png");
+					gImagen.drawImage(crate,i*50,j*50,null,null);
 				}
 			}
 		}
 	}
 	
+	/**
+	 * Dibuja un grid en caso de necesitarlo
+	 */
 	public void drawGrid(){
 		gImagen.setColor(Color.BLACK);
 		for(int i=50; i<=ANCHO;i+=50){
@@ -147,22 +218,29 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		}
 	}
 	
+	/**
+	 * Game Renderer, se encarga de crear la imagen, el fondo y dibujar todo lo principal
+	 */
 	public void gameRender(){
 		if(panelSecundario==null){
 			panelSecundario = createImage(ANCHO+1, ALTO+1);
 		}
 		gImagen = (Graphics2D)panelSecundario.getGraphics();
 		gImagen.drawImage(getImage("mundos/"+this.mundo+"/bg.png"),0,0,Color.BLACK,null);
-		this.drawCrates();
+		
 		this.drawBlocks();
 		//this.drawGrid();
-		
 		Bomb.drawBombs(gImagen);
-		p.draw(gImagen);
-		p2.draw(gImagen);
-		
+		for(int i=0; i<players.length; i++){
+			if(players[i]!=null){
+				players[i].draw(gImagen);
+			}
+		}
 	}
 	
+	/**
+	 * Trae el componente grafico del panel
+	 */
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		if (panelSecundario!=null){
@@ -170,24 +248,35 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		}
 	}
 
+	/**
+	 * Key pressed del panel
+	 */
 	public void keyPressed(KeyEvent ke) {
 	}
 
+	/**
+	 * Key released del panel
+	 */
 	public void keyReleased(KeyEvent ke) {
 	}
 
+	/**
+	 * Key typed del panel
+	 */
 	public void keyTyped(KeyEvent arg0) {
 	}
 
+	/**
+	 * Run que verifica el estado del juego
+	 */
 	public void run() {
 		running = true;
 		while(running){
-		    gameUpdate();
-			gameRender();
-			repaint();
-			try{
-				Thread.sleep(20);
-			}catch(Exception e){}
+		   gameRender();
+		   repaint();
+		   try{
+			   Thread.sleep(20);
+		   }catch(Exception e){}
 		}
 	}
 
