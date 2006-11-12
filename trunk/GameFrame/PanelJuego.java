@@ -119,6 +119,9 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 				} else if(grid[i][j] == GameMaps.MOREBOMBS) {
 					Image img = getImage("mis/pbomba.png");
 					gImagen.drawImage(img,i*50,j*50,null,null);
+				} else if(grid[i][j] == GameMaps.MOREPOWER) {
+					Image img = getImage("mis/ppoder.png");
+					gImagen.drawImage(img,i*50,j*50,null,null);
 				}
 			}
 		}
@@ -145,7 +148,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		this.drawBlocks();
 		this.drawGrid();
 		
-		Bomb.drawBombs(gImagen,p);
+		Bomb.drawBombs(gImagen);
 		p.draw(gImagen);
 		
 	}
