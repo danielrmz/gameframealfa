@@ -146,7 +146,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		gImagen.drawImage(getImage("mundos/"+this.mundo+"/bg.png"),0,0,Color.BLACK,null);
 		this.drawCrates();
 		this.drawBlocks();
-		this.drawGrid();
+		//this.drawGrid();
 		
 		Bomb.drawBombs(gImagen);
 		p.draw(gImagen);

@@ -69,18 +69,22 @@ public class Bomb {
 		int[][] grid = PanelJuego.grid;
 
 		//add center fire indication
-		gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),Xpos*50,Ypos*50,null);
+		gImage.drawImage(PanelJuego.getImage("fuego/cruz.png"),Xpos*50,Ypos*50,null);
 		grid[Xpos][Ypos] = (active)?GameMaps.FUEGO:GameMaps.BLANK;
 		
 		//check up
-		for(int i=Ypos; i<(Ypos+this.bombpow); i++){
+		for(int i=Ypos+1; i<(Ypos+this.bombpow); i++){
 			try{
 				if((grid[Xpos][i] == GameMaps.BLOQUE))
 					break;
 				else{
 					
 					if(active){
-						gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),Xpos*50,i*50,null);
+						if(i+1==(Ypos+this.bombpow)){
+							gImage.drawImage(PanelJuego.getImage("fuego/abajo.png"),Xpos*50,i*50,null);
+						} else {
+							gImage.drawImage(PanelJuego.getImage("fuego/vertical.png"),Xpos*50,i*50,null);
+						}
 						grid[Xpos][i] = ((grid[Xpos][i] == GameMaps.CRATE)  || (grid[Xpos][i] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
 					} 
 					
@@ -100,13 +104,17 @@ public class Bomb {
 			}catch(ArrayIndexOutOfBoundsException aiobe){}
 		}
 		//check down
-		for(int i=Ypos; i>(Ypos-this.bombpow); i--){
+		for(int i=Ypos-1; i>(Ypos-this.bombpow); i--){
 			try{
 				if((grid[Xpos][i] == GameMaps.BLOQUE) )
 					break;
 				else{
 					if(active){
-						gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),Xpos*50,i*50,null);
+						if(i-1 == (Ypos-this.bombpow)){
+							gImage.drawImage(PanelJuego.getImage("fuego/arriba.png"),Xpos*50,i*50,null);
+						} else {
+							gImage.drawImage(PanelJuego.getImage("fuego/vertical.png"),Xpos*50,i*50,null);
+						}
 						grid[Xpos][i] = ((grid[Xpos][i] == GameMaps.CRATE)  || (grid[Xpos][i] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
 					} else {
 						if(grid[Xpos][i] == GameMaps.FUEGOB){
@@ -122,13 +130,17 @@ public class Bomb {
 			}catch(ArrayIndexOutOfBoundsException aiobe){}
 		}
 		//check left
-		for(int i=Xpos; i>(Xpos-this.bombpow); i--){
+		for(int i=Xpos-1; i>(Xpos-this.bombpow); i--){
 			try{
 				if((grid[i][Ypos] == GameMaps.BLOQUE))
 					break;
 				else{
 					if(active){
-						gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),i*50,Ypos*50,null);
+						if(i-1 == (Xpos-this.bombpow)){ 
+							gImage.drawImage(PanelJuego.getImage("fuego/izquierda.png"),i*50,Ypos*50,null);
+						} else {
+							gImage.drawImage(PanelJuego.getImage("fuego/horizontal.png"),i*50,Ypos*50,null);
+						}
 						grid[i][Ypos] = ((grid[i][Ypos] == GameMaps.CRATE)  || (grid[i][Ypos] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
 					} else {
 						if(grid[i][Ypos] == GameMaps.FUEGOB){
@@ -145,13 +157,17 @@ public class Bomb {
 			}catch(ArrayIndexOutOfBoundsException aiobe){}
 		}
 		//check right
-		for(int i=Xpos; i<(Xpos+this.bombpow); i++){
+		for(int i=Xpos+1; i<(Xpos+this.bombpow); i++){
 			try{
 				if((grid[i][Ypos] == GameMaps.BLOQUE))
 					break;
 				else{
 					if(active){
-						gImage.drawImage(PanelJuego.getImage("fuego/fuego.png"),i*50,Ypos*50,null);
+						if(i+1 == Xpos+this.bombpow){
+							gImage.drawImage(PanelJuego.getImage("fuego/derecha.png"),i*50,Ypos*50,null);
+						} else {
+							gImage.drawImage(PanelJuego.getImage("fuego/horizontal.png"),i*50,Ypos*50,null);
+						} 
 						grid[i][Ypos] = ((grid[i][Ypos] == GameMaps.CRATE) || (grid[i][Ypos] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
 					} else {
 						if(grid[i][Ypos] == GameMaps.FUEGOB){
