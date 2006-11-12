@@ -361,12 +361,13 @@ public class Player extends JComponent implements KeyListener{
 
 				int cell = grid[p.x][p.y-1];
 				int cell2 = grid[p1.x][p.y-1];
-
+				
 				//-- Checa la parte izquierda
-				if(cell == GameMaps.BLOQUE || cell == GameMaps.BOMBA){
+				if(cell == GameMaps.BLOQUE || cell == GameMaps.BOMBA || cell == GameMaps.CRATE){
 					return Math.abs((p.y-1)*50-this.getYpos());
 				//-- Checa la parte derecha
-				} else if(cell2 == GameMaps.BLOQUE || cell2 == GameMaps.BOMBA){ 
+				} else if(cell2 == GameMaps.BLOQUE || cell2 == GameMaps.BOMBA || cell2 == GameMaps.CRATE){ 
+					System.out.println("Bloque "+p1.x+":"+(p.y-1));
 					return Math.abs((p1.y-1)*50-this.getYpos());
 				} else {
 					//-- No es bomba ni bloque//
