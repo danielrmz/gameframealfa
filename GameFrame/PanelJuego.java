@@ -17,11 +17,14 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 	
 	public volatile static boolean running;
 	
+	public Thread t;
+	
 	public int imagenSiguiente;
 	private Image panelSecundario;
 	public static Graphics2D gImagen;
 	private String mundo = "";
-	private Player p;
+	public Player p;
+	public Player p2;
 	
 	public static int[][] grid = new int[14][11];
 	
@@ -59,10 +62,15 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		this.defineCrates();
 		
 		bombs = new LinkedList<Bomb>();
-		p = new Player(0,-10);
+		p = new Player(0,-10,1);
+		p2 = new Player(100,100,2);
 		players[0] = p; 
 	    this.addKeyListener(p);
 	    this.addKeyListener(this);
+	    this.addKeyListener(p2);
+	    t = new Thread(this);
+	    //p.run();
+	    //p2.run();
 	}
 	
 	public void gameUpdate(){
@@ -150,6 +158,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 		
 		Bomb.drawBombs(gImagen);
 		p.draw(gImagen);
+		p2.draw(gImagen);
 		
 	}
 	
@@ -176,9 +185,10 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener{
 			gameRender();
 			repaint();
 			try{
-				Thread.sleep(30);
+				t.sleep(20);
 			}catch(Exception e){}
 		}
 	}
+
 
 }

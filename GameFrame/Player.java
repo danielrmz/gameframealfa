@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
-public class Player extends JComponent implements KeyListener{
+public class Player extends JComponent implements KeyListener,Runnable{
 	/**
 	 * 
 	 */
@@ -18,6 +18,10 @@ public class Player extends JComponent implements KeyListener{
 	public static final char DOWN = 'D';
 	public static final char LEFT = 'L';
 	public static final char RIGTH = 'R';
+	public static final char UP2 = 'W';
+	public static final char DOWN2 = 'S';
+	public static final char LEFT2 = 'A';
+	public static final char RIGTH2 = 'D';
 	public static final int stripLength = 6;
 
 	public static String baseImage = "Base.png";
@@ -25,6 +29,7 @@ public class Player extends JComponent implements KeyListener{
 	
 	private int Xpos;
 	private int Ypos;
+	private int player;
 	
 	private boolean alive;
 	
@@ -47,8 +52,9 @@ public class Player extends JComponent implements KeyListener{
 	}
 	
 	
-	public Player(int x, int y) {
+	public Player(int x, int y, int p) {
 		playerid = ++Player.numPlayers;
+		player = p;
 		Xpos = x;
 		Ypos = y;
 		counter = 0;
@@ -57,10 +63,10 @@ public class Player extends JComponent implements KeyListener{
 		bombsPow = 2;
 		activeBombs = 0;
 		alive = true;
-
+		Thread t = new Thread(this);
 		this.cleanArea();
-
 		addKeyListener(this);
+		t.start();
 
 	}
 	
@@ -439,33 +445,29 @@ public class Player extends JComponent implements KeyListener{
 		this.alive = alive;
 	}
 
-
 	public void keyPressed(KeyEvent ke) {
+		if(player == 1){
 		switch(ke.getKeyCode()){
 		case KeyEvent.VK_UP:
 			 isMoving = true;
-			//p.setMoving(true);
 			setDirection(Player.UP);
 		break;
 		case KeyEvent.VK_DOWN: 
 			isMoving = true;
-			//p.setMoving(true);
 			setDirection(Player.DOWN);
 		break;
 		case KeyEvent.VK_LEFT:
 			isMoving = true;
-			//p.setMoving(true);
 			setDirection(Player.LEFT);
 		break;
 		case KeyEvent.VK_RIGHT:
 			isMoving = true;
-			//p.setMoving(true);
 			setDirection(Player.RIGTH);
 		break;
 		case KeyEvent.VK_ESCAPE:  
 			PanelJuego.running = false; 
 		break;
-		case KeyEvent.VK_A:
+		case KeyEvent.VK_M:
 			if((getActiveBombs() < getBombsNum()) && alive){
 				System.out.println(alive);
 				Point aux = Player.center(getXpos(),getYpos());
@@ -475,16 +477,61 @@ public class Player extends JComponent implements KeyListener{
 			}
 		break;
 	}
-		
+	}else
+		if(player == 2){
+			switch(ke.getKeyCode()){
+			case KeyEvent.VK_W:
+				 isMoving = true;
+				setDirection(Player.UP);
+			break;
+			case KeyEvent.VK_S: 
+				isMoving = true;
+				setDirection(Player.DOWN);
+			break;
+			case KeyEvent.VK_A:
+				isMoving = true;
+				setDirection(Player.LEFT);
+			break;
+			case KeyEvent.VK_D:
+				isMoving = true;
+				setDirection(Player.RIGTH);
+			break;
+			case KeyEvent.VK_ESCAPE:  
+				PanelJuego.running = false; 
+			break;
+			case KeyEvent.VK_G:
+				if((getActiveBombs() < getBombsNum()) && alive){
+					System.out.println(alive);
+					Point aux = Player.center(getXpos(),getYpos());
+					Point aux2 = Bomb.transform(aux);
+					PanelJuego.bombs.add(new Bomb(aux2.x,aux2.y,this));
+					setActiveBombs(getActiveBombs()+1);
+				}
+			break;
+		}
+		}
+
 	}
 
 
 	public void keyReleased(KeyEvent ke) {
 		if ((!(ke.getKeyCode() == KeyEvent.VK_A))){
 			isMoving = false;
+			//keyPressed(ke);
 		}
-		
+
 	}
 	public void keyTyped(KeyEvent arg0) {
+	}
+
+
+	public void run() {
+		while(alive){
+			addKeyListener(this);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {}
+			System.out.println(player);
+		}
 	}
 }
