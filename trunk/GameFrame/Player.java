@@ -1,76 +1,177 @@
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.io.*;
+import javax.imageio.*;
 import javax.swing.JComponent;
 
+/**
+ * Clase que maneja al jugador, sus imagenes y las colisiones
+ * @author Revolution Software Developers
+ */
 public class Player extends JComponent implements KeyListener,Runnable{
+
 	/**
-	 * 
+	 * Constante de eclipse
 	 */
 	private static final long serialVersionUID = 1L;
-	public static int numPlayers = 100;
-	public static final int bombsNumLimit = 5;
-	public static final int bombsPowLimit = 3;
-	public static final char UP = 'U';
-	public static final char DOWN = 'D';
-	public static final char LEFT = 'L';
-	public static final char RIGTH = 'R';
-	public static final char UP2 = 'W';
-	public static final char DOWN2 = 'S';
-	public static final char LEFT2 = 'A';
-	public static final char RIGTH2 = 'D';
-	public static final int stripLength = 6;
-
-	public static String baseImage = "Base.png";
-	public String lastDir = "";
 	
+	/**
+	 * Cantidad actual de jugadores
+	 */
+	public static int numPlayers = 0;
+	
+	/**
+	 * Limite de bombas que pueden poner los jugadores
+	 */
+	private static final int bombsNumLimit = 4;
+	
+	/**
+	 * Limite de alcance que pueden tener las bombas
+	 */
+	private static final int bombsPowLimit = 3;
+	
+	/**
+	 * Caracter indicador de la direccion actual del jugador ARRIBA
+	 */
+	private static final char UP = 'U';
+	
+	/**
+	 * Caracter indicador de la direccion actual del jugador ABAJO
+	 */
+	private static final char DOWN = 'D';
+	
+	/**
+	 * Caracter indicador de la direccion actual del jugador IZQUIERDA
+	 */
+	private static final char LEFT = 'L';
+	
+	/**
+	 * Caracter indicador de la direccion actual del jugador DERECHA
+	 */
+	private static final char RIGTH = 'R';
+
+	/**
+	 * Imagen principal base
+	 */
+	private static String baseImage = "Base.png";
+	
+	/**
+	 * Ultimo directorio de la direccion a utilizar
+	 */
+	private String lastDir = "";
+	
+	/**
+	 * Posicion en la coordenada X del jugador
+	 */
 	private int Xpos;
+	
+	/**
+	 * Posicion Vertical
+	 */
 	private int Ypos;
+	
+	/**
+	 * Numero de jugador actual
+	 */
 	private int player;
 	
+	/**
+	 * Indica si el player esta vivo o muerto
+	 */
 	private boolean alive;
 	
+	/**
+	 * Numero de bombas activas del jugador
+	 */
 	private int activeBombs;
+	
+	/**
+	 * Numero de bombas permitidas por el jugador
+	 */
 	private int bombsNum;
+	
+	/**
+	 * Limite de alcance de las bombas del jugador
+	 */
 	private int bombsPow;
 	
+	/**
+	 * Indica si el jugador se esta moviendo o no
+	 */
 	public boolean isMoving;
+	
+	/**
+	 * Direccion actual del jugador
+	 */
 	private char direction;
 	
+	/**
+	 * Imagen actual del jugador
+	 */
 	private BufferedImage playerImage; 
 	
+	/**
+	 * Numero de imagen actual del jugador
+	 */
 	private int counter;
-	private final int playerid;
+
+	/**
+	 * Constructor del jugador
+	 * @param x coordenada inicial de x
+	 * @param y coordenada inicial de y
+	 */
+
+	public Player(int x, int y, int p) {
+		//-- Numero de jugador
+		player = p;
+		
+		//-- Coordenadas iniciales
+		Xpos = x;
+		Ypos = y;
+		
+		//-- Numero de imagen inicial
+		counter = 0;
+		
+		//-- Direccion inicial
+		direction = 'D';
+		
+		//-- Limites posibles del jugador
+		bombsNum = 2;
+		bombsPow = 2;
+		
+		//-- Bombas activas
+		activeBombs = 0;
+		
+		//-- Activo
+		alive = true;
+		
+		Thread t = new Thread(this);
+		t.start();
+		//-- Borra el area alrededor del jugador para que no quede encerrado en un principio
+		this.cleanArea();
+
+		addKeyListener(this);
+
+	}
 	
+	/**
+	 * Regresa las coordenadas centradas de acuerdo aun 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public static Point center(double x, double y){
 		Point aux = new Point();
 		aux.setLocation((x+23.5),(y+30.5));
+	
 		return aux;
 	}
 	
-	
-	public Player(int x, int y, int p) {
-		playerid = ++Player.numPlayers;
-		player = p;
-		Xpos = x;
-		Ypos = y;
-		counter = 0;
-		direction = 'D';
-		bombsNum = 2;
-		bombsPow = 2;
-		activeBombs = 0;
-		alive = true;
-		Thread t = new Thread(this);
-		this.cleanArea();
-		addKeyListener(this);
-		t.start();
-
-	}
-	
-	public void cleanArea(){
+	/**
+	 * Borra el area alrededor del jugador para que no haya bloques que interfieran con su movimiento inical
+	 */
+	private void cleanArea(){
 		int[][] grid = PanelJuego.grid;
 		int pos[] = this.getCurrentPosition();
 		int i = pos[0];
@@ -83,6 +184,11 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		
 	}
 	
+	/**
+	 * Regres auna imagen de tipo BufferedImage para el jugador
+	 * @param url
+	 * @return
+	 */
 	public BufferedImage loadImage(String url){
 		url = "img/"+url;
 		BufferedImage auxImage = null;
@@ -94,7 +200,10 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		return auxImage;
 	}
 	
-	
+	/**
+	 * Dibuja en el canvas de la imagen al jugador, de estar muerto lo pinta quemado
+	 * @param g
+	 */
 	public void draw(Graphics2D g){
 
 		if(alive){
@@ -106,52 +215,82 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		
 	}
 	
-	public void moveLeft(){
+	/**
+	 * Cambia la direccion hacia la izquierda y checa colisiones
+	 */
+	private void moveLeft(){
 		int r = this.checkMovement("X",-1);
 		Xpos-= (r>5)?5:r;
 		counter++;
 		
 	}
-	public void moveDown(){
+	
+	/**
+	 * Cambia la direccion hacia abajo y checa colisiones
+	 */
+	private void moveDown(){
 		int r = this.checkMovement("Y",1);	
 		Ypos+=(r>5)?5:r;
 		counter++;
 	}
-	public void moveUp(){
+	
+	/**
+	 * Cambia la direccion hacia arriba y checa colisiones
+	 */
+	private void moveUp(){
 		int r = this.checkMovement("Y",-1);
 		Ypos-=(r>5)?5:r;
 		counter++;		
 	}
-	public void moveRigth(){
+	
+	/**
+	 * Cambia la direccion hacia la derecha y checa colisiones
+	 */
+	private void moveRigth(){
 		int r = this.checkMovement("X",1);
 		Xpos+=(r>5)?5:r;
 		counter++;
 	}
 
-
+	/**
+	 * Trae el numero de bombas que tiene permitido poner el usuario actualmente
+	 * @return bombsNum
+	 */
 	public int getBombsNum() {
 		return bombsNum;
 	}
 
-
+	/**
+	 * Establece el numero de bombas maximas que puede colocar
+	 * @param bombsNum
+	 */
 	public void setBombsNum(int bombsNum) {
 		this.bombsNum = bombsNum;
 	}
 
-
+	/**
+	 * Trae el alcance de las bombas
+	 * @return bombsPow
+	 */
 	public int getBombsPow() {
 		return bombsPow;
 	}
 
-
+	/**
+	 * Establece el poder de las bombas
+	 * @param bombsPow
+	 */
 	public void setBombsPow(int bombsPow) {
 		this.bombsPow = bombsPow;
 	}
 
-
-	public BufferedImage getPlayerImage() {
+	/**
+	 * Trae la imagen con la posicion actual del jugador
+	 * @return playerImage
+	 */
+	private BufferedImage getPlayerImage() {
 		String auxDir = "";//+direction;
-		
+		//-- Verifica la posicion y cambia de directorio
 		if (isMoving && counter<6){
 			switch(direction){
 			case UP: 
@@ -184,83 +323,115 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		return playerImage;
 	}
 
-
+	/**
+	 * Cambia la imagen del jugador
+	 * @param playerImage
+	 */
 	public void setPlayerImage(BufferedImage playerImage) {
 		this.playerImage = playerImage;
 	}
 
-
+	/**
+	 * Trae la coordenada X del jugador
+	 * @return Xpos
+	 */
 	public int getXpos() {
 		return Xpos;
 	}
 
-
+	/**
+	 * Establece la coordenada X del jugador
+	 * @param xpos
+	 */
 	public void setXpos(int xpos) {
 		Xpos = xpos;
 	}
 
-
+	/**
+	 * Trae la coordenada Y del jugador
+	 * @return Ypos
+	 */
 	public int getYpos() {
 		return Ypos;
 	}
 
-
+	/**
+	 * Establece la coordenada Y del jugador
+	 * @param ypos
+	 */
 	public void setYpos(int ypos) {
 		Ypos = ypos;
 	}
 
+	/**
+	 * Trae el numero de imagen actual del jugador
+	 * @return counter
+	 */
 	public int getCounter() {
 		return counter;
 	}
-
+	
+	/**
+	 * Establece el numero de imagen actual
+	 * @param counter
+	 */
 	public void setCounter(int counter) {
 		this.counter = counter;
 	}
-
+	
+	/**
+	 * Indica si el jugador esta en movimiento
+	 * @return isMoving
+	 */
 	public boolean isMoving() {
 		return isMoving;
 	}
-
+	
+	/**
+	 * Establece si el jugador puede moverse o no
+	 * @param isMoving
+	 */
 	public void setMoving(boolean isMoving) {
 		this.isMoving = isMoving;
 	}
 
+	/**
+	 * Regresa la direccion actual del jugador
+	 * @return direction
+	 */
 	public int getDirection() {
 		return direction;
 	}
-
+	
+	/**
+	 * Establece la direccion actual del jugador
+	 * @param direction
+	 */
 	public void setDirection(char direction) {
 		this.direction = direction;
 	}
 	
+	/**
+	 * Trae un arreglo con la posicion actual en i,j de una matriz del jugador
+	 * @return position
+	 */
 	public int[] getCurrentPosition(){
 		int position[] = new int[2];
 		int width = PanelJuego.grid.length * 50;
 		int height = PanelJuego.grid[0].length * 50;
-		
+		//-- Calcula su posicion en pantalla
 		position[0] = (int)(((this.Xpos+50.0)/(double)width)*10);
 		position[1] = (int)(((this.Ypos+50.0)/(double)height)*10);
 		
 		return position;
 	}
 	
-	public int[] getGridPosition(){
-		int[][] grid = PanelJuego.grid;
-		int[] position = new int[2];
-		for(int i=0; i<grid.length; i++){
-			for(int j=0; j<grid[i].length;j++){
-				if(grid[i][j] == this.playerid){
-					position[0] = i;
-					position[1] = j;
-					return position;
-				}
-			}
-		}
-		return null;
-	}
-	
-	
-	
+	/**
+	 * Trae un punto (Point) de la pantalla en coordenadas i,j
+	 * @param x punto x en pixeles
+	 * @param y punto y en pixeles
+	 * @return point
+	 */
 	public Point getMatrixPoint(int x,int y){
 		int ny = y/50;
 		int nx = x/50;
@@ -276,18 +447,24 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		int[][] grid = PanelJuego.grid;
 		int cell = grid[x][y];
 		if(cell == GameMaps.MOREBOMBS){	
-			if(this.bombsNum < 4){
+			if(this.bombsNum <= Player.bombsNumLimit){
 				this.bombsNum++;
 			}
 			grid[x][y] = GameMaps.BLANK;
 		} else if(cell == GameMaps.MOREPOWER){
-			if(this.bombsPow < 5){
+			if(this.bombsPow <= Player.bombsPowLimit){
 				this.bombsPow++;
 			}
 			grid[x][y] = GameMaps.BLANK;
 		}
 	}
 	
+	/**
+	 * Regresa el numero de pasos que puede dar, si hay una colision regresa 0 y si puede moverse
+	 * regresa los numero de pasos posibles antes de colisionar
+	 * @param direction +1 para derecha y abajo -1 para izquierda y arriba
+	 * @return pasos en pixeles
+	 */
 	public int returnX(int direction){
 		int[][] grid = PanelJuego.grid;
 		
@@ -341,6 +518,11 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		return 0;
 	}
 	
+	/**
+	 * Regresa la cantidad de posibles pasos que puede dar si existe una colision enfrente o no
+	 * @param direction
+	 * @return pasos
+	 */
 	public int returnY(int direction){
 		int[][] grid = PanelJuego.grid;
 		
@@ -373,7 +555,6 @@ public class Player extends JComponent implements KeyListener,Runnable{
 					return Math.abs((p.y-1)*50-this.getYpos());
 				//-- Checa la parte derecha
 				} else if(cell2 == GameMaps.BLOQUE || cell2 == GameMaps.BOMBA || cell2 == GameMaps.CRATE){ 
-					System.out.println("Bloque "+p1.x+":"+(p.y-1));
 					return Math.abs((p1.y-1)*50-this.getYpos());
 				} else {
 					//-- No es bomba ni bloque//
@@ -417,6 +598,12 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		return 0;
 	}
 	
+	/**
+	 * Verifica el movimiento filtrando la coordenada a usar
+	 * @param axis
+	 * @param direction
+	 * @return entero indicando los pasos
+	 */
 	public int checkMovement(String axis, int direction){ //-- direction: - para arriba o izq + para derecha o abajo
 		if(axis.equals("X")){
 			return this.returnX(direction);
@@ -426,25 +613,42 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		
 		return 0;
 	}
-
+	
+	/**
+	 * Trae el numero de bombas activas del jugador
+	 * @return
+	 */
 	public int getActiveBombs() {
 		return activeBombs;
 	}
 
+	/**
+	 * Establece el numero de bombas activas del jugador
+	 * @param activeBombs
+	 */
 	public void setActiveBombs(int activeBombs) {
 		this.activeBombs = activeBombs;
 	}
 
-
+	/**
+	 * Regresa si el jugaor esta vivo o no
+	 * @return
+	 */
 	public boolean isAlive() {
 		return alive;
 	}
 
-
+	/**
+	 * Establece si el jugador esta activo o no
+	 * @param alive
+	 */
 	public void setAlive(boolean alive) {
 		this.alive = alive;
 	}
 
+	/**
+	 * Metodo para controlar elmovimiento del jugador desde el teclado
+	 */
 	public void keyPressed(KeyEvent ke) {
 		if(player == 1){
 		switch(ke.getKeyCode()){
@@ -513,7 +717,9 @@ public class Player extends JComponent implements KeyListener,Runnable{
 
 	}
 
-
+	/**
+	 * Control del jugador
+	 */
 	public void keyReleased(KeyEvent ke) {
 		if ((!(ke.getKeyCode() == KeyEvent.VK_A))){
 			isMoving = false;
@@ -521,10 +727,14 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		}
 
 	}
-	public void keyTyped(KeyEvent arg0) {
-	}
+	/**
+	 * Metodo no utilizado
+	 */
+	public void keyTyped(KeyEvent arg0) {}
 
-
+	/**
+	 * Verifica las teclas del jugador
+	 */
 	public void run() {
 		while(alive){
 			addKeyListener(this);
