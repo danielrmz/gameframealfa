@@ -126,10 +126,10 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	public static void despliegaTablero(){
 		int[][] grid = PanelJuego.grid;
 		System.out.println("==============================");
-		for(int i=0; i<grid.length; i++){
+		for(int i=0; i<grid[0].length; i++){
 			System.out.print("|");
-			for(int j=0; j<grid[i].length; j++){
-				System.out.print(grid[i][j]+"|");
+			for(int j=0; j<grid.length; j++){
+				System.out.print(grid[j][i]+"|");
 			}
 			System.out.println();
 		}
@@ -223,13 +223,14 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	 */
 	public void gameRender(){
 		if(panelSecundario==null){
-			panelSecundario = createImage(ANCHO+1, ALTO+1);
+			panelSecundario = createImage(ANCHO+1,ALTO+1);
 		}
 		gImagen = (Graphics2D)panelSecundario.getGraphics();
 		gImagen.drawImage(getImage("mundos/"+this.mundo+"/bg.png"),0,0,Color.BLACK,null);
 		
 		this.drawBlocks();
 		this.drawGrid();
+		
 		Bomb.drawBombs(gImagen,this);
 		for(int i=0; i<players.length; i++){
 			if(players[i]!=null){
@@ -270,12 +271,11 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	 * Run que verifica el estado del juego
 	 */
 	public void run() {
-		new SoundTest(new File("sound/llevamecontigo_cumbia.mid"));
+		//new SoundTest(new File("sound/llevamecontigo_cumbia.mid"));
+		
 		running = true;
 		while(running){
-			if(!paused){
-			//	System.out.println("run");
-				
+			if(!paused){	
 			   gameRender();
 			   repaint();
 			   try{

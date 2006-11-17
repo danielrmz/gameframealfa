@@ -86,6 +86,7 @@ public class Bomb {
 					new SoundClip("sound/boom.wav");
 					for(int j = 0; j<4; j++){
 						if(panel.players[j]!=null){
+							System.out.println("player "+j+":");
 							panel.players[j].checkMovement("X", -1);
 							panel.players[j].checkMovement("X", 1);
 							panel.players[j].checkMovement("Y", -1);
@@ -131,18 +132,21 @@ public class Bomb {
 		//check up
 		for(int i=Ypos+1; i<(Ypos+this.bombpow); i++){
 			try{
-				if((grid[Xpos][i] == GameMaps.BLOQUE))
+				if((grid[Xpos][i] == GameMaps.BLOQUE)){
 					break;
-				else{
+				} else {
 					
 					if(active){
+						grid[Xpos][i] = ((grid[Xpos][i] == GameMaps.CRATE)  || (grid[Xpos][i] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
+						if(grid[Xpos][i] == GameMaps.FUEGOB) {
+							gImage.drawImage(PanelJuego.getImage("fuego/abajo.png"),Xpos*50,i*50,null);
+							break;
+						}
 						if(i+1==(Ypos+this.bombpow)){
 							gImage.drawImage(PanelJuego.getImage("fuego/abajo.png"),Xpos*50,i*50,null);
 						} else {
 							gImage.drawImage(PanelJuego.getImage("fuego/vertical.png"),Xpos*50,i*50,null);
 						}
-						grid[Xpos][i] = ((grid[Xpos][i] == GameMaps.CRATE)  || (grid[Xpos][i] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
-						
 					} 
 					
 					
@@ -151,7 +155,7 @@ public class Bomb {
 						if(grid[Xpos][i] == GameMaps.FUEGOB){
 							
 							grid[Xpos][i] = this.getPowerUp();
-							
+							break;
 						} else {
 							grid[Xpos][i] = GameMaps.BLANK;
 						}
@@ -168,17 +172,22 @@ public class Bomb {
 					break;
 				else{
 					if(active){
+						grid[Xpos][i] = ((grid[Xpos][i] == GameMaps.CRATE)  || (grid[Xpos][i] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
+						//-- Si ya ha sido cambiado entonces parar hasta ahi y poner la imagen solamente
+						if(grid[Xpos][i] == GameMaps.FUEGOB) {
+							gImage.drawImage(PanelJuego.getImage("fuego/arriba.png"),Xpos*50,i*50,null);
+							break;
+						}
 						if(i-1 == (Ypos-this.bombpow)){
 							gImage.drawImage(PanelJuego.getImage("fuego/arriba.png"),Xpos*50,i*50,null);
 						} else {
 							gImage.drawImage(PanelJuego.getImage("fuego/vertical.png"),Xpos*50,i*50,null);
 						}
-						grid[Xpos][i] = ((grid[Xpos][i] == GameMaps.CRATE)  || (grid[Xpos][i] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
 					} else {
 						if(grid[Xpos][i] == GameMaps.FUEGOB){
-							
 							grid[Xpos][i] = this.getPowerUp();
-							
+							//-- Si es powerup romper el ciclo de limpieza de imagenes para no borrar otros crates o algo
+							break;
 						} else {
 							grid[Xpos][i] = GameMaps.BLANK;
 						}
@@ -187,6 +196,7 @@ public class Bomb {
 				}
 			}catch(ArrayIndexOutOfBoundsException aiobe){}
 		}
+		
 		//check left
 		for(int i=Xpos-1; i>(Xpos-this.bombpow); i--){
 			try{
@@ -194,17 +204,22 @@ public class Bomb {
 					break;
 				else{
 					if(active){
+						grid[i][Ypos] = ((grid[i][Ypos] == GameMaps.CRATE)  || (grid[i][Ypos] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
+						//-- Si ya ha sido cambiado entonces parar hasta ahi y poner la imagen solamente
+						if(grid[i][Ypos] == GameMaps.FUEGOB) {
+							gImage.drawImage(PanelJuego.getImage("fuego/izquierda.png"),i*50,Ypos*50,null);
+							break;
+						}
 						if(i-1 == (Xpos-this.bombpow)){ 
 							gImage.drawImage(PanelJuego.getImage("fuego/izquierda.png"),i*50,Ypos*50,null);
 						} else {
 							gImage.drawImage(PanelJuego.getImage("fuego/horizontal.png"),i*50,Ypos*50,null);
 						}
-						grid[i][Ypos] = ((grid[i][Ypos] == GameMaps.CRATE)  || (grid[i][Ypos] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
-					} else {
+						} else {
 						if(grid[i][Ypos] == GameMaps.FUEGOB){
 							
 							grid[i][Ypos] = this.getPowerUp();
-							
+							break;
 						} else {
 							grid[i][Ypos] = GameMaps.BLANK;
 						}
@@ -221,17 +236,23 @@ public class Bomb {
 					break;
 				else{
 					if(active){
+						grid[i][Ypos] = ((grid[i][Ypos] == GameMaps.CRATE) || (grid[i][Ypos] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
+						
+						//-- Si ya ha sido cambiado entonces parar hasta ahi y poner la imagen solamente
+						if(grid[i][Ypos] == GameMaps.FUEGOB) {
+							gImage.drawImage(PanelJuego.getImage("fuego/derecha.png"),i*50,Ypos*50,null);
+							break;
+						}
 						if(i+1 == Xpos+this.bombpow){
 							gImage.drawImage(PanelJuego.getImage("fuego/derecha.png"),i*50,Ypos*50,null);
 						} else {
 							gImage.drawImage(PanelJuego.getImage("fuego/horizontal.png"),i*50,Ypos*50,null);
 						} 
-						grid[i][Ypos] = ((grid[i][Ypos] == GameMaps.CRATE) || (grid[i][Ypos] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
+						
 					} else {
 						if(grid[i][Ypos] == GameMaps.FUEGOB){
-							
 							grid[i][Ypos] = this.getPowerUp();
-							
+							break;
 						} else {
 							grid[i][Ypos] = GameMaps.BLANK;
 						}
