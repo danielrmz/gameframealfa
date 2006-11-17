@@ -32,7 +32,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	/**
 	 * Jugadores actuales
 	 */
-	public static Player[] players; 
+	public Player[] players; 
 	
 	/**
 	 * Indica si el juego esta corriendo
@@ -65,16 +65,6 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	private String mundo = "";
 	
 	/**
-	 * Primer jugador
-	 */
-	public Player p;
-	
-	/**
-	 * Segundo jugador
-	 */
-	public Player p2;
-	
-	/**
 	 * Grid del mundo
 	 */
 	public static int[][] grid;
@@ -85,10 +75,15 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	public static final String RUTA = (new File ("")).getAbsolutePath()+"\\";
 	
 	/**
+	 * Variable que pausa el panel
+	 */
+	public static boolean paused = false;
+	
+	/**
 	 * Constructor
 	 * @param mapa, mapa escogido
 	 */
-	public PanelJuego(int[][] mapa) {
+	public PanelJuego(int[][] mapa,String strmapa) {
 		//-- Establece el alto y ancho, posteriormente se le asignara este tamaño a las imagenes creadas
 		ANCHO = mapa[0].length * 50;
 		ALTO  = mapa.length * 50;
@@ -102,14 +97,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
       
 		//-- Le asigna el mapa escogido al panel. 
 		PanelJuego.grid = mapa;
-		if(mapa.equals(GameMaps.desierto)){
-			this.mundo = "desierto";
-		} else if(mapa.equals(GameMaps.cantina)){
-			this.mundo = "cantina";
-		} else if(mapa.equals(GameMaps.normal)){
-			this.mundo = "normal";
-		}
-		
+		this.mundo = strmapa;
 		//-- Establece las crates rompibles
 		this.defineCrates();
 		this.addKeyListener(this);
@@ -117,7 +105,6 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 		//-- Establece a los dos jugadores
 		this.setPlayer(new Player(0,-10,1));
 		this.setPlayer(new Player(100,100,2));
-		
 		t = new Thread(this);
 	    
 	}
@@ -148,6 +135,19 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 		}
 	}
 	
+	/**
+	 * Despliega el tablero en consola
+	 */
+	public static void despliegaTablero(int[][] grid){
+		System.out.println("==============================");
+		for(int i=0; i<grid.length; i++){
+			System.out.print("|");
+			for(int j=0; j<grid[i].length; j++){
+				System.out.print(grid[i][j]+"|");
+			}
+			System.out.println();
+		}
+	}
 	/**
 	 * Trae la imagen 
 	 * @param filename
@@ -229,8 +229,8 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 		gImagen.drawImage(getImage("mundos/"+this.mundo+"/bg.png"),0,0,Color.BLACK,null);
 		
 		this.drawBlocks();
-		//this.drawGrid();
-		Bomb.drawBombs(gImagen);
+		this.drawGrid();
+		Bomb.drawBombs(gImagen,this);
 		for(int i=0; i<players.length; i++){
 			if(players[i]!=null){
 				players[i].draw(gImagen);
@@ -272,13 +272,30 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	public void run() {
 		running = true;
 		while(running){
-		   gameRender();
-		   repaint();
-		   try{
-			   Thread.sleep(20);
-		   }catch(Exception e){}
+			if(!paused){
+			//	System.out.println("run");
+				
+			   gameRender();
+			   repaint();
+			   try{
+				   Thread.sleep(20);
+			   }catch(Exception e){}
+			}
 		}
+		System.out.println("Termino");
 	}
 
-
+	/**
+	 * Termina el juego
+	 */
+	public static void endGame(){
+		ALTO = 0;
+		ANCHO = 0;
+		bombs = new LinkedList<Bomb>();
+		running = false;
+		gImagen = null;
+		grid = null;
+		paused = false;
+		Player.numPlayers = 0;
+	}
 }

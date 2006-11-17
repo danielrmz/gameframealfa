@@ -13,13 +13,22 @@ public class FrameJuego extends JFrame {
 		//-- Cambiar por mapa
 		int width = GameMaps.desierto[0].length * 50+10;
 		int height = GameMaps.desierto.length * 50+35;
-		
+		int[][] map = new int[GameMaps.desierto.length][GameMaps.desierto[0].length];
+		copyMap(GameMaps.desierto,map);
 		this.setSize(width,height);
-		pj = new PanelJuego(GameMaps.normal);
+		pj = new PanelJuego(map,"desierto");
 		add(pj);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		
+	}
+	
+	public static void copyMap(int[][] base, int[][] dest){
+		for(int i=0;i<base.length;i++){
+			for(int j=0;j<base[0].length;j++){
+				dest[i][j] = base[i][j];
+			}
+		}
 	}
 	
 }
