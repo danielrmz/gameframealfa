@@ -575,7 +575,7 @@ public class Player extends JComponent implements KeyListener,Runnable{
 					return Math.abs((p1.y-1)*50-this.getYpos());
 				} else {
 					//-- No es bomba ni bloque//
-					if((cell == GameMaps.FUEGO || cell2 == GameMaps.FUEGO )&& (Math.abs((p.y)*50-posy)<5) ){
+					if((grid[p.x][p.y] == GameMaps.FUEGO || grid[p1.x][p.y] == GameMaps.FUEGO )/*&& (Math.abs((p.y)*50-posy)<5)*/ ){
 						this.setAlive(false);
 					} 
 					//-- Procesa los items de cada lado
@@ -602,7 +602,7 @@ public class Player extends JComponent implements KeyListener,Runnable{
 					if((grid[p.x][p.y] == GameMaps.FUEGO || grid[p1.x][p.y] == GameMaps.FUEGO) /*&& (Math.abs((p.y)*50-posy)<5)*/){	
 						this.setAlive(false);
 					} 
-					//-- Procesa los items
+					//-- Procesa los items enfrente de el
 					this.processItems(p.x,p.y+1);
 					this.processItems(p1.x,p.y+1);
 					
