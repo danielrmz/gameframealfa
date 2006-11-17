@@ -503,11 +503,11 @@ public class Player extends JComponent implements KeyListener,Runnable{
 			} else if(direction>0) { //-- Se mueve a la derecha
 				Point p1 = this.getMatrixPoint(this.getXpos(),posy);
 				if(p1.x == grid.length-2) return 5; //-- Bugfix de imprecision de la primera columna
-				int cell = grid[p.x+1][p.y];
+				int cell = grid[p1.x+1][p.y];
 				if(cell == GameMaps.BLOQUE || cell == GameMaps.BOMBA || cell == GameMaps.CRATE){
-					return Math.abs((p.x+1)*50-posx2);
+					return Math.abs((p1.x+1)*50-posx2);
 				} else {
-					if(cell == GameMaps.FUEGO /*&& Math.abs((p.x+1)*50-posx1)<5*/){
+					if(grid[p1.x][p.y] == GameMaps.FUEGO){
 						this.setAlive(false);
 					}
 					this.processItems(p.x+1,p.y);
@@ -581,11 +581,11 @@ public class Player extends JComponent implements KeyListener,Runnable{
 					int movement = Math.abs((p1.y+1)*50-posy);
 					return (movement>5)?movement:0;	
 				} else {
-					//-- No es bomba ni bloque
-
-					if((cell == GameMaps.FUEGO || cell2 == GameMaps.FUEGO) /*&& (Math.abs((p.y)*50-posy)<5)*/){	
+					//-- No es bomba ni bloque checa el fuego de la casilla actual no el de la posterior
+					if((grid[p.x][p.y+1] == GameMaps.FUEGO || grid[p1.x][p.y] == GameMaps.FUEGO) /*&& (Math.abs((p.y)*50-posy)<5)*/){	
 						this.setAlive(false);
 					} 
+					//-- Procesa los items
 					this.processItems(p.x,p.y+1);
 					this.processItems(p1.x,p.y+1);
 					
@@ -673,13 +673,18 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		break;
 		case KeyEvent.VK_M:
 			if((getActiveBombs() < getBombsNum()) && alive){
-				System.out.println(alive);
+				//System.out.println(alive);
 				Point aux = Player.center(getXpos(),getYpos());
 				Point aux2 = Bomb.transform(aux);
+				if(PanelJuego.grid[aux2.x][aux2.y] != GameMaps.BLANK) return;
+				
 				PanelJuego.bombs.add(new Bomb(aux2.x,aux2.y,this));
 				setActiveBombs(getActiveBombs()+1);
 			}
 		break;
+		case KeyEvent.VK_F4:
+			this.setAlive(true);
+			break;
 	}
 	}else
 		if(player == 2){
@@ -705,7 +710,7 @@ public class Player extends JComponent implements KeyListener,Runnable{
 			break;
 			case KeyEvent.VK_G:
 				if((getActiveBombs() < getBombsNum()) && alive){
-					System.out.println(alive);
+				//	System.out.println(alive);
 					Point aux = Player.center(getXpos(),getYpos());
 					Point aux2 = Bomb.transform(aux);
 					PanelJuego.bombs.add(new Bomb(aux2.x,aux2.y,this));

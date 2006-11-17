@@ -72,7 +72,7 @@ public class Bomb {
 	 * Dibuja la animacion de las bombas en el canvas
 	 * @param gImagen
 	 */
-	public static void drawBombs(Graphics gImagen){
+	public static void drawBombs(Graphics gImagen,PanelJuego panel){
 		int[][] grid = PanelJuego.grid;
 		for(int i = 0; i<PanelJuego.bombs.size(); i++){
 			Bomb aux = PanelJuego.bombs.get(i);
@@ -84,16 +84,17 @@ public class Bomb {
 				aux.detonate(gImagen,true);
 				if (aux.status==80){
 					for(int j = 0; j<4; j++){
-						if(PanelJuego.players[j]!=null){
-							PanelJuego.players[j].checkMovement("X", -1);
-							PanelJuego.players[j].checkMovement("X", 1);
-							PanelJuego.players[j].checkMovement("Y", -1);
-							PanelJuego.players[j].checkMovement("Y", 1);
+						if(panel.players[j]!=null){
+							panel.players[j].checkMovement("X", -1);
+							panel.players[j].checkMovement("X", 1);
+							panel.players[j].checkMovement("Y", -1);
+							panel.players[j].checkMovement("Y", 1);
 						}
 					}
 				}
 				aux.status++;
 			}else{
+				PanelJuego.despliegaTablero();
 				aux.detonate(gImagen, false);
 				aux.owner.setActiveBombs(aux.owner.getActiveBombs()-1);
 				PanelJuego.bombs.remove(i);
@@ -140,6 +141,7 @@ public class Bomb {
 							gImage.drawImage(PanelJuego.getImage("fuego/vertical.png"),Xpos*50,i*50,null);
 						}
 						grid[Xpos][i] = ((grid[Xpos][i] == GameMaps.CRATE)  || (grid[Xpos][i] == GameMaps.FUEGOB) )?GameMaps.FUEGOB:GameMaps.FUEGO;
+						
 					} 
 					
 					
@@ -157,6 +159,7 @@ public class Bomb {
 				}
 			}catch(ArrayIndexOutOfBoundsException aiobe){}
 		}
+		
 		//check down
 		for(int i=Ypos-1; i>(Ypos-this.bombpow); i--){
 			try{
