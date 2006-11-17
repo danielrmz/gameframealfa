@@ -86,7 +86,7 @@ public class Bomb {
 					new SoundClip("sound/boom.wav");
 					for(int j = 0; j<4; j++){
 						if(panel.players[j]!=null){
-							System.out.println("player "+j+":");
+							//System.out.println("player "+j+":");
 							panel.players[j].checkMovement("X", -1);
 							panel.players[j].checkMovement("X", 1);
 							panel.players[j].checkMovement("Y", -1);
