@@ -115,6 +115,7 @@ public class Player extends JComponent implements KeyListener,Runnable{
 	 * Numero de imagen actual del jugador
 	 */
 	private int counter;
+	private int innercount;
 
 	/**
 	 * Constructor del jugador
@@ -142,6 +143,7 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		
 		//-- Bombas activas
 		activeBombs = 0;
+		innercount = 0;
 		
 		//-- Activo
 		alive = true;
@@ -205,14 +207,24 @@ public class Player extends JComponent implements KeyListener,Runnable{
 	 * @param g
 	 */
 	public void draw(Graphics2D g){
-
 		if(alive){
 			g.drawImage(getPlayerImage(),Xpos,Ypos,null);
 		}else{
-			g.drawImage(PanelJuego.getImage("Quemado.png"),Xpos,Ypos,null);
+			
+			if (counter>8){
+				counter=5;
+			}
+			if (counter<=0){
+				counter=5;
+			}
+			g.drawImage(PanelJuego.getImage("quemado/Quemado "+counter+".png"),Xpos,Ypos,null);
+			if (innercount==0){
+				counter++;
+				innercount=1;
+			}else{
+				innercount=0;;
+			}
 		}
-
-		
 	}
 	
 	/**
