@@ -270,7 +270,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	 * Run que verifica el estado del juego
 	 */
 	public void run() {
-		SoundTest st = new SoundTest(new File("sound/llevamecontigo_cumbia.mid"));
+		new SoundTest(new File("sound/llevamecontigo_cumbia.mid"));
 		running = true;
 		while(running){
 			if(!paused){
@@ -283,8 +283,6 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 			   }catch(Exception e){}
 			}
 		}
-
-		st = null;
 
 		System.out.println("Termino");
 

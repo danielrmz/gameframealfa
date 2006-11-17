@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.io.File;
 
 /**
  * Clase Bomba. 
