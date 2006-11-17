@@ -94,7 +94,7 @@ public class Bomb {
 				}
 				aux.status++;
 			}else{
-				PanelJuego.despliegaTablero();
+				//PanelJuego.despliegaTablero();
 				aux.detonate(gImagen, false);
 				aux.owner.setActiveBombs(aux.owner.getActiveBombs()-1);
 				PanelJuego.bombs.remove(i);
