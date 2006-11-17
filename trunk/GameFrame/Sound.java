@@ -9,7 +9,7 @@ import java.net.URL;
  * Clase manejadora de sonidos en una aplicación
  * @author Revolution Software Developers
  */
-public class Sound {
+public class Sound implements Runnable {
 	/**
 	 * Clip de la cancion en memoria
 	 */
@@ -25,13 +25,13 @@ public class Sound {
 	 * @param filename
 	 */
 	public Sound(String filename) {
-		String ruta = RUTA+filename;
+		//String ruta = RUTA+filename;
 		
 		try {
-			songPath = new URL("file:" + ruta); 
+			songPath = new URL("file:"+filename); //new URL("file:" + ruta); 
 			song = Applet.newAudioClip(songPath); 
 		} catch(Exception e){
-			System.out.println("Sonido: " + ruta + " no encontrado. El sonido no se reproducira");
+			System.out.println("Sonido: " + filename + " no encontrado. El sonido no se reproducira");
 		} 
 	}
 	
@@ -60,6 +60,7 @@ public class Sound {
 		song.loop(); 
 	}
 	
+	
 	/**
 	 * Detiene el audio
 	 */
@@ -84,5 +85,17 @@ public class Sound {
 	}
 	
 	public static final String RUTA = (new File ("")).getAbsolutePath()+"\\sounds\\";
+
+	public void run() {
+		for(int i = 0; i<3; i++){
+			song.play();
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	
 }

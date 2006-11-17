@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.File;
 
 /**
  * Clase Bomba. 
@@ -83,6 +84,7 @@ public class Bomb {
 			}else if (aux.status >=80 && aux.status<100){
 				aux.detonate(gImagen,true);
 				if (aux.status==80){
+					new SoundClip("sound/boom.wav");
 					for(int j = 0; j<4; j++){
 						if(panel.players[j]!=null){
 							panel.players[j].checkMovement("X", -1);
