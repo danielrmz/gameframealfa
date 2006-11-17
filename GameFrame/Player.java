@@ -502,6 +502,11 @@ public class Player extends JComponent implements KeyListener,Runnable{
 			
 			} else if(direction>0) { //-- Se mueve a la derecha
 				Point p1 = this.getMatrixPoint(this.getXpos(),posy);
+				if(p1.x == grid.length-2 && grid[grid.length-2][p.y] == GameMaps.FUEGO){
+					this.setAlive(false);
+				} else if(p1.x == grid.length-2 && (grid[grid.length-1][p.y] == GameMaps.CRATE || grid[grid.length-1][p.y] == GameMaps.BLOQUE || grid[grid.length-1][p.y] == GameMaps.BOMBA)){
+					return 0;
+				}
 				if(p1.x == grid.length-2) return 5; //-- Bugfix de imprecision de la primera columna
 				int cell = grid[p1.x+1][p.y];
 				if(cell == GameMaps.BLOQUE || cell == GameMaps.BOMBA || cell == GameMaps.CRATE){
@@ -582,7 +587,7 @@ public class Player extends JComponent implements KeyListener,Runnable{
 					return (movement>5)?movement:0;	
 				} else {
 					//-- No es bomba ni bloque checa el fuego de la casilla actual no el de la posterior
-					if((grid[p.x][p.y+1] == GameMaps.FUEGO || grid[p1.x][p.y] == GameMaps.FUEGO) /*&& (Math.abs((p.y)*50-posy)<5)*/){	
+					if((grid[p.x][p.y] == GameMaps.FUEGO || grid[p1.x][p.y] == GameMaps.FUEGO) /*&& (Math.abs((p.y)*50-posy)<5)*/){	
 						this.setAlive(false);
 					} 
 					//-- Procesa los items
