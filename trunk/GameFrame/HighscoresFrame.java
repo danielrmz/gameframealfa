@@ -12,6 +12,11 @@ import javax.swing.*;
  **/
 public class HighscoresFrame extends JFrame implements ActionListener {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6159177034768072506L;
+
+	/**
 	 * Layer principal de contenidos
 	 */
 	private JLayeredPane principal = this.getLayeredPane();
