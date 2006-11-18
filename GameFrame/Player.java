@@ -494,11 +494,6 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		//-- Crear puntos de la base
 		Point p = this.getMatrixPoint(posx1,posy);
 		
-		//-- Rectangulos inferiores
-		PanelJuego.gImagen.setColor(Color.GREEN);
-		PanelJuego.gImagen.fill(new Rectangle(new Point(posx1,posy),new Dimension(5,5)));
-		PanelJuego.gImagen.fill(new Rectangle(new Point(posx2,posy),new Dimension(5,5)));
-		
 		try {
 			if(direction<0){ //-- Se mueve a la izquierda
 				Point p1 = this.getMatrixPoint(this.getXpos()+x,posy);
@@ -558,10 +553,6 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		Point p = this.getMatrixPoint(posx1,posy);  //-- Izquierda
 		Point p1 = this.getMatrixPoint(posx2,posy); //-- Derecha
 		
-		//-- Rectangulos inferiores
-		PanelJuego.gImagen.setColor(Color.GREEN);
-		PanelJuego.gImagen.fill(new Rectangle(new Point(posx1,posy),new Dimension(5,5)));
-		PanelJuego.gImagen.fill(new Rectangle(new Point(posx2,posy),new Dimension(5,5)));
 		try {
 			
 			if(direction<0){ //-- Si se va a mover para arriba
