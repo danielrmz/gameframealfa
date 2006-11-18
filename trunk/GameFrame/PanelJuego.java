@@ -86,6 +86,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	 */
 	public Player winner = null;
 	
+	
 	/**
 	 * Frame base
 	 */
@@ -238,7 +239,6 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 		if(panelSecundario==null){
 			panelSecundario = createImage(ANCHO+1,ALTO+1);
 		}
-		
 		gImagen = (Graphics2D)panelSecundario.getGraphics();
 		gImagen.drawImage(getImage("mundos/"+this.mundo+"/bg.png"),0,0,Color.BLACK,null);
 		
