@@ -117,7 +117,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 		  
 		//-- Establece a los dos jugadores
 		this.setPlayer(new Player(0,-10,1));
-		this.setPlayer(new Player(100,100,2));
+		this.setPlayer(new Player(500,430,2));
 		t = new Thread(this);
 	    
 	}
@@ -318,8 +318,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 		}
 		
 		if(active_players == 1){
-			((FrameJuego)this.frame).makeWinnerAnimation(this.players[active]);
-			//TODO: Cambiar el cast al tipo de frame definitivo
+			((GameFrame)this.frame).makeWinnerAnimation(this.players[active]);
 			return this.players[active];
 		}
 		
