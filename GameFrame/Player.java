@@ -566,7 +566,8 @@ public class Player extends JComponent implements KeyListener,Runnable{
 
 				int cell = grid[p.x][p.y-1];
 				int cell2 = grid[p1.x][p.y-1];
-				
+				if(p.y-1 == grid[0].length-1) return 5;
+				System.out.println(p.y);
 				//-- Checa la parte izquierda
 				if(cell == GameMaps.BLOQUE || cell == GameMaps.BOMBA || cell == GameMaps.CRATE){
 					return Math.abs((p.y-1)*50-this.getYpos());
