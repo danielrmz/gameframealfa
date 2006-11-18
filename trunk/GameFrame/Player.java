@@ -115,8 +115,9 @@ public class Player extends JComponent implements KeyListener,Runnable{
 	 * Numero de imagen actual del jugador
 	 */
 	private int counter;
+	
 	private int innercount;
-
+	
 	/**
 	 * Constructor del jugador
 	 * @param x coordenada inicial de x
@@ -127,6 +128,7 @@ public class Player extends JComponent implements KeyListener,Runnable{
 		//-- Numero de jugador
 		player = p;
 		numPlayers++;
+		
 		//-- Coordenadas iniciales
 		Xpos = x;
 		Ypos = y;
@@ -763,6 +765,7 @@ public class Player extends JComponent implements KeyListener,Runnable{
 			
 		}
 	}
+	
 	/**
 	 * Metodo no utilizado
 	 */

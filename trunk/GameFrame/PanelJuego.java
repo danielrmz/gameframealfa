@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.LinkedList;
+
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -78,17 +80,28 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	 * Variable que pausa el panel
 	 */
 	public static boolean paused = false;
+
+	/**
+	 * Ganador
+	 */
+	public Player winner = null;
+	
+	/**
+	 * Frame base
+	 */
+	public JFrame frame = null;
 	
 	/**
 	 * Constructor
 	 * @param mapa, mapa escogido
 	 */
-	public PanelJuego(int[][] mapa,String strmapa) {
+	public PanelJuego(int[][] mapa,String strmapa, JFrame frame) {
 		//-- Establece el alto y ancho, posteriormente se le asignara este tamaño a las imagenes creadas
 		ANCHO = mapa[0].length * 50;
 		ALTO  = mapa.length * 50;
 		imagenSiguiente = 0;
 		players = new Player[4];
+		this.frame = frame;
 		
 		//-- Establece un tamaño al panel
 		setSize(new Dimension(ANCHO,ALTO));
@@ -140,10 +153,10 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	 */
 	public static void despliegaTablero(int[][] grid){
 		System.out.println("==============================");
-		for(int i=0; i<grid.length; i++){
+		for(int i=0; i<grid[0].length; i++){
 			System.out.print("|");
-			for(int j=0; j<grid[i].length; j++){
-				System.out.print(grid[i][j]+"|");
+			for(int j=0; j<grid.length; j++){
+				System.out.print(grid[j][i]+"|");
 			}
 			System.out.println();
 		}
@@ -180,7 +193,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	/**
 	 * Dibuja todos los bloques, crates, e items en pantalla
 	 */
-	public void drawBlocks(){
+	public void drawBlocks(Graphics2D gImagen){
 		int[][] grid = PanelJuego.grid;
 		Image block = getImage("mundos/"+this.mundo+"/block.png");
 		Image block2 = getImage("mundos/"+this.mundo+"/block2.png");
@@ -225,10 +238,11 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 		if(panelSecundario==null){
 			panelSecundario = createImage(ANCHO+1,ALTO+1);
 		}
+		
 		gImagen = (Graphics2D)panelSecundario.getGraphics();
 		gImagen.drawImage(getImage("mundos/"+this.mundo+"/bg.png"),0,0,Color.BLACK,null);
 		
-		this.drawBlocks();
+		this.drawBlocks(gImagen);
 		//this.drawGrid();
 		
 		Bomb.drawBombs(gImagen,this);
@@ -267,6 +281,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	public void keyTyped(KeyEvent arg0) {
 	}
 
+	
 	/**
 	 * Run que verifica el estado del juego
 	 */
@@ -274,7 +289,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 		//new SoundTest(new File("sound/llevamecontigo_cumbia.mid"));
 		
 		running = true;
-		while(running){
+		while(running && (winner=this.isGameOver()) == null){
 			if(!paused){	
 			   gameRender();
 			   repaint();
@@ -287,7 +302,30 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 		System.out.println("Termino");
 
 	}
-
+	
+	/**
+	 * Verifica que no haya acabado el juego 
+	 */
+	public Player isGameOver(){
+		int active_players = 0;
+		int active = -1;
+		
+		for(int i = 0; i < this.players.length; i++){
+			if(this.players[i] != null && this.players[i].isAlive()){
+				active = i;
+				active_players++;
+			}
+		}
+		
+		if(active_players == 1){
+			((FrameJuego)this.frame).makeWinnerAnimation(this.players[active]);
+			//TODO: Cambiar el cast al tipo de frame definitivo
+			return this.players[active];
+		}
+		
+		return null;
+	}
+	
 	/**
 	 * Termina el juego
 	 */
