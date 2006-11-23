@@ -134,12 +134,11 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		if(clicked == salir){
 			this.dispose();
 		} else if(clicked == nuevo){
-			PersonalizeFrame f = new PersonalizeFrame();
+			PreGameFrame f = new PreGameFrame();
 			this.setVisible(false);
 			f.setVisible(true);
 		} else if(clicked == rapido){
 			GameFrame frame = new GameFrame();
-			
 			this.setVisible(false);
 			frame.setVisible(true);
 			frame.mapa.t.start();

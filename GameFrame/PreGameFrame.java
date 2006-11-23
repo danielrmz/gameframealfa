@@ -1,12 +1,13 @@
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.*;
 
 public class PreGameFrame extends JFrame implements MouseListener{
 	
 	private static final long serialVersionUID = 1L;
+	
 	JLayeredPane principal = this.getLayeredPane();
+	
 	JLabel backGround;
 	JLabel villa;
 	JLabel player1;
@@ -19,6 +20,9 @@ public class PreGameFrame extends JFrame implements MouseListener{
 	JLabel nombreCantina;
 	JLabel nombreNormal;
 	JLabel nombreDesierto;
+	
+	JButton jugar; 
+	JButton regresar;
 	
 	public static ImageIcon getImageIcon(String filename){	
 		ImageIcon image = new ImageIcon(filename);
@@ -38,7 +42,7 @@ public class PreGameFrame extends JFrame implements MouseListener{
 		principal.add(backGround,JLayeredPane.DEFAULT_LAYER);
 		
 		villa = new JLabel();
-		villa.setIcon(getImageIcon("villa.png"));
+		villa.setIcon(getImageIcon("img/player 1.png"));
 		villa.setSize(120,180);
 		villa.setLocation(480,100);
 		principal.add(villa,JLayeredPane.PALETTE_LAYER);
@@ -50,7 +54,7 @@ public class PreGameFrame extends JFrame implements MouseListener{
 		principal.add(player1,JLayeredPane.MODAL_LAYER);
 		
 		zapata = new JLabel();
-		zapata.setIcon(getImageIcon("zapata.png"));
+		zapata.setIcon(getImageIcon("img/player 2.png"));
 		zapata.setSize(120,180);
 		zapata.setLocation(200,100);
 		principal.add(zapata,JLayeredPane.PALETTE_LAYER);
@@ -103,7 +107,17 @@ public class PreGameFrame extends JFrame implements MouseListener{
 		nombreDesierto.setLocation(130,230);
 		principal.add(nombreDesierto,JLayeredPane.MODAL_LAYER);
 		
+		jugar = new JButton("Jugar");
+		jugar.setSize(100,30);
+		jugar.setLocation(525,520);
+		principal.add(jugar,JLayeredPane.MODAL_LAYER);
+		jugar.addMouseListener(this);
 		
+		regresar = new JButton("Regresar");
+		regresar.setSize(100,30);
+		regresar.setLocation(125,520);
+		principal.add(regresar,JLayeredPane.MODAL_LAYER);
+		regresar.addMouseListener(this);
 		
 		addMouseListener(this);
 	}
@@ -129,6 +143,16 @@ public class PreGameFrame extends JFrame implements MouseListener{
 			frameMundo.setLocation(282,325);
 		}else if((mc.getX()>500 && mc.getX()<650) && (mc.getY()>370 && mc.getY()<530)){
 			frameMundo.setLocation(482,325);
+		}else if(mc.getSource() == jugar){
+			System.out.println("click");
+			GameFrame frame = new GameFrame();
+			this.setVisible(false);
+			frame.setVisible(true);
+			frame.mapa.t.start();
+		}else if(mc.getSource() == regresar){
+			InitFrame inicio = new InitFrame();
+			this.setVisible(false);
+			inicio.setVisible(true);
 		}
 		
 	}
