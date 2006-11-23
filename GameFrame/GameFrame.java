@@ -165,7 +165,7 @@ public class GameFrame extends JFrame implements KeyListener {
 			String name = "";
 			while((name = JOptionPane.showInputDialog(this,"Has obtenido un lugar en el bar de la fama, introduce tu nombre jugador "+winner.getid()))==null || name.equals(""));
 			HighscoresFrame.setHighscore(name,mapa.gameTime);
-			HighscoresFrame.printHighscores();
+			//HighscoresFrame.printHighscores();
 			
 		} else { 
 			JOptionPane.showMessageDialog(this, "El jugador "+winner.getid()+" es el ganador!");
@@ -203,8 +203,6 @@ public class GameFrame extends JFrame implements KeyListener {
 	 */
 	public void keyPressed(KeyEvent e) {
 		int pressed = e.getKeyCode();
-		System.out.println(KeyEvent.getKeyText(pressed));
-		System.out.println(pressed);
 		if(!this.paused && !this.ended){
 			switch (pressed){
 			case 113:
