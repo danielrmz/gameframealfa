@@ -680,7 +680,7 @@ public class Player extends JComponent implements KeyListener,Runnable{
 			setDirection(Player.RIGTH);
 		break;
 		case KeyEvent.VK_ESCAPE:  
-			PanelJuego.running = false; 
+		//	PanelJuego.running = false; 
 		break;
 		case KeyEvent.VK_M:
 			if((getActiveBombs() < getBombsNum()) && alive){

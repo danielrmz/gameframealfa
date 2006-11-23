@@ -23,6 +23,7 @@ public class PreGameFrame extends JFrame implements MouseListener{
 	
 	JButton jugar; 
 	JButton regresar;
+	int mapaactual = 1;
 	
 	public static ImageIcon getImageIcon(String filename){	
 		ImageIcon image = new ImageIcon(filename);
@@ -31,15 +32,7 @@ public class PreGameFrame extends JFrame implements MouseListener{
 	}
 	
 	public PreGameFrame(){
-		setSize(752,600);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
-		
-		backGround = new JLabel();
-		backGround.setIcon(getImageIcon("cantina_main.png"));
-		backGround.setSize(752,600);
-		backGround.setLocation(0,0);
-		principal.add(backGround,JLayeredPane.DEFAULT_LAYER);
+		Main.setDefaults(this);
 		
 		villa = new JLabel();
 		villa.setIcon(getImageIcon("img/player 1.png"));
@@ -68,7 +61,7 @@ public class PreGameFrame extends JFrame implements MouseListener{
 		mundoCantina = new JLabel();
 		mundoCantina.setIcon(getImageIcon("cantina.png"));
 		mundoCantina.setSize(150,150);
-		mundoCantina.setLocation(100,350);
+		mundoCantina.setLocation(500,350);
 		principal.add(mundoCantina,JLayeredPane.MODAL_LAYER);
 		
 		mundoNormal = new JLabel();
@@ -80,7 +73,7 @@ public class PreGameFrame extends JFrame implements MouseListener{
 		mundoDesierto = new JLabel();
 		mundoDesierto.setIcon(getImageIcon("desierto.png"));
 		mundoDesierto.setSize(150,150);
-		mundoDesierto.setLocation(500,350);
+		mundoDesierto.setLocation(100,350);
 		principal.add(mundoDesierto,JLayeredPane.MODAL_LAYER);
 		
 		frameMundo = new JLabel();
@@ -139,13 +132,17 @@ public class PreGameFrame extends JFrame implements MouseListener{
 			seleccion("zapata");
 		}else if((mc.getX()>100 && mc.getX()<250) && (mc.getY()>370 && mc.getY()<530)){
 			frameMundo.setLocation(82,325);
+			this.mapaactual = 2;
 		}else if((mc.getX()>300 && mc.getX()<450) && (mc.getY()>370 && mc.getY()<530)){
 			frameMundo.setLocation(282,325);
+			this.mapaactual = 3;
 		}else if((mc.getX()>500 && mc.getX()<650) && (mc.getY()>370 && mc.getY()<530)){
 			frameMundo.setLocation(482,325);
+			this.mapaactual = 1;
+			
 		}else if(mc.getSource() == jugar){
-			System.out.println("click");
-			GameFrame frame = new GameFrame();
+			
+			GameFrame frame = new GameFrame(mapaactual);
 			this.setVisible(false);
 			frame.setVisible(true);
 			frame.mapa.t.start();
