@@ -12,6 +12,13 @@ public class PreGameFrame extends JFrame implements MouseListener{
 	JLabel player1;
 	JLabel zapata;
 	JLabel player2;
+	JLabel mundoCantina;
+	JLabel mundoNormal;
+	JLabel mundoDesierto;
+	JLabel frameMundo;
+	JLabel nombreCantina;
+	JLabel nombreNormal;
+	JLabel nombreDesierto;
 	
 	public static ImageIcon getImageIcon(String filename){	
 		ImageIcon image = new ImageIcon(filename);
@@ -54,6 +61,50 @@ public class PreGameFrame extends JFrame implements MouseListener{
 		player2.setLocation(200,100);
 		principal.add(player2,JLayeredPane.MODAL_LAYER);
 		
+		mundoCantina = new JLabel();
+		mundoCantina.setIcon(getImageIcon("cantina.png"));
+		mundoCantina.setSize(150,150);
+		mundoCantina.setLocation(100,350);
+		principal.add(mundoCantina,JLayeredPane.MODAL_LAYER);
+		
+		mundoNormal = new JLabel();
+		mundoNormal.setIcon(getImageIcon("normal.png"));
+		mundoNormal.setSize(150,150);
+		mundoNormal.setLocation(300,350);
+		principal.add(mundoNormal,JLayeredPane.MODAL_LAYER);
+		
+		mundoDesierto = new JLabel();
+		mundoDesierto.setIcon(getImageIcon("desierto.png"));
+		mundoDesierto.setSize(150,150);
+		mundoDesierto.setLocation(500,350);
+		principal.add(mundoDesierto,JLayeredPane.MODAL_LAYER);
+		
+		frameMundo = new JLabel();
+		frameMundo.setIcon(getImageIcon("frame.png"));
+		frameMundo.setSize(200,200);
+		frameMundo.setLocation(482,325);
+		principal.add(frameMundo,JLayeredPane.PALETTE_LAYER);
+		
+		nombreCantina = new JLabel();
+		nombreCantina.setIcon(getImageIcon("nombreCantina.png"));
+		nombreCantina.setSize(200,200);
+		nombreCantina.setLocation(530,230);
+		principal.add(nombreCantina,JLayeredPane.MODAL_LAYER);
+		
+		nombreNormal = new JLabel();
+		nombreNormal.setIcon(getImageIcon("nombreNormal.png"));
+		nombreNormal.setSize(200,200);
+		nombreNormal.setLocation(330,230);
+		principal.add(nombreNormal,JLayeredPane.MODAL_LAYER);
+		
+		nombreDesierto = new JLabel();
+		nombreDesierto.setIcon(getImageIcon("nombreDesierto.png"));
+		nombreDesierto.setSize(200,200);
+		nombreDesierto.setLocation(130,230);
+		principal.add(nombreDesierto,JLayeredPane.MODAL_LAYER);
+		
+		
+		
 		addMouseListener(this);
 	}
 	
@@ -72,6 +123,12 @@ public class PreGameFrame extends JFrame implements MouseListener{
 			seleccion("villa");
 		}else if((mc.getX()>200 && mc.getX()<320) && (mc.getY()>125 && mc.getY()<305)){
 			seleccion("zapata");
+		}else if((mc.getX()>100 && mc.getX()<250) && (mc.getY()>370 && mc.getY()<530)){
+			frameMundo.setLocation(82,325);
+		}else if((mc.getX()>300 && mc.getX()<450) && (mc.getY()>370 && mc.getY()<530)){
+			frameMundo.setLocation(282,325);
+		}else if((mc.getX()>500 && mc.getX()<650) && (mc.getY()>370 && mc.getY()<530)){
+			frameMundo.setLocation(482,325);
 		}
 		
 	}
