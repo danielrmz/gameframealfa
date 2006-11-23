@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.Serializable;
 
 import javax.swing.*;
 
@@ -70,11 +71,42 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 		principal.add(clear,JLayeredPane.POPUP_LAYER);
 		principal.add(scores,JLayeredPane.POPUP_LAYER);
 		principal.add(back,JLayeredPane.POPUP_LAYER);
+		this.generateHighscores();
 	}
 	
 	public void clearHighscores(){
 		for(int i=0; i<highscores.length; i++){
 			highscores[i] = null;
+		}
+		HighscoresFrame f = new HighscoresFrame();
+		f.setVisible(true);
+		this.dispose();
+	}
+	
+	public void generateHighscores(){
+		Font font = new Font("Arial", Font.BOLD, 16);
+		
+		for(int i = 0; i < 10; i++){
+			if(highscores[i] == null) return;
+			JLabel num = new JLabel((i+1)+".");
+			num.setFont(font);
+			JLabel name = new JLabel(highscores[i].getName());
+			name.setFont(font);
+			long t = highscores[i].getTime();
+			String subt = ((t/60.0)+"");
+			String p1 = subt.substring(0,subt.indexOf('.'));
+			String p2 = subt.substring(subt.indexOf('.'),subt.indexOf('.')+3);
+			JLabel time = new JLabel(p1+p2+" minutos");
+			time.setFont(font);
+			num.setSize(new Dimension(20,20));
+			name.setSize(new Dimension(100,20));
+			time.setSize(new Dimension(150,20));
+			num.setLocation(140,190+(i*20));
+			name.setLocation(155,190+(i*20));
+			time.setLocation(500,195+(i*20));
+			principal.add(num,JLayeredPane.DRAG_LAYER);
+			principal.add(name,JLayeredPane.DRAG_LAYER);
+			principal.add(time,JLayeredPane.DRAG_LAYER);
 		}
 	}
 	
@@ -121,7 +153,8 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 		return -1;
 	}
 	
-	public static class Highscore { 
+	public static class Highscore implements Serializable { 
+		private static final long serialVersionUID = 1L;
 		protected String name = "";
 		protected long time = 0;
 		
@@ -133,5 +166,17 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 		public String getName(){return name;}
 		public long getTime(){return time;}
 		
+	}
+	
+	/**
+	 * Estructura para guardar los highscores
+	 * @author Revolution Software Developers
+	 */
+	public static class HighscoreTable implements Serializable { 
+		private static final long serialVersionUID = 1L;
+		public Highscore[] table;
+		public HighscoreTable(Highscore[] table){
+			this.table = table;
+		}
 	}
 }

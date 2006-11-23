@@ -70,7 +70,7 @@ public class Main {
 		principal.add(bgLabel,JLayeredPane.DEFAULT_LAYER);
 		
 		frame.setSize(new Dimension(752,625));
-		frame.setTitle("Drunkenman version 0.5 beta");
+		frame.setTitle("Macrosoft Appol Drunkenman ™");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLocation(250,100);
