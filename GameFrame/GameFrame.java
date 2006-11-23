@@ -120,10 +120,17 @@ public class GameFrame extends JFrame implements KeyListener {
 	}
 	
 	public void makeWinnerAnimation(Player winner){
+		JOptionPane.showMessageDialog(this, "El jugador "+winner.getid()+" es el ganador!");
 		if(HighscoresFrame.isHighscore(mapa.gameTime)!= -1){
-			String name = JOptionPane.showInputDialog(this,"Has obtenido un lugar en el bar de la fama, introduce tu nombre");
+			ImageIcon img = Main.getImageIcon("winner.png");
+			pausa.setIcon(img);
+			pausa.setSize(new Dimension(800,600));
+			principal.add(pausa,JLayeredPane.DRAG_LAYER);
+			
+			String name = JOptionPane.showInputDialog(this,"Has obtenido un lugar en el bar de la fama, introduce tu nombre ");
 			HighscoresFrame.setHighscore(name,mapa.gameTime);
 			HighscoresFrame.printHighscores();
+			
 		}
 	}
 	
