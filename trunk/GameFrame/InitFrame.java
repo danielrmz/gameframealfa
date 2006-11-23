@@ -146,7 +146,7 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		} else if(clicked == cargar){
 			this.open();
 		} else if(clicked == opciones){
-			PreferencesFrame frame = new PreferencesFrame();
+			ConfigFrame frame = new ConfigFrame();
 			this.setVisible(false);
 			frame.setVisible(true);
 		} else if(clicked == highs){
