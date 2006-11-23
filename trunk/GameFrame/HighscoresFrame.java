@@ -78,7 +78,7 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 		for(int i=0; i<highscores.length; i++){
 			highscores[i] = null;
 		}
-		new Serial("highscores.drk",null);
+		new Serial("highscores.ini",null);
 		HighscoresFrame f = new HighscoresFrame();
 		f.setVisible(true);
 		this.dispose();

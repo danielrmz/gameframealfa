@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.util.LinkedList;
+import java.io.*;
+import java.util.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,7 +11,7 @@ import javax.swing.Timer;
  * Panel que maneja el juego
  * @author Revolution Software Developers
  */
-public class PanelJuego extends JPanel implements Runnable, KeyListener {
+public class PanelJuego extends JPanel implements Runnable, KeyListener, Serializable {
 	/**
 	 * Constante de eclipse
 	 */
@@ -97,6 +97,10 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	 * Timer
 	 */
 	public Timer timer;
+	
+	/**
+	 * Tiempo actual
+	 */
 	public long gameTime = 0;
 	
 	/**
@@ -337,6 +341,10 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 		}
 		
 		return null;
+	}
+	
+	public SaveStructure getSaveStructure(){
+		return new SaveStructure(bombs,gameTime, grid, mundo);
 	}
 	
 	/**

@@ -9,7 +9,7 @@ import javax.swing.JComponent;
  * Clase que maneja al jugador, sus imagenes y las colisiones
  * @author Revolution Software Developers
  */
-public class Player extends JComponent implements KeyListener,Runnable{
+public class Player extends JComponent implements KeyListener,Runnable, Serializable {
 
 	/**
 	 * Constante de eclipse
@@ -693,9 +693,6 @@ public class Player extends JComponent implements KeyListener,Runnable{
 				setActiveBombs(getActiveBombs()+1);
 			}
 		break;
-		case KeyEvent.VK_F4:
-			this.setAlive(true);
-			break;
 	}
 	}else
 		if(player == 2){
