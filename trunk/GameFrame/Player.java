@@ -773,4 +773,11 @@ public class Player extends JComponent implements KeyListener,Runnable{
 			} catch (InterruptedException e) {}
 		}
 	}
+	
+	/**
+	 * Devuelve el id del player
+	 */
+	public int getid(){
+		return this.player;
+	}
 }

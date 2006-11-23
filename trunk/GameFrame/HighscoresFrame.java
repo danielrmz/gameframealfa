@@ -128,7 +128,6 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 		public Highscore(String name, long time){
 			this.name = name;
 			this.time = time;
-			
 		}
 		
 		public String getName(){return name;}
