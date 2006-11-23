@@ -64,7 +64,6 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 		clear.setSize(new Dimension(140,20));
 		clear.setLocation(360,520);
 		clear.addActionListener(new ActionListener(){
-
 			public void actionPerformed(ActionEvent arg0) {
 				clearHighscores();
 			}});
@@ -78,6 +77,15 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 			highscores[i] = null;
 		}
 	}
+	
+	public static void printHighscores(){
+		System.out.println("====== Highscores =======");
+		for(int i=0; i<highscores.length; i++){
+			if(highscores[i]!=null){
+				System.out.println((i+1)+". "+highscores[i].getName()+", tiempo: "+highscores[i].getTime());
+			}
+		}
+	}
 	/**
 	 * Action Performed del boton regresar
 	 */
@@ -88,26 +96,26 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 		}
 	}
 	
-	public static void setHighscore(String name, long time, int kills){
-		Highscore nuevo = new Highscore(name,time,kills);
-		int pos = isHighscore(time,kills);
+	public static void setHighscore(String name, long time){
+		Highscore nuevo = new Highscore(name,time);
+		int pos = isHighscore(time);
 		if(pos>=0){
 			//-- Recorrer highscores
 			for(int i = highscores.length-2; i>=pos; i--){
-				highscores[i] = highscores[i+1];
+				highscores[i+1] = highscores[i];
 			}
 		}
 		highscores[pos] = nuevo;
 	}
 	
-	public static int isHighscore(long time, int kills){ 
+	public static int isHighscore(long time){ 
 		for(int i=0; i<highscores.length; i++){
-			if(highscores!=null){
-				if(highscores[i].getKills() < kills){
+			if(highscores[i]!=null){
+				if(highscores[i].getTime() > time && highscores[i].getTime() > 0){
 					return i;
-				} else if(highscores[i].getKills() == kills && highscores[i].getTime() > time){
-					return i;
-				}
+				} 
+			} else if(highscores[i] == null){
+				return i;
 			}
 		}
 		return -1;
@@ -116,17 +124,15 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 	public static class Highscore { 
 		protected String name = "";
 		protected long time = 0;
-		protected int kills = 0;
 		
-		public Highscore(String name, long time, int kills){
+		public Highscore(String name, long time){
 			this.name = name;
 			this.time = time;
-			this.kills = kills;
+			
 		}
 		
 		public String getName(){return name;}
 		public long getTime(){return time;}
-		public int getKills(){return kills;}
 		
 	}
 }

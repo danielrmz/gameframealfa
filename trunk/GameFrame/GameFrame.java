@@ -120,7 +120,11 @@ public class GameFrame extends JFrame implements KeyListener {
 	}
 	
 	public void makeWinnerAnimation(Player winner){
-		HighscoresFrame.setHighscore("",mapa.gameTime,winner.playerskilled);
+		if(HighscoresFrame.isHighscore(mapa.gameTime)!= -1){
+			String name = JOptionPane.showInputDialog(this,"Has obtenido un lugar en el bar de la fama, introduce tu nombre");
+			HighscoresFrame.setHighscore(name,mapa.gameTime);
+			HighscoresFrame.printHighscores();
+		}
 	}
 	
 	/**
@@ -163,7 +167,7 @@ public class GameFrame extends JFrame implements KeyListener {
 				break;
 			}
 		} else { 
-			if(pressed==10){
+			if(pressed==114){
 				this.pause(false);
 			}
 		}
