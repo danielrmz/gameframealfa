@@ -30,9 +30,17 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		loadHighscores();
 		principal.setVisible(true);
 	}
 	
+	public static void loadHighscores(){
+		HighscoresFrame.HighscoreTable table = (HighscoresFrame.HighscoreTable)((new Serial("highscores.drk").getObject()));
+		if(table!=null){
+			HighscoresFrame.highscores = table.table;
+		}
+	}
+
 	/**
 	 * Regresa una imagen del directorio img/ dando nadamas su nombre
 	 * @param filename
