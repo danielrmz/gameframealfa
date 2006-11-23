@@ -133,7 +133,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 			public void actionPerformed(ActionEvent arg0) {
 				gameTime++;
 			}});
-	    
+	    timer.start();
 	}
 	
 	/**

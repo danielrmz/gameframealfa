@@ -119,11 +119,6 @@ public class Player extends JComponent implements KeyListener,Runnable{
 	private int innercount;
 	
 	/**
-	 * Numero de players muertos
-	 */
-	public int playerskilled = 0;
-	
-	/**
 	 * Constructor del jugador
 	 * @param x coordenada inicial de x
 	 * @param y coordenada inicial de y
