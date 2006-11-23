@@ -56,7 +56,7 @@ public class GameFrame extends JFrame implements KeyListener {
 			name = "normal";
 		}
 		
-		PanelJuego.despliegaTablero(map);
+		//PanelJuego.despliegaTablero(map);
 		
 		mapa = new PanelJuego(map,name,this);
 		mapa.setSize(new Dimension(700,500));
@@ -120,8 +120,7 @@ public class GameFrame extends JFrame implements KeyListener {
 	}
 	
 	public void makeWinnerAnimation(Player winner){
-		
-		
+		HighscoresFrame.setHighscore("",mapa.gameTime,winner.playerskilled);
 	}
 	
 	/**

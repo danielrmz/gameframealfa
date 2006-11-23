@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  * Panel que maneja el juego
@@ -93,6 +94,12 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 	public JFrame frame = null;
 	
 	/**
+	 * Timer
+	 */
+	public Timer timer;
+	public long gameTime = 0;
+	
+	/**
 	 * Constructor
 	 * @param mapa, mapa escogido
 	 */
@@ -120,6 +127,12 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 		this.setPlayer(new Player(0,-10,1));
 		this.setPlayer(new Player(500,430,2));
 		t = new Thread(this);
+		
+		timer = new Timer(1000, new ActionListener(){
+
+			public void actionPerformed(ActionEvent arg0) {
+				gameTime++;
+			}});
 	    
 	}
 	
@@ -319,6 +332,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener {
 		
 		if(active_players == 1){
 			((GameFrame)this.frame).makeWinnerAnimation(this.players[active]);
+			timer.stop();
 			return this.players[active];
 		}
 		
