@@ -1,5 +1,3 @@
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -7,6 +5,7 @@ import javax.swing.*;
 
 public class PreGameFrame extends JFrame implements MouseListener{
 	
+	private static final long serialVersionUID = 1L;
 	JLayeredPane principal = this.getLayeredPane();
 	JLabel backGround;
 	JLabel villa;
