@@ -42,6 +42,30 @@ public class GameFrame extends JFrame implements KeyListener {
 	 */
 	public PanelJuego mapa;
 	
+	public GameFrame(SaveStructure saved){
+		Main.setDefaults(this);
+		int[][] map = new int[GameMaps.cantina.length][GameMaps.cantina[0].length];
+		this.copyMap(GameMaps.cantina,map);
+		mapa = new PanelJuego(map,saved.mundo,this);
+		//PanelJuego.bombs = saved.bombs;
+		this.eraseCrates();
+		PanelJuego.grid = saved.grid;
+		mapa.gameTime = saved.gameTime;
+		this.defaults();
+	}
+	
+	public void eraseCrates(){
+		int[][] grid = PanelJuego.grid;
+		for(int i=0; i<grid[0].length; i++){
+			for(int j=0; j<grid.length; j++){
+				if(grid[i][j] == GameMaps.CRATE){
+					grid[i][j] = GameMaps.BLANK;
+				}
+			}
+		}
+		
+	}
+	
 	public GameFrame(int gamemap){
 		Main.setDefaults(this);
 		int[][] map;
@@ -165,7 +189,7 @@ public class GameFrame extends JFrame implements KeyListener {
 			String name = "";
 			while((name = JOptionPane.showInputDialog(this,"Has obtenido un lugar en el bar de la fama, introduce tu nombre jugador "+winner.getid()))==null || name.equals(""));
 			HighscoresFrame.setHighscore(name,mapa.gameTime);
-			new Serial("highscores.drk",new HighscoresFrame.HighscoreTable(HighscoresFrame.highscores));
+			new Serial("highscores.ini",new HighscoresFrame.HighscoreTable(HighscoresFrame.highscores));
 			
 		} else { 
 			JOptionPane.showMessageDialog(this, "El jugador "+winner.getid()+" es el ganador!");
@@ -194,7 +218,13 @@ public class GameFrame extends JFrame implements KeyListener {
 		fc.showSaveDialog(this);
 		File file = fc.getSelectedFile();
 		if(file!=null){
-			//TODO: Guardar en archivo, serializar mapa
+			String ruta = file.getAbsolutePath();
+			if(ruta.indexOf('.')==-1){
+				ruta = ruta + ".drk";
+			} else {
+				ruta =ruta.substring(0,ruta.indexOf('.'))+".drk";
+			}
+			new Serial(ruta,this.mapa.getSaveStructure());
 		}
 	}
 	
@@ -215,7 +245,9 @@ public class GameFrame extends JFrame implements KeyListener {
 				this.pause(true);
 				break;
 			case 115:
+				this.pause(true);
 				this.save();
+				this.pause(false);
 				break;
 			case 121: 
 				PanelJuego.endGame();

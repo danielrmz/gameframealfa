@@ -34,7 +34,7 @@ public class Main {
 	}
 	
 	public static void loadHighscores(){
-		HighscoresFrame.HighscoreTable table = (HighscoresFrame.HighscoreTable)((new Serial("highscores.drk").getObject()));
+		HighscoresFrame.HighscoreTable table = (HighscoresFrame.HighscoreTable)((new Serial("highscores.ini").getObject()));
 		if(table!=null){
 			HighscoresFrame.highscores = table.table;
 		}
@@ -77,7 +77,7 @@ public class Main {
 		principal.add(bgLabel,JLayeredPane.DEFAULT_LAYER);
 		
 		frame.setSize(new Dimension(752,625));
-		frame.setTitle("Macrosoft Appol Drunkenman ™");
+		frame.setTitle("Macrosoft Drunkenman ™");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLocation(250,100);

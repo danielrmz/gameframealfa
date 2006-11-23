@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.*;
 
 /**
  * Clase Bomba. 
@@ -7,8 +8,13 @@ import java.awt.*;
  * 
  * @author Revolution Software Developers
  */
-public class Bomb {
+public class Bomb implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5531330444559978082L;
+
 	/**
 	 * Dice si la bomba esta activa o no
 	 */

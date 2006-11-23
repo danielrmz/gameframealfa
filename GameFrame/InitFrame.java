@@ -167,7 +167,14 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		fc.showOpenDialog(this);
 		File file = fc.getSelectedFile();
 		if(file!=null){
-			//TODO: Abrir el archivo, deserializar mapa
+			Object guardado = (new Serial(file.getAbsolutePath())).getObject();
+			if(guardado!=null){
+				SaveStructure struct = (SaveStructure)guardado;
+				GameFrame f = new GameFrame(struct);
+				f.setVisible(true);
+				f.mapa.t.start();
+				this.setVisible(false);
+			}
 		}
 		
 	}
