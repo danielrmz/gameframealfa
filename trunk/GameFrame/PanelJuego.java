@@ -343,10 +343,6 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener, Seriali
 		return null;
 	}
 	
-	public SaveStructure getSaveStructure(){
-		return new SaveStructure(bombs,gameTime, grid, mundo);
-	}
-	
 	/**
 	 * Termina el juego
 	 */
@@ -361,6 +357,10 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener, Seriali
 		Player.numPlayers = 0;
 	}
 	
+	/**
+	 * Especifica que imagen de jugador usara cada uno
+	 * @param i1
+	 */
 	public void setPlayers(boolean i1){
 		this.players[0].gorro = (i1)?"2.png":"";
 		this.players[1].gorro = (!i1)?"2.png":"";

@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 
 public class ConfigFrame extends JFrame implements MouseListener,KeyListener {
 	
+	private static final long serialVersionUID = 1L;
 	JLabel itemslbl;
 	JLabel siItems;
 	JLabel noItems;

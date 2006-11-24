@@ -6,13 +6,15 @@ import javax.swing.event.MouseInputListener;
 
 /** 
  * Clase InitFrame.java 
- *
+ * Frame inicial del Juego
  * @author Revolution Software Developers
- * @package drunkenman
  **/
 
 public class InitFrame extends JFrame implements MouseInputListener, KeyListener {
 
+	/**
+	 * Constante de Eclipse
+	 */
 	private static final long serialVersionUID = 8392766137162067216L;
 
 	/**
@@ -171,16 +173,17 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		else if(src.equals(opciones)) 	this.opcionactual = 3;
 		else if(src.equals(salir))		this.opcionactual = 4;
 	}
+	
 	public void mousePressed(MouseEvent arg0) {}
 	public void mouseReleased(MouseEvent arg0) {}
 	public void mouseDragged(MouseEvent arg0) {}
 	public void mouseMoved(MouseEvent arg0) {}
-
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void keyTyped(KeyEvent arg0) {}
+	public void keyReleased(KeyEvent arg0) {}
+	
+	/**
+	 * Metodo que detecta que elemento del menu ha sido seleccionado
+	 */
 	public void keyPressed(KeyEvent e) {
 		Point p = selected.getLocation();
 		
@@ -225,9 +228,5 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		}
 	}
 
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }

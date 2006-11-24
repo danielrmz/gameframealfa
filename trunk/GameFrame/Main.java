@@ -33,6 +33,9 @@ public class Main {
 		principal.setVisible(true);
 	}
 	
+	/**
+	 * Carga los highscores a la variable estatica de highscores
+	 */
 	public static void loadHighscores(){
 		HighscoresFrame.HighscoreTable table = (HighscoresFrame.HighscoreTable)((new Serial("highscores.ini").getObject()));
 		if(table!=null){

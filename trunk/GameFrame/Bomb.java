@@ -11,7 +11,7 @@ import java.io.*;
 public class Bomb implements Serializable {
 	
 	/**
-	 * 
+	 * Constante de Eclipse
 	 */
 	private static final long serialVersionUID = 5531330444559978082L;
 

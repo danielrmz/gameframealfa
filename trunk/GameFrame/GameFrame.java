@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
 import javax.swing.*;
 
 /** 
@@ -12,7 +11,7 @@ import javax.swing.*;
 
 public class GameFrame extends JFrame implements KeyListener {
 	/**
-	 * 
+	 * Constante de eclipse
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -41,6 +40,10 @@ public class GameFrame extends JFrame implements KeyListener {
 	 */
 	public PanelJuego mapa;
 	
+	/**
+	 * Constructor con un mapa determinado
+	 * @param gamemap
+	 */
 	public GameFrame(int gamemap){
 		Main.setDefaults(this);
 		int[][] map;
@@ -66,7 +69,7 @@ public class GameFrame extends JFrame implements KeyListener {
 	
 	
 	/**
-	 * Constructor
+	 * Constructor Vacio
 	 */
 	public GameFrame() {
 		Main.setDefaults(this);
@@ -93,6 +96,9 @@ public class GameFrame extends JFrame implements KeyListener {
 		this.defaults();
 	}
 	
+	/**
+	 * Establece los labels defaults en la ventana sin estar ligado a un constructor especifico
+	 */
 	public void defaults(){
 		mapa.setSize(new Dimension(700,500));
 		mapa.setOpaque(false);
@@ -119,6 +125,12 @@ public class GameFrame extends JFrame implements KeyListener {
 		principal.add(cerrar,JLayeredPane.PALETTE_LAYER);
 		mapa.addKeyListener(this);
 	}
+	
+	/**
+	 * Copia el mapa para que no sea un arreglo por referencia
+	 * @param base arreglo base
+	 * @param dest arreglo destino
+	 */
 	public void copyMap(int[][] base, int[][] dest){
 		for(int i=0;i<base.length;i++){
 			for(int j=0;j<base[0].length;j++){
@@ -126,6 +138,7 @@ public class GameFrame extends JFrame implements KeyListener {
 			}
 		}
 	}
+	
 	/**
 	 * Pausa/Despausa el juego dependiendo de la variable global
 	 * @param pause
@@ -147,6 +160,10 @@ public class GameFrame extends JFrame implements KeyListener {
 		PanelJuego.paused = paused;
 	}
 	
+	/**
+	 * Pone la animacion del ganador asi como muestra un mensaje para guardar su nombre en la bar de la fama
+	 * @param winner Jugador que ha ganado
+	 */
 	public void makeWinnerAnimation(Player winner){
 		ImageIcon img = Main.getImageIcon("winner.png");
 		this.ended = true;
@@ -178,7 +195,7 @@ public class GameFrame extends JFrame implements KeyListener {
 	}
 	
 	/**
-	 * Detecta las acciones
+	 * Detecta las acciones del frame
 	 */
 	public void keyPressed(KeyEvent e) {
 		int pressed = e.getKeyCode();

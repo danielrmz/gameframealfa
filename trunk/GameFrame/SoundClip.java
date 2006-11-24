@@ -7,8 +7,16 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**
+ * Clase que reproduce el sonido
+ * @author Revolution Software Developers
+ */
 public class SoundClip {
 	
+	/**
+	 * Constructor del soundclip de sonido
+	 * @param file
+	 */
 	public SoundClip(String file){
 		
 		AudioInputStream ais = null;
@@ -17,10 +25,8 @@ public class SoundClip {
 		try {
 			ais = AudioSystem.getAudioInputStream(getClass( ).getResource(file) );
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -31,23 +37,19 @@ public class SoundClip {
 		try {
 			clip = (Clip) AudioSystem.getLine(info);
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		try {
 			clip.open(ais);
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         try {
 			ais.close( );
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		clip.start();
