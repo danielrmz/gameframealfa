@@ -120,7 +120,7 @@ public class Bomb implements Serializable {
 	 */
 	private int getPowerUp(){
 		boolean powerup = Math.random()>0.5;
-		if(powerup){
+		if(powerup && ConfigFrame.isItems){
 			return Math.random()>0.5?GameMaps.MOREBOMBS:GameMaps.MOREPOWER;
 		}
 		return GameMaps.BLANK;

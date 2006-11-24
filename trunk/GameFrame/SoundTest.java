@@ -76,6 +76,6 @@ public class SoundTest {
 	}
 	
 	public void stop(){
-		this.stop();
+		this.sequencer.stop();
 	}
 }

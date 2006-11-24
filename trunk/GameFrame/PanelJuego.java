@@ -104,6 +104,11 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener, Seriali
 	public long gameTime = 0;
 	
 	/**
+	 * Sonido de fondo
+	 */
+	public SoundTest backgroundsound;
+	
+	/**
 	 * Constructor
 	 * @param mapa, mapa escogido
 	 */
@@ -196,7 +201,14 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener, Seriali
 	 */
 	public void defineCrates(){
 		int[][] grid = PanelJuego.grid;
-		int max = grid.length/2 * grid[0].length/2;
+		int nivel = ConfigFrame.dificultad;
+		switch (nivel){
+		case 1: nivel = 4; break;
+		case 2: nivel = 3; break;
+		case 3: nivel = 2; break;
+		}
+		
+		int max = (grid.length* grid[0].length)/nivel;
 		while(max>0){
 			int i =(int)(Math.random()*grid.length);
 			int j =(int)(Math.random()*grid[0].length);
@@ -297,14 +309,13 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener, Seriali
 	 */
 	public void keyTyped(KeyEvent arg0) {
 	}
-
 	
 	/**
 	 * Run que verifica el estado del juego
 	 */
 	public void run() {
 		if(ConfigFrame.isSonido){
-			SoundTest t = new SoundTest(new File("sound/llevamecontigo_cumbia.mid"));
+			backgroundsound = new SoundTest(new File("sound/llevamecontigo_cumbia.mid"));
 		}
 		
 		running = true;
@@ -357,6 +368,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener, Seriali
 		grid = null;
 		paused = false;
 		Player.numPlayers = 0;
+		
 	}
 	
 	/**
@@ -364,7 +376,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener, Seriali
 	 * @param i1
 	 */
 	public void setPlayers(boolean i1){
-		this.players[0].gorro = (i1)?"2.png":"";
-		this.players[1].gorro = (!i1)?"2.png":"";
+		this.players[0].gorro = (!i1)?"2.png":"";
+		this.players[1].gorro = (i1)?"2.png":"";
 	}
 }
