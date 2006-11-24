@@ -116,7 +116,7 @@ public class PreGameFrame extends JFrame implements MouseListener{
 		principal.add(villa,JLayeredPane.PALETTE_LAYER);
 		
 		player1 = new JLabel();
-		player1.setIcon(getImageIcon("player1.png"));
+		player1.setIcon(getImageIcon("img/pregameframe/player1.png"));
 		player1.setSize(120,180);
 		player1.setLocation(480,100);
 		principal.add(player1,JLayeredPane.MODAL_LAYER);
@@ -128,49 +128,49 @@ public class PreGameFrame extends JFrame implements MouseListener{
 		principal.add(zapata,JLayeredPane.PALETTE_LAYER);
 		
 		player2 = new JLabel();
-		player2.setIcon(getImageIcon("player2.png"));
+		player2.setIcon(getImageIcon("img/pregameframe/player2.png"));
 		player2.setSize(120,180);
 		player2.setLocation(200,100);
 		principal.add(player2,JLayeredPane.MODAL_LAYER);
 		
 		mundoCantina = new JLabel();
-		mundoCantina.setIcon(getImageIcon("cantina.png"));
+		mundoCantina.setIcon(getImageIcon("img/pregameframe/cantina.png"));
 		mundoCantina.setSize(150,150);
 		mundoCantina.setLocation(500,350);
 		principal.add(mundoCantina,JLayeredPane.MODAL_LAYER);
 		
 		mundoNormal = new JLabel();
-		mundoNormal.setIcon(getImageIcon("normal.png"));
+		mundoNormal.setIcon(getImageIcon("img/pregameframe/normal.png"));
 		mundoNormal.setSize(150,150);
 		mundoNormal.setLocation(300,350);
 		principal.add(mundoNormal,JLayeredPane.MODAL_LAYER);
 		
 		mundoDesierto = new JLabel();
-		mundoDesierto.setIcon(getImageIcon("desierto.png"));
+		mundoDesierto.setIcon(getImageIcon("img/pregameframe/desierto.png"));
 		mundoDesierto.setSize(150,150);
 		mundoDesierto.setLocation(100,350);
 		principal.add(mundoDesierto,JLayeredPane.MODAL_LAYER);
 		
 		frameMundo = new JLabel();
-		frameMundo.setIcon(getImageIcon("frame.png"));
+		frameMundo.setIcon(getImageIcon("img/pregameframe/frame.png"));
 		frameMundo.setSize(200,200);
 		frameMundo.setLocation(482,325);
 		principal.add(frameMundo,JLayeredPane.PALETTE_LAYER);
 		
 		nombreCantina = new JLabel();
-		nombreCantina.setIcon(getImageIcon("nombreCantina.png"));
+		nombreCantina.setIcon(getImageIcon("img/pregameframe/nombreCantina.png"));
 		nombreCantina.setSize(200,200);
 		nombreCantina.setLocation(530,230);
 		principal.add(nombreCantina,JLayeredPane.MODAL_LAYER);
 		
 		nombreNormal = new JLabel();
-		nombreNormal.setIcon(getImageIcon("nombreNormal.png"));
+		nombreNormal.setIcon(getImageIcon("img/pregameframe/nombreNormal.png"));
 		nombreNormal.setSize(200,200);
 		nombreNormal.setLocation(330,230);
 		principal.add(nombreNormal,JLayeredPane.MODAL_LAYER);
 		
 		nombreDesierto = new JLabel();
-		nombreDesierto.setIcon(getImageIcon("nombreDesierto.png"));
+		nombreDesierto.setIcon(getImageIcon("img/pregameframe/nombreDesierto.png"));
 		nombreDesierto.setSize(200,200);
 		nombreDesierto.setLocation(130,230);
 		principal.add(nombreDesierto,JLayeredPane.MODAL_LAYER);
