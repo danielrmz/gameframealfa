@@ -26,11 +26,6 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 	private JLabel rapido = new JLabel();
 	
 	/**
-	 * Label de Cargar partida del juego principal
-	 */
-	private JLabel cargar = new JLabel();
-	
-	/**
 	 * Label de Opciones del juego
 	 */
 	private JLabel opciones = new JLabel();
@@ -70,7 +65,6 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		ImageIcon imgselected = Main.getImageIcon("principal/selected.png");
 		ImageIcon imgnuevo    = Main.getImageIcon("principal/nuevo.png");
 		ImageIcon imgrapido   = Main.getImageIcon("principal/rapido.png");
-		ImageIcon imgcargar	  = Main.getImageIcon("principal/cargar.png");
 		ImageIcon imgbar 	  = Main.getImageIcon("principal/bar.png");
 		ImageIcon imgopciones = Main.getImageIcon("principal/opciones.png");
 		ImageIcon imgsalir 	  = Main.getImageIcon("principal/salir.png");
@@ -79,7 +73,6 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		fondo.setIcon(imgfondo);
 		nuevo.setIcon(imgnuevo);
 		rapido.setIcon(imgrapido);
-		cargar.setIcon(imgcargar);
 		opciones.setIcon(imgopciones);
 		highs.setIcon(imgbar);
 		salir.setIcon(imgsalir);
@@ -90,7 +83,6 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		selected.setSize(new Dimension(170,42));
 		nuevo.setSize(new Dimension(150,12));
 		rapido.setSize(new Dimension(150,15));
-		cargar.setSize(new Dimension(150,12));
 		opciones.setSize(new Dimension(150,12));
 		highs.setSize(new Dimension(150,11));
 		salir.setSize(new Dimension(150,12));
@@ -100,10 +92,9 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		selected.setLocation(new Point(285,310));
 		nuevo.setLocation(new Point(320,325));
 		rapido.setLocation(new Point(320,355));
-		cargar.setLocation(new Point(320,385));
-		highs.setLocation(new Point(320,415));
-		opciones.setLocation(new Point(320,445));
-		salir.setLocation(new Point(320,475));
+		highs.setLocation(new Point(320,385));
+		opciones.setLocation(new Point(320,415));
+		salir.setLocation(new Point(320,445));
 		
 		
 		//-- Agregar
@@ -111,7 +102,6 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		principal.add(selected,JLayeredPane.MODAL_LAYER);
 		principal.add(nuevo,JLayeredPane.POPUP_LAYER);
 		principal.add(rapido,JLayeredPane.POPUP_LAYER);
-		principal.add(cargar,JLayeredPane.POPUP_LAYER);
 		principal.add(highs,JLayeredPane.POPUP_LAYER);
 		principal.add(opciones,JLayeredPane.POPUP_LAYER);
 		principal.add(salir,JLayeredPane.POPUP_LAYER);
@@ -119,7 +109,6 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		//-- Action Listeners
 		nuevo.addMouseListener(this);
 		rapido.addMouseListener(this);
-		cargar.addMouseListener(this);
 		opciones.addMouseListener(this);
 		highs.addMouseListener(this);
 		salir.addMouseListener(this);
@@ -142,9 +131,6 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 			this.setVisible(false);
 			frame.setVisible(true);
 			frame.mapa.t.start();
-			
-		} else if(clicked == cargar){
-			this.open();
 		} else if(clicked == opciones){
 			ConfigFrame frame = new ConfigFrame();
 			this.setVisible(false);
@@ -154,28 +140,6 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 			this.setVisible(false);
 			frame.setVisible(true);
 		} 
-		
-	}
-
-	/**
-	 * Abre una partida guardada
-	 *
-	 */
-	public void open(){
-		JFileChooser fc = new JFileChooser(Main.RUTA);
-		//fc.addChoosableFileFilter();
-		fc.showOpenDialog(this);
-		File file = fc.getSelectedFile();
-		if(file!=null){
-			Object guardado = (new Serial(file.getAbsolutePath())).getObject();
-			if(guardado!=null){
-				SaveStructure struct = (SaveStructure)guardado;
-				GameFrame f = new GameFrame(struct);
-				f.setVisible(true);
-				f.mapa.t.start();
-				this.setVisible(false);
-			}
-		}
 		
 	}
 	
@@ -203,10 +167,9 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 	public void updatecounter(JLabel src){
 		if(src.equals(nuevo)) 			this.opcionactual = 0;
 		else if(src.equals(rapido)) 	this.opcionactual = 1;
-		else if(src.equals(cargar)) 	this.opcionactual = 2;
-		else if(src.equals(highs)) 		this.opcionactual = 3;
-		else if(src.equals(opciones)) 	this.opcionactual = 4;
-		else if(src.equals(salir))		this.opcionactual = 5;
+		else if(src.equals(highs)) 		this.opcionactual = 2;
+		else if(src.equals(opciones)) 	this.opcionactual = 3;
+		else if(src.equals(salir))		this.opcionactual = 4;
 	}
 	public void mousePressed(MouseEvent arg0) {}
 	public void mouseReleased(MouseEvent arg0) {}
@@ -223,7 +186,7 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		
 		switch(e.getKeyCode()){
 		case KeyEvent.VK_DOWN:
-			if(this.opcionactual == 5) return;
+			if(this.opcionactual == 4) return;
 			selected.setLocation(new Point(p.x,p.y+30));
 			this.opcionactual++;
 			break;
@@ -243,19 +206,16 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 				e2 = new MouseEvent(rapido, 0, 0, 0, 0, 0, 1,false,1);
 				this.mouseClicked(e2);
 				break;
+			
 			case 2: 
-				e2 = new MouseEvent(cargar, 0, 0, 0, 0, 0, 1,false,1);
-				this.mouseClicked(e2);
-				break;
-			case 3: 
 				e2 = new MouseEvent(highs, 0, 0, 0, 0, 0, 1,false,1);
 				this.mouseClicked(e2);
 				break;
-			case 4: 
+			case 3: 
 				e2 = new MouseEvent(opciones, 0, 0, 0, 0, 0, 1,false,1);
 				this.mouseClicked(e2);
 				break;
-			case 5: 
+			case 4: 
 				e2 = new MouseEvent(salir, 0, 0, 0, 0, 0, 1,false,1);
 				this.mouseClicked(e2);
 				break;

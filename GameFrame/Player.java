@@ -74,7 +74,7 @@ public class Player extends JComponent implements KeyListener,Runnable, Serializ
 	/**
 	 * Numero de jugador actual
 	 */
-	private int player;
+	public int player;
 	
 	/**
 	 * Indica si el player esta vivo o muerto
@@ -116,7 +116,15 @@ public class Player extends JComponent implements KeyListener,Runnable, Serializ
 	 */
 	private int counter;
 	
+	/**
+	 * Contador del death state
+	 */
 	private int innercount;
+	
+	/**
+	 * Gorro de 2do jugador
+	 */
+	public String gorro = "";
 	
 	/**
 	 * Constructor del jugador
@@ -210,7 +218,13 @@ public class Player extends JComponent implements KeyListener,Runnable, Serializ
 	 */
 	public void draw(Graphics2D g){
 		if(alive){
-			g.drawImage(getPlayerImage(),Xpos,Ypos,null);
+			try {
+				g.drawImage(getPlayerImage(),Xpos,Ypos,null);
+				if(!this.gorro.equals("")){
+					Image img = loadImage("2.png");
+					g.drawImage(img,Xpos,Ypos,null);
+				}
+			} catch (NullPointerException e){}
 		}else{
 			
 			if (counter>8){
@@ -336,7 +350,7 @@ public class Player extends JComponent implements KeyListener,Runnable, Serializ
 		}
 		return playerImage;
 	}
-
+	
 	/**
 	 * Cambia la imagen del jugador
 	 * @param playerImage
