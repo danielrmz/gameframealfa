@@ -118,7 +118,11 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		salir.addMouseListener(this);
 		this.addKeyListener(this);
 		
-		st = new SoundTest(new File("sound/superman.mid"));
+		if(st == null){
+			st = new SoundTest(new File("sound/superman.mid"));
+		} else { 
+			st.sequencer.start();
+		}
 	}
 	
 	/**
@@ -127,6 +131,7 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 	public void mouseClicked(MouseEvent e) {
 		Object clicked = e.getSource();
 		if(clicked == salir){
+			System.exit(1);
 			this.dispose();
 		} else if(clicked == nuevo){
 			PreGameFrame f = new PreGameFrame();

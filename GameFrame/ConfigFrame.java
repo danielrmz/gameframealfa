@@ -494,7 +494,6 @@ public class ConfigFrame extends JFrame implements MouseListener,KeyListener {
 	 */
 	public void mouseClicked(MouseEvent mc) {
 		if(mc.getSource() == regresar){
-			System.out.println("clic");
 			InitFrame inicio = new InitFrame();
 			inicio.setVisible(true);
 			this.dispose();
@@ -534,7 +533,7 @@ public class ConfigFrame extends JFrame implements MouseListener,KeyListener {
 			isSonido = isSonidoAux;
 			isItems = isItemsAux;
 			dificultad = dificultadAux;
-			System.out.println("clic");
+			
 		}
 		
 	}

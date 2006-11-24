@@ -202,6 +202,7 @@ public class GameFrame extends JFrame implements KeyListener {
 		if(!this.paused && !this.ended){
 			switch (pressed){
 			case 113:
+				this.mapa.backgroundsound.stop();
 				PanelJuego.endGame();
 				PreGameFrame frame = new PreGameFrame();
 				frame.setVisible(true);
@@ -212,6 +213,7 @@ public class GameFrame extends JFrame implements KeyListener {
 				break;
 			
 			case 121: 
+				this.mapa.backgroundsound.stop();
 				PanelJuego.endGame();
 				this.dispose();
 				Main.principal.setVisible(true);
