@@ -676,27 +676,19 @@ public class Player extends JComponent implements KeyListener,Runnable, Serializ
 	 */
 	public void keyPressed(KeyEvent ke) {
 		if(player == 1){
-		switch(ke.getKeyCode()){
-		case KeyEvent.VK_UP:
-			 isMoving = true;
-			setDirection(Player.UP);
-		break;
-		case KeyEvent.VK_DOWN: 
-			isMoving = true;
-			setDirection(Player.DOWN);
-		break;
-		case KeyEvent.VK_LEFT:
-			isMoving = true;
-			setDirection(Player.LEFT);
-		break;
-		case KeyEvent.VK_RIGHT:
-			isMoving = true;
-			setDirection(Player.RIGTH);
-		break;
-		case KeyEvent.VK_ESCAPE:  
-		//	PanelJuego.running = false; 
-		break;
-		case KeyEvent.VK_M:
+			if(ke.getKeyCode() == ConfigFrame.teclas[0]){
+				isMoving = true;
+				setDirection(Player.UP);
+			}else if(ke.getKeyCode() == ConfigFrame.teclas[1]){
+				isMoving = true;
+				setDirection(Player.DOWN);
+			}else if(ke.getKeyCode() == ConfigFrame.teclas[2]){
+				isMoving = true;
+				setDirection(Player.LEFT);
+			}else if(ke.getKeyCode() == ConfigFrame.teclas[3]){
+				isMoving = true;
+				setDirection(Player.RIGTH);
+			}else if(ke.getKeyCode() == ConfigFrame.teclas[4]){
 			if((getActiveBombs() < getBombsNum()) && alive){
 				//System.out.println(alive);
 				Point aux = Player.center(getXpos(),getYpos());
@@ -706,42 +698,34 @@ public class Player extends JComponent implements KeyListener,Runnable, Serializ
 				PanelJuego.bombs.add(new Bomb(aux2.x,aux2.y,this));
 				setActiveBombs(getActiveBombs()+1);
 			}
-		break;
-	}
+			}
+
 	}else
 		if(player == 2){
-			switch(ke.getKeyCode()){
-			case KeyEvent.VK_W:
-				 isMoving = true;
+			if(ke.getKeyCode() == ConfigFrame.teclas[5]){
+				isMoving = true;
 				setDirection(Player.UP);
-			break;
-			case KeyEvent.VK_S: 
+			}else if(ke.getKeyCode() == ConfigFrame.teclas[6]){
 				isMoving = true;
 				setDirection(Player.DOWN);
-			break;
-			case KeyEvent.VK_A:
+			}else if(ke.getKeyCode() == ConfigFrame.teclas[7]){
 				isMoving = true;
 				setDirection(Player.LEFT);
-			break;
-			case KeyEvent.VK_D:
+			}else if(ke.getKeyCode() == ConfigFrame.teclas[8]){
 				isMoving = true;
 				setDirection(Player.RIGTH);
-			break;
-			case KeyEvent.VK_ESCAPE:  
-				PanelJuego.running = false; 
-			break;
-			case KeyEvent.VK_G:
-				if((getActiveBombs() < getBombsNum()) && alive){
-				//	System.out.println(alive);
-					Point aux = Player.center(getXpos(),getYpos());
-					Point aux2 = Bomb.transform(aux);
-					PanelJuego.bombs.add(new Bomb(aux2.x,aux2.y,this));
-					setActiveBombs(getActiveBombs()+1);
-				}
-			break;
-		}
-		}
-
+			}else if(ke.getKeyCode() == ConfigFrame.teclas[9]){
+			if((getActiveBombs() < getBombsNum()) && alive){
+				//System.out.println(alive);
+				Point aux = Player.center(getXpos(),getYpos());
+				Point aux2 = Bomb.transform(aux);
+				if(PanelJuego.grid[aux2.x][aux2.y] != GameMaps.BLANK) return;
+				
+				PanelJuego.bombs.add(new Bomb(aux2.x,aux2.y,this));
+				setActiveBombs(getActiveBombs()+1);
+			}
+			}
+		}	
 	}
 
 	/**
@@ -749,18 +733,18 @@ public class Player extends JComponent implements KeyListener,Runnable, Serializ
 	 */
 	public void keyReleased(KeyEvent ke) {
 		if(player == 1){
-			if ((ke.getKeyCode() == KeyEvent.VK_UP) ||
-				(ke.getKeyCode() == KeyEvent.VK_DOWN) ||
-				(ke.getKeyCode() == KeyEvent.VK_LEFT) ||
-				(ke.getKeyCode() == KeyEvent.VK_RIGHT)
+			if ((ke.getKeyCode() == ConfigFrame.teclas[0]) ||
+				(ke.getKeyCode() == ConfigFrame.teclas[1]) ||
+				(ke.getKeyCode() == ConfigFrame.teclas[2]) ||
+				(ke.getKeyCode() == ConfigFrame.teclas[3])
 				){
 				isMoving = false;
 			}
 		}else{
-			if ((ke.getKeyCode() == KeyEvent.VK_W) ||
-					(ke.getKeyCode() == KeyEvent.VK_S) ||
-					(ke.getKeyCode() == KeyEvent.VK_A) ||
-					(ke.getKeyCode() == KeyEvent.VK_D)
+			if ((ke.getKeyCode() == ConfigFrame.teclas[5]) ||
+					(ke.getKeyCode() == ConfigFrame.teclas[6]) ||
+					(ke.getKeyCode() == ConfigFrame.teclas[7]) ||
+					(ke.getKeyCode() == ConfigFrame.teclas[8])
 					){
 					isMoving = false;
 				}
