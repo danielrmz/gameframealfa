@@ -7,68 +7,235 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.JFrame;
 
-
+/**
+ * ConfigFrame.java
+ * Establece las configuraciones del juego en generla
+ * @author Revolution Software Developers
+ */
 public class ConfigFrame extends JFrame implements MouseListener,KeyListener {
 	
 	private static final long serialVersionUID = 1L;
-	JLabel itemslbl;
-	JLabel siItems;
-	JLabel noItems;
-	JRadioButton siItemsRb;
-	JRadioButton noItemsRb;
 	
-	JLabel diflbl;
-	JLabel difFacil;
-	JLabel difNormal;
-	JLabel difDif;
-	JRadioButton facilRb;
-	JRadioButton normalRb;
-	JRadioButton difRb;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel itemslbl;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel siItems;
 	
-	JLabel sonidolbl;
-	JLabel sonidoSi;
-	JLabel sonidoNo;
-	JRadioButton sonidoSiRb;
-	JRadioButton sonidoNoRb;
+	/**
+	 * Label de Layout
+	 */
+	 private JLabel noItems;
+	 
+	/**
+	 * Label de Layout
+	 */
+	private JRadioButton siItemsRb;
 	
-	JLabel controlslbl;
+	/**
+	 * Label de Layout
+	 */
+	private JRadioButton noItemsRb;
 	
-	JLabel player1;
-	JLabel arriba1;
-	JTextField arriba1tf;
-	JLabel abajo1;
-	JTextField abajo1tf;
-	JLabel derecha1;
-	JTextField derecha1tf;
-	JLabel izquierda1;
-	JTextField izquierda1tf;
-	JLabel bomba1;
-	JTextField bomba1tf;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel diflbl;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel difFacil;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel difNormal;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel difDif;
+	/**
+	 * Label de Layout
+	 */
+	private JRadioButton facilRb;
+	/**
+	 * Label de Layout
+	 */
+	private JRadioButton normalRb;
+	/**
+	 * Label de Layout
+	 */
+	private JRadioButton difRb;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel sonidolbl;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel sonidoSi;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel sonidoNo;
+	/**
+	 * Label de Layout
+	 */
+	private JRadioButton sonidoSiRb;
+	/**
+	 * Label de Layout
+	 */
+	private JRadioButton sonidoNoRb;
 	
-	JLabel player2;
-	JLabel arriba2;
-	JTextField arriba2tf;
-	JLabel abajo2;
-	JTextField abajo2tf;
-	JLabel derecha2;
-	JTextField derecha2tf;
-	JLabel izquierda2;
-	JTextField izquierda2tf;
-	JLabel bomba2;
-	JTextField bomba2tf;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel controlslbl;
 	
-	JButton regresar;
-	JButton guardar;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel player1;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel arriba1;
+	/**
+	 * Label de Layout
+	 */
+	private JTextField arriba1tf;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel abajo1;
+	/**
+	 * Label de Layout
+	 */
+	private JTextField abajo1tf;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel derecha1;
+	/**
+	 * Label de Layout
+	 */
+	private JTextField derecha1tf;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel izquierda1;
+	/**
+	 * Label de Layout
+	 */
+	private JTextField izquierda1tf;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel bomba1;
+	/**
+	 * Label de Layout
+	 */
+	private JTextField bomba1tf;
 	
+	/**
+	 * Label de Layout
+	 */
+	private JLabel player2;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel arriba2;
+	/**
+	 * Label de Layout
+	 */
+	private JTextField arriba2tf;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel abajo2;
+	/**
+	 * Label de Layout
+	 */
+	private JTextField abajo2tf;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel derecha2;
+	/**
+	 * Label de Layout
+	 */
+	private JTextField derecha2tf;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel izquierda2;
+	/**
+	 * Label de Layout
+	 */
+	private JTextField izquierda2tf;
+	/**
+	 * Label de Layout
+	 */
+	private JLabel bomba2;
+	/**
+	 * Label de Layout
+	 */
+	private JTextField bomba2tf;
+	
+	/**
+	 * Label de Layout
+	 */
+	private JButton regresar;
+	/**
+	 * Label de Layout
+	 */
+	private JButton guardar;
+	
+	/**
+	 * Teclas definidas por default
+	 */
 	public static int[] teclas = {38,40,37,39,17,89,72,71,74,65};
+	
+	/**
+	 * Teclas auxiliares
+	 */
 	private int[] teclasAux;
+	
+	/**
+	 * Boolean de si esta habilitado el sonido
+	 */
 	public static boolean isSonido = true;
+	
+	/***
+	 * Variable de sonido local
+	 */
 	private boolean isSonidoAux;
+	
+	/**
+	 * Variable de si hay items local
+	 */
 	public static boolean isItems = true;
+	
+	/**
+	 * Local
+	 */
 	private boolean isItemsAux;
+	
+	/**
+	 * Dificultad de las cosas
+	 */
 	public static int dificultad = 1;
+	
+	/**
+	 * Local
+	 */
 	private int dificultadAux; 
 	
+	/**
+	 * Constructor normal del frame
+	 */
 	public ConfigFrame(){
 		
 		teclasAux = new int[10];
@@ -322,6 +489,9 @@ public class ConfigFrame extends JFrame implements MouseListener,KeyListener {
 		guardar.addMouseListener(this);
 	}
 
+	/**
+	 * Mouse click principal de esto
+	 */
 	public void mouseClicked(MouseEvent mc) {
 		if(mc.getSource() == regresar){
 			System.out.println("clic");
@@ -369,26 +539,10 @@ public class ConfigFrame extends JFrame implements MouseListener,KeyListener {
 		
 	}
 
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
-	}
-
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	/**
+	 * Keypressed la configuracion de los jugadores
+	 */
 	public void keyPressed(KeyEvent ke) {
 		Object o = ke.getSource();
 		JTextField aux = (JTextField) o;
@@ -415,15 +569,12 @@ public class ConfigFrame extends JFrame implements MouseListener,KeyListener {
 			teclasAux[9] = ke.getKeyCode();
 		}
 	}
-
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	public void mouseEntered(MouseEvent arg0) {}
+	public void mouseExited(MouseEvent arg0) {}
+	public void mousePressed(MouseEvent arg0) {}
+	public void mouseReleased(MouseEvent arg0) {}
+	public void keyReleased(KeyEvent arg0) {}
+	public void keyTyped(KeyEvent arg0) {}
 
 }
