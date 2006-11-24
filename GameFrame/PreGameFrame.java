@@ -2,36 +2,110 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 
+/**
+ * Clase que personaliza el juego antes de empezar
+ * @author Revolution Software Developers
+ */
 public class PreGameFrame extends JFrame implements MouseListener{
-	
+	/**
+	 * Constante de Eclipse
+	 */
 	private static final long serialVersionUID = 1L;
 	
-	JLayeredPane principal = this.getLayeredPane();
+	/**
+	 * Contenedor de layers
+	 */
+	private JLayeredPane principal = this.getLayeredPane();
 	
-	JLabel backGround;
-	JLabel villa;
-	JLabel player1;
-	JLabel zapata;
-	JLabel player2;
-	JLabel mundoCantina;
-	JLabel mundoNormal;
-	JLabel mundoDesierto;
-	JLabel frameMundo;
-	JLabel nombreCantina;
-	JLabel nombreNormal;
-	JLabel nombreDesierto;
+	/**
+	 * Jugador 1
+	 */
+	public JLabel villa;
 	
-	JButton jugar; 
-	JButton regresar;
-	int mapaactual = 1;
-	int playeractual = 2;
+	/**
+	 * Label Player 1
+	 */
+	public JLabel player1;
 	
+	/**
+	 * Imagen de zapata
+	 */
+	public JLabel zapata;
+	
+	/**
+	 * jugador 2
+	 */
+	public JLabel player2;
+	
+	/**
+	 * Imagen del mundo cantina
+	 */
+	public JLabel mundoCantina;
+	
+	/**
+	 * Imagen del mundo normal
+	 */
+	public JLabel mundoNormal;
+	
+	/**
+	 * Imagen del mundo desierto
+	 */
+	public JLabel mundoDesierto;
+	
+	/**
+	 * frame que indica el mundo seleccinoado
+	 */
+	public JLabel frameMundo;
+	
+	/**
+	 * Nombre de l mundo cantina
+	 */
+	public JLabel nombreCantina;
+	
+	/**
+	 * Nombredel mundo normal
+	 */
+	public JLabel nombreNormal;
+	
+	/**
+	 * Nombre del mundo desierto
+	 */
+	public JLabel nombreDesierto;
+	
+	/**
+	 * Boton d jugar
+	 */
+	public JButton jugar; 
+	
+	/**
+	 * Boton de regresar
+	 */
+	public JButton regresar;
+	
+	/**
+	 * Varible que indica el mapa actual seleccionado
+	 */
+	public int mapaactual = 1;
+	
+	/**
+	 * Varible que indica el jugador seleccionado por el primero
+	 */
+	public int playeractual = 2;
+	
+	/**
+	 * Trae la imagen
+	 * @param filename
+	 * @return
+	 */
 	public static ImageIcon getImageIcon(String filename){	
 		ImageIcon image = new ImageIcon(filename);
 		if(image.getImageLoadStatus()==4) return null;
 		return image;
 	}
 	
+	/**
+	 * Constructor Vacio
+	 */
 	public PreGameFrame(){
 		Main.setDefaults(this);
 		
@@ -116,6 +190,10 @@ public class PreGameFrame extends JFrame implements MouseListener{
 		addMouseListener(this);
 	}
 	
+	/**
+	 * Cambia la imagen del jugador seleccinoada
+	 * @param s imagn
+	 */
 	public void seleccion(String s){
 		if(s.equals("villa")){
 			player1.setLocation(480,100);
@@ -128,6 +206,9 @@ public class PreGameFrame extends JFrame implements MouseListener{
 		}
 	}
 
+	/**
+	 * Cambia la imagen seleccionada
+	 */
 	public void mouseClicked(MouseEvent mc) {
 		if((mc.getX()>480 && mc.getX()<600) && (mc.getY()>125 && mc.getY()<305)){
 			seleccion("villa");

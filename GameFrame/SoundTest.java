@@ -8,14 +8,30 @@ import javax.sound.midi.*;
  */
 
 public class SoundTest {
+	/**
+	 * Secuenciador de la cancion actual
+	 */
 	private Sequencer sequencer = null;
+	
+	/**
+	 * Activo
+	 */
 	private boolean active = true;
 	
+	/**
+	 * Trae un archivo y lo toca una vez
+	 * @param f
+	 */
 	public SoundTest(File f){
 		this.getSequencer(f);
 		sequencer.start();
 	}
 	
+	/**
+	 * Trae el sonido y la repite indefinidamente dependiendo del segundo parametro
+	 * @param f
+	 * @param loop
+	 */
 	public SoundTest(File f, boolean loop){
 		this.getSequencer(f);
 		sequencer.start();
@@ -24,6 +40,10 @@ public class SoundTest {
 		}
 	}
 	
+	/**
+	 * Activa la secuencia de nuevo
+	 * @param active
+	 */
 	public void setActive(boolean active){
 		this.active = active;
 		if(this.active && sequencer.isRunning()){
@@ -33,6 +53,9 @@ public class SoundTest {
 		}
 	}
 	
+	/**
+	 * Trae el secuenciador
+	 */
 	private void getSequencer(File f){
 		Sequence sequence = null;
 		try {

@@ -74,6 +74,9 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 		this.generateHighscores();
 	}
 	
+	/**
+	 * Borra los puntajes mas altos.
+	 */
 	public void clearHighscores(){
 		for(int i=0; i<highscores.length; i++){
 			highscores[i] = null;
@@ -84,6 +87,9 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 		this.dispose();
 	}
 	
+	/**
+	 * Genera los highscores en pantalla
+	 */
 	public void generateHighscores(){
 		Font font = new Font("Arial", Font.BOLD, 16);
 		
@@ -111,6 +117,9 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Imprime los highscores en consola
+	 */
 	public static void printHighscores(){
 		System.out.println("====== Highscores =======");
 		for(int i=0; i<highscores.length; i++){
@@ -119,6 +128,7 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 			}
 		}
 	}
+	
 	/**
 	 * Action Performed del boton regresar
 	 */
@@ -129,6 +139,11 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Busca e inserta el highscore dependiendo del tiempo
+	 * @param name
+	 * @param time
+	 */
 	public static void setHighscore(String name, long time){
 		Highscore nuevo = new Highscore(name,time);
 		int pos = isHighscore(time);
@@ -141,6 +156,11 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 		highscores[pos] = nuevo;
 	}
 	
+	/***
+	 * Verifica que sea un highscore es decir esta dentro de los primeros 10
+	 * @param time
+	 * @return int
+	 */
 	public static int isHighscore(long time){ 
 		for(int i=0; i<highscores.length; i++){
 			if(highscores[i]!=null){
@@ -154,17 +174,46 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 		return -1;
 	}
 	
+	/**
+	 * Clase que guarda los datos principales del jugador
+	 * @author Revolution Software Developers
+	 */
 	public static class Highscore implements Serializable { 
+		/**
+		 * Constante de Eclipse
+		 */
 		private static final long serialVersionUID = 1L;
+		
+		/**
+		 * Nombre del Jugador
+		 */
 		protected String name = "";
+		
+		/**
+		 * Tiempo que hizo
+		 */
 		protected long time = 0;
 		
+		/**
+		 * Constructor
+		 * @param name nombre del jugador
+		 * @param time tiempo que hizo
+		 */
 		public Highscore(String name, long time){
 			this.name = name;
 			this.time = time;
 		}
 		
+		/**
+		 * Trae el nombre
+		 * @return String nombre
+		 */
 		public String getName(){return name;}
+		
+		/**
+		 * Trae el tiempo
+		 * @return long time
+		 */
 		public long getTime(){return time;}
 		
 	}
@@ -174,8 +223,20 @@ public class HighscoresFrame extends JFrame implements ActionListener {
 	 * @author Revolution Software Developers
 	 */
 	public static class HighscoreTable implements Serializable { 
+		/**
+		 * Constante d eclipse
+		 */
 		private static final long serialVersionUID = 1L;
+		
+		/**
+		 * Tabla de datos
+		 */
 		public Highscore[] table;
+		
+		/**
+		 * Constructor
+		 * @param table tabla a guardar
+		 */
 		public HighscoreTable(Highscore[] table){
 			this.table = table;
 		}
