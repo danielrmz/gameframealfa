@@ -24,6 +24,7 @@ public class PreGameFrame extends JFrame implements MouseListener{
 	JButton jugar; 
 	JButton regresar;
 	int mapaactual = 1;
+	int playeractual = 2;
 	
 	public static ImageIcon getImageIcon(String filename){	
 		ImageIcon image = new ImageIcon(filename);
@@ -119,9 +120,11 @@ public class PreGameFrame extends JFrame implements MouseListener{
 		if(s.equals("villa")){
 			player1.setLocation(480,100);
 			player2.setLocation(200,100);
+			this.playeractual = 2;
 		}else if(s.equals("zapata")){
 			player1.setLocation(200,100);
 			player2.setLocation(480,100);
+			this.playeractual = 1;
 		}
 	}
 
@@ -141,37 +144,23 @@ public class PreGameFrame extends JFrame implements MouseListener{
 			this.mapaactual = 1;
 			
 		}else if(mc.getSource() == jugar){
-			
 			GameFrame frame = new GameFrame(mapaactual);
 			this.setVisible(false);
 			frame.setVisible(true);
+			boolean p1 = (playeractual == 2);
+			frame.mapa.setPlayers(p1);
 			frame.mapa.t.start();
 		}else if(mc.getSource() == regresar){
 			InitFrame inicio = new InitFrame();
-			this.setVisible(false);
+			this.dispose();
 			inicio.setVisible(true);
 		}
 		
 	}
 
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent arg0) {}
+	public void mouseExited(MouseEvent arg0) {}
+	public void mousePressed(MouseEvent arg0) {}
+	public void mouseReleased(MouseEvent arg0) {}
 
 }

@@ -66,6 +66,8 @@ public class Serial {
 					out = new ObjectOutputStream(fos);
 					out.writeObject(base);
 					out.close();
+				} catch (NotSerializableException no){
+					
 				} catch (Exception ex){
 					if(Serial.debug || debug)
 						ex.printStackTrace();
@@ -102,6 +104,8 @@ public class Serial {
 				} catch (FileNotFoundException ex){
 					if(Serial.debug)
 						System.out.println("Archivo no encontrado");
+				} catch (NotSerializableException no){
+					
 				} catch (IOException ex) {
 					ex.printStackTrace();
 				} catch (ClassNotFoundException ex){

@@ -80,6 +80,7 @@ public class Bomb implements Serializable {
 	 */
 	public static void drawBombs(Graphics gImagen,PanelJuego panel){
 		int[][] grid = PanelJuego.grid;
+		
 		for(int i = 0; i<PanelJuego.bombs.size(); i++){
 			Bomb aux = PanelJuego.bombs.get(i);
 			if(aux.status<80){

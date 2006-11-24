@@ -8,7 +8,6 @@ import javax.swing.*;
  * Implementa el juego principal, mapa y jugadores
  * 
  * @author Revolution Software Developers
- * @package drunkenman
  **/
 
 public class GameFrame extends JFrame implements KeyListener {
@@ -41,30 +40,6 @@ public class GameFrame extends JFrame implements KeyListener {
 	 * Mapa actual
 	 */
 	public PanelJuego mapa;
-	
-	public GameFrame(SaveStructure saved){
-		Main.setDefaults(this);
-		int[][] map = new int[GameMaps.cantina.length][GameMaps.cantina[0].length];
-		this.copyMap(GameMaps.cantina,map);
-		mapa = new PanelJuego(map,saved.mundo,this);
-		//PanelJuego.bombs = saved.bombs;
-		this.eraseCrates();
-		PanelJuego.grid = saved.grid;
-		mapa.gameTime = saved.gameTime;
-		this.defaults();
-	}
-	
-	public void eraseCrates(){
-		int[][] grid = PanelJuego.grid;
-		for(int i=0; i<grid[0].length; i++){
-			for(int j=0; j<grid.length; j++){
-				if(grid[i][j] == GameMaps.CRATE){
-					grid[i][j] = GameMaps.BLANK;
-				}
-			}
-		}
-		
-	}
 	
 	public GameFrame(int gamemap){
 		Main.setDefaults(this);
@@ -113,8 +88,6 @@ public class GameFrame extends JFrame implements KeyListener {
 			name = "normal";
 		}
 		
-		//PanelJuego.despliegaTablero(map);
-		
 		mapa = new PanelJuego(map,name,this);
 		
 		this.defaults();
@@ -128,26 +101,21 @@ public class GameFrame extends JFrame implements KeyListener {
 		
 		JLabel nuevo = new JLabel("F2 Juego Nuevo");
 		JLabel pausa = new JLabel("F3 Pausa");
-		JLabel guardar = new JLabel("F4 Guardar");
 		JLabel cerrar = new JLabel("F10 Salir del Juego");
 		nuevo.setSize(new Dimension(100,20));
 		pausa.setSize(new Dimension(100,20));
-		guardar.setSize(new Dimension(100,20));
 		cerrar.setSize(new Dimension(150,20));
 		
 		nuevo.setForeground(Color.WHITE);
 		pausa.setForeground(Color.WHITE);
-		guardar.setForeground(Color.WHITE);
 		cerrar.setForeground(Color.WHITE);
 		
 		nuevo.setLocation(20,20);
 		pausa.setLocation(20,40);
-		guardar.setLocation(20,60);
-		cerrar.setLocation(20,80);
+		cerrar.setLocation(20,60);
 		
 		principal.add(nuevo,JLayeredPane.PALETTE_LAYER);
 		principal.add(pausa,JLayeredPane.PALETTE_LAYER);
-		principal.add(guardar,JLayeredPane.PALETTE_LAYER);
 		principal.add(cerrar,JLayeredPane.PALETTE_LAYER);
 		mapa.addKeyListener(this);
 	}
@@ -210,25 +178,6 @@ public class GameFrame extends JFrame implements KeyListener {
 	}
 	
 	/**
-	 * Muestra la pantalla de guardar
-	 */
-	public void save(){
-		JFileChooser fc = new JFileChooser(Main.RUTA);
-		//fc.addChoosableFileFilter();
-		fc.showSaveDialog(this);
-		File file = fc.getSelectedFile();
-		if(file!=null){
-			String ruta = file.getAbsolutePath();
-			if(ruta.indexOf('.')==-1){
-				ruta = ruta + ".drk";
-			} else {
-				ruta =ruta.substring(0,ruta.indexOf('.'))+".drk";
-			}
-			new Serial(ruta,this.mapa.getSaveStructure());
-		}
-	}
-	
-	/**
 	 * Detecta las acciones
 	 */
 	public void keyPressed(KeyEvent e) {
@@ -244,11 +193,7 @@ public class GameFrame extends JFrame implements KeyListener {
 			case 114:
 				this.pause(true);
 				break;
-			case 115:
-				this.pause(true);
-				this.save();
-				this.pause(false);
-				break;
+			
 			case 121: 
 				PanelJuego.endGame();
 				this.dispose();

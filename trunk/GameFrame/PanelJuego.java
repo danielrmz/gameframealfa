@@ -360,4 +360,9 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener, Seriali
 		paused = false;
 		Player.numPlayers = 0;
 	}
+	
+	public void setPlayers(boolean i1){
+		this.players[0].gorro = (i1)?"2.png":"";
+		this.players[1].gorro = (!i1)?"2.png":"";
+	}
 }
