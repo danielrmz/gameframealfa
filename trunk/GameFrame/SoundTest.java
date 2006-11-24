@@ -8,10 +8,12 @@ import javax.sound.midi.*;
  */
 
 public class SoundTest {
+
 	/**
 	 * Secuenciador de la cancion actual
 	 */
-	private Sequencer sequencer = null;
+	public Sequencer sequencer = null;
+
 	
 	/**
 	 * Activo
@@ -71,5 +73,9 @@ public class SoundTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void stop(){
+		this.stop();
 	}
 }

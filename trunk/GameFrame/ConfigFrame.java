@@ -60,8 +60,25 @@ public class ConfigFrame extends JFrame implements MouseListener,KeyListener {
 	JButton regresar;
 	JButton guardar;
 	
+	public static int[] teclas = {38,40,37,39,17,89,72,71,74,65};
+	private int[] teclasAux;
+	public static boolean isSonido = true;
+	private boolean isSonidoAux;
+	public static boolean isItems = true;
+	private boolean isItemsAux;
+	public static int dificultad = 1;
+	private int dificultadAux; 
 	
 	public ConfigFrame(){
+		
+		teclasAux = new int[10];
+		for(int i=0; i<teclas.length; i++){
+			teclasAux[i] = teclas[i];
+		}
+		isSonidoAux = isSonido;
+		isItemsAux = isItems;
+		dificultadAux = dificultad;
+		
 		setLocation(250,100);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600,430);
@@ -262,7 +279,47 @@ public class ConfigFrame extends JFrame implements MouseListener,KeyListener {
 		bomba1tf.addKeyListener(this);
 		bomba2tf.addKeyListener(this);
 		
+		arriba1tf.setText(KeyEvent.getKeyText(teclas[0]));
+		arriba2tf.setText(KeyEvent.getKeyText(teclas[5]));
+		abajo1tf.setText(KeyEvent.getKeyText(teclas[1]));
+		abajo2tf.setText(KeyEvent.getKeyText(teclas[6]));
+		derecha1tf.setText(KeyEvent.getKeyText(teclas[3]));
+		derecha2tf.setText(KeyEvent.getKeyText(teclas[8]));
+		izquierda1tf.setText(KeyEvent.getKeyText(teclas[2]));
+		izquierda2tf.setText(KeyEvent.getKeyText(teclas[7]));
+		bomba1tf.setText(KeyEvent.getKeyText(teclas[4]));
+		bomba2tf.setText(KeyEvent.getKeyText(teclas[9]));
+		
+		siItemsRb.addMouseListener(this);
+		noItemsRb.addMouseListener(this);
+		facilRb.addMouseListener(this);
+		difRb.addMouseListener(this);
+		normalRb.addMouseListener(this);
+		sonidoNoRb.addMouseListener(this);
+		sonidoSiRb.addMouseListener(this);
+		
+		if(isItems){
+			siItemsRb.setSelected(true);
+		}else{
+			noItemsRb.setSelected(true);
+		}
+		
+		if(isSonido){
+			sonidoSiRb.setSelected(true);
+		}else{
+			sonidoNoRb.setSelected(true);
+		}
+		
+		if(dificultad == 1){
+			facilRb.setSelected(true);
+		}else if(dificultad == 2){
+			normalRb.setSelected(true);
+		}else{
+			difRb.setSelected(true);
+		}
+		
 		regresar.addMouseListener(this);
+		guardar.addMouseListener(this);
 	}
 
 	public void mouseClicked(MouseEvent mc) {
@@ -271,6 +328,43 @@ public class ConfigFrame extends JFrame implements MouseListener,KeyListener {
 			InitFrame inicio = new InitFrame();
 			inicio.setVisible(true);
 			this.dispose();
+		}else if(mc.getSource() == siItemsRb){
+			siItemsRb.setSelected(true);
+			noItemsRb.setSelected(false);
+			isItemsAux = true;
+		}else if(mc.getSource() == noItemsRb){
+			noItemsRb.setSelected(true);
+			siItemsRb.setSelected(false);
+			isItemsAux = false;
+		}else if(mc.getSource() == facilRb){
+			facilRb.setSelected(true);
+			normalRb.setSelected(false);
+			difRb.setSelected(false);
+			dificultadAux = 1;
+		}else if(mc.getSource() == normalRb){
+			normalRb.setSelected(true);
+			facilRb.setSelected(false);
+			difRb.setSelected(false);
+			dificultadAux = 2;
+		}else if(mc.getSource() == difRb){
+			difRb.setSelected(true);
+			facilRb.setSelected(false);
+			normalRb.setSelected(false);
+			dificultadAux = 3;
+		}else if(mc.getSource() == sonidoSiRb){
+			sonidoSiRb.setSelected(true);
+			sonidoNoRb.setSelected(false);
+			isSonidoAux = true;
+		}else if(mc.getSource() == sonidoNoRb){
+			sonidoNoRb.setSelected(true);
+			sonidoSiRb.setSelected(false);
+			isSonidoAux = false;
+		}else if(mc.getSource() == guardar){
+			teclas = teclasAux;
+			isSonido = isSonidoAux;
+			isItems = isItemsAux;
+			dificultad = dificultadAux;
+			System.out.println("clic");
 		}
 		
 	}
@@ -299,8 +393,27 @@ public class ConfigFrame extends JFrame implements MouseListener,KeyListener {
 		Object o = ke.getSource();
 		JTextField aux = (JTextField) o;
 		aux.setText(KeyEvent.getKeyText(ke.getKeyCode()));
-		
-	
+		if(aux == arriba1tf){
+			teclasAux[0] = ke.getKeyCode();
+		}else if(aux == abajo1tf){
+			teclasAux[1] = ke.getKeyCode();
+		}else if(aux == izquierda1tf){
+			teclasAux[2] = ke.getKeyCode();
+		}else if(aux == derecha1tf){
+			teclasAux[3] = ke.getKeyCode();
+		}else if(aux == bomba1tf){
+			teclasAux[4] = ke.getKeyCode();
+		}else if(aux == arriba2tf){
+			teclasAux[5] = ke.getKeyCode();
+		}else if(aux == abajo2tf){
+			teclasAux[6] = ke.getKeyCode();
+		}else if(aux == izquierda2tf){
+			teclasAux[7] = ke.getKeyCode();
+		}else if(aux == derecha2tf){
+			teclasAux[8] = ke.getKeyCode();
+		}else if(aux == bomba2tf){
+			teclasAux[9] = ke.getKeyCode();
+		}
 	}
 
 	public void keyReleased(KeyEvent arg0) {

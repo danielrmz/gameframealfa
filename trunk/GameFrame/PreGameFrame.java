@@ -230,6 +230,7 @@ public class PreGameFrame extends JFrame implements MouseListener{
 			frame.setVisible(true);
 			boolean p1 = (playeractual == 2);
 			frame.mapa.setPlayers(p1);
+			InitFrame.st.sequencer.stop();
 			frame.mapa.t.start();
 		}else if(mc.getSource() == regresar){
 			InitFrame inicio = new InitFrame();

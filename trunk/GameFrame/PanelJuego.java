@@ -303,7 +303,9 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener, Seriali
 	 * Run que verifica el estado del juego
 	 */
 	public void run() {
-		//new SoundTest(new File("sound/llevamecontigo_cumbia.mid"));
+		if(ConfigFrame.isSonido){
+			SoundTest t = new SoundTest(new File("sound/llevamecontigo_cumbia.mid"));
+		}
 		
 		running = true;
 		while(running && (winner=this.isGameOver()) == null){

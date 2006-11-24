@@ -54,6 +54,8 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 	
 	private int opcionactual = 0;
 	
+	public static SoundTest st;
+	
 	/**
 	 * Constructor inicial de la aplicacion GUI
 	 */
@@ -115,6 +117,8 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 		highs.addMouseListener(this);
 		salir.addMouseListener(this);
 		this.addKeyListener(this);
+		
+		st = new SoundTest(new File("sound/superman.mid"));
 	}
 	
 	/**
@@ -132,6 +136,7 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 			GameFrame frame = new GameFrame();
 			this.setVisible(false);
 			frame.setVisible(true);
+			st.sequencer.stop();
 			frame.mapa.t.start();
 		} else if(clicked == opciones){
 			ConfigFrame frame = new ConfigFrame();
@@ -198,6 +203,9 @@ public class InitFrame extends JFrame implements MouseInputListener, KeyListener
 			selected.setLocation(new Point(p.x,p.y-30));
 			this.opcionactual--;
 			break;
+		case KeyEvent.VK_F4:
+			st.sequencer.stop();
+		break;
 		case KeyEvent.VK_ENTER:
 			MouseEvent e2;
 			switch(this.opcionactual){
