@@ -119,6 +119,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener, Seriali
 		imagenSiguiente = 0;
 		players = new Player[4];
 		this.frame = frame;
+		Player.numPlayers = 0;
 		
 		//-- Establece un tamaño al panel
 		setSize(new Dimension(ANCHO,ALTO));
@@ -132,9 +133,10 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener, Seriali
 		this.defineCrates();
 		this.addKeyListener(this);
 		  
-		//-- Establece a los dos jugadores
+//		-- Establece a los dos jugadores
 		this.setPlayer(new Player(0,-10,1));
 		this.setPlayer(new Player(500,430,2));
+		
 		t = new Thread(this);
 		
 		timer = new Timer(1000, new ActionListener(){
@@ -150,7 +152,7 @@ public class PanelJuego extends JPanel implements Runnable, KeyListener, Seriali
 	 * @param p
 	 */
 	public void setPlayer(Player p){
-		if(Player.numPlayers<players.length){
+		if(Player.numPlayers<=players.length){
 			players[Player.numPlayers-1] = p;
 			this.addKeyListener(p);
 		}
